@@ -13,9 +13,8 @@ Entscheidungen:
   * Echtzeit Zusammenarbeit
   * Korrektur durch Team
   * Export Möglichkeiten für DB Import
-* Gameengine verwenden: Gamemaker vs Unity vs Godot 
-  * Godot -> C# Support
-* C# da es sehr ähnlich zu Java ist -> einfacher einzuarbeiten
+* Keine Gameengine
+* Java mit Maven
 
 Zeitplan
 <img width="1155" height="700" alt="image" src="https://github.com/user-attachments/assets/d4297df6-a121-4f33-883e-8f276fd0d2cd" />
