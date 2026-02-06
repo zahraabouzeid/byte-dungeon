@@ -19,6 +19,22 @@ Entscheidungen:
 Zeitplan
 <img width="1155" height="700" alt="image" src="https://github.com/user-attachments/assets/d4297df6-a121-4f33-883e-8f276fd0d2cd" />
 
+## Build & Run
 
+**Kompilieren:**
 
+```powershell
+mvn -q -DskipTests compile
+```
 
+**Ausführen:**
+
+```powershell
+mvn -q exec:java '-Dexec.mainClass=com.gvi.project.Main'
+```
+
+**Build und Run zusammen:**
+
+```powershell
+mvn -q clean compile exec:java '-Dexec.mainClass=com.gvi.project.Main'
+```
