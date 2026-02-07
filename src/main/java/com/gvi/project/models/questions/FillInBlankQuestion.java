@@ -1,4 +1,4 @@
-package com.gvi.project.model;
+package com.gvi.project.models.questions;
 
 import java.util.List;
 
@@ -6,8 +6,7 @@ public class FillInBlankQuestion extends Question {
 
     private final List<Blank> blanks;
 
-    public FillInBlankQuestion(int id, TopicArea topicArea, String introText, String questionText,
-                               List<Blank> blanks) {
+    public FillInBlankQuestion(int id, TopicArea topicArea, String introText, String questionText, List<Blank> blanks) {
         super(id, topicArea, introText, questionText, QuestionType.FILL_IN_BLANK);
         this.blanks = List.copyOf(blanks);
     }

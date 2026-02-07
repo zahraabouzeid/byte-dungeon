@@ -4,13 +4,13 @@
 
 Teammitglieder: Zahraa, Masuma, Rebecca, Amélie, Dominik, Sascha
 
-[Storyboard](https://gamificationoflearning.atlassian.net/jira/software/projects/SCRUM/boards/1?jql=)
+<a href="https://gamificationoflearning.atlassian.net/jira/software/projects/SCRUM/boards/1?jql=" target="_blank">Storyboard</a>
 
 ## 1. Meeting
 
 Entscheidungen:
 
-- Fragen und Antworten in [Google Doc](https://docs.google.com/spreadsheets/d/1PzCFhDtFhrNBi1LWgHcfVVqyidXH1lMaXFp0_CgTHlE/edit?gid=0#gid=0)
+- Fragen und Antworten in <a href="https://docs.google.com/spreadsheets/d/1PzCFhDtFhrNBi1LWgHcfVVqyidXH1lMaXFp0_CgTHlE/edit?gid=0#gid=0" target="_blank">Google Doc</a>
   - Keine Dopplungen
   - Echtzeit Zusammenarbeit
   - Korrektur durch Team

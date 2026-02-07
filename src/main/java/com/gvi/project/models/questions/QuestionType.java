@@ -1,4 +1,4 @@
-package com.gvi.project.model;
+package com.gvi.project.models.questions;
 
 
 public enum QuestionType {
