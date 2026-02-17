@@ -3,7 +3,6 @@ package com.gvi.project.models.tiles;
 import com.gvi.project.GamePanel;
 import com.gvi.project.helper.ImageHelper;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 import java.io.BufferedReader;
 import java.io.IOException;

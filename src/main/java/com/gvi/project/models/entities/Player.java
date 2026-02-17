@@ -3,10 +3,8 @@ package com.gvi.project.models.entities;
 import com.gvi.project.GamePanel;
 import com.gvi.project.KeyHandler;
 import com.gvi.project.helper.ImageHelper;
-import com.gvi.project.helper.TimeoutHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.IOException;
@@ -20,6 +18,11 @@ public class Player extends Entity {
 	public final int screenY;
 
 	public int playerKeys = 0;
+	public int nearbyObjectIndex = -1;
+	public int maxHealthHalf = 10;
+	public int healthHalf = 10;
+	public boolean isDead = false;
+	public int score = 0;
 
 
 	public Player(GamePanel gp, KeyHandler keyH) {
@@ -43,11 +46,23 @@ public class Player extends Entity {
 		worldY = gp.tileSize * 23;
 		speed = 4;
 		direction = "down";
+		maxHealthHalf = 10;
+		healthHalf = 10;
+		isDead = false;
+		score = 0;
+	}
+
+	public void takeHalfHeartDamage() {
+		if (isDead) return;
+		healthHalf = Math.max(0, healthHalf - 1);
+		if (healthHalf == 0) {
+			isDead = true;
+		}
 	}
 
 	public void getPlayerSprites() {
 		try {
-			up1 = ImageHelper.getImage( "/sprites/entities/player/player_up_1.png");
+			up1 = ImageHelper.getImage("/sprites/entities/player/player_up_1.png");
 			up2 = ImageHelper.getImage("/sprites/entities/player/player_up_2.png");
 			down1 = ImageHelper.getImage("/sprites/entities/player/player_down_1.png");
 			down2 = ImageHelper.getImage("/sprites/entities/player/player_down_2.png");
@@ -82,9 +97,11 @@ public class Player extends Entity {
 			collisionActive = false;
 			gp.cChecker.checkCollision(this);
 
-			// CHECK OBJECT COLLISION
+			// CHECK OBJECT COLLISION (only blocks movement, no pickup)
 			int objIndex = gp.cChecker.checkObject(this, true);
-			pickUpObject(objIndex);
+			if (objIndex != 999 && gp.obj[objIndex] != null && gp.obj[objIndex].collision) {
+				collisionActive = true;
+			}
 
 			// IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if (!collisionActive) {
@@ -115,47 +132,37 @@ public class Player extends Entity {
 				spriteCounter = 0;
 			}
 		}
-	}
 
-	public void pickUpObject (int i) {
-		if (i != 999){
-			String objName = gp.obj[i].name;
-			switch (objName) {
-				case "Key":
-					gp.playSE(1);
-					playerKeys++;
-					gp.obj[i] = null;
+		nearbyObjectIndex = findNearbyObject();
 
-					gp.ui.openMessage("You got a key!");
-
-					System.out.println("Keys: " + playerKeys);
-					break;
-				case "Door":
-					if(playerKeys > 0){
-						gp.obj[i] = null;
-						gp.playSE(3);
-						playerKeys--;
-						gp.ui.openMessage("You opened the door!");
-					} else {
-						gp.ui.openMessage("You need a key!");
-					}
-					break;
-				case "Boots":
-					gp.playSE(2);
-					speed = 8;
-					gp.obj[i] = null;
-					gp.ui.openMessage("SPEED UP!");
-					TimeoutHelper.setTimeout(() -> {
-						speed = 4;
-					}, 10000);
-					break;
-				case "Chest":
-					gp.ui.gameFinished = true;
-					gp.stopMusic();
-					gp.playSE(4);
-					break;
+		if (keyH.fPressed) {
+			keyH.fPressed = false;
+			if (nearbyObjectIndex != -1 && gp.obj[nearbyObjectIndex] != null) {
+				gp.obj[nearbyObjectIndex].onInteract(this, gp, nearbyObjectIndex);
 			}
 		}
+	}
+
+	private int findNearbyObject() {
+		int interactRange = gp.tileSize; 
+
+		int playerCenterX = worldX + collisionBox.x + collisionBox.width / 2;
+		int playerCenterY = worldY + collisionBox.y + collisionBox.height / 2;
+
+		for (int i = 0; i < gp.obj.length; i++) {
+			if (gp.obj[i] != null) {
+				int objCenterX = gp.obj[i].worldX + gp.tileSize / 2;
+				int objCenterY = gp.obj[i].worldY + gp.tileSize / 2;
+
+				int dx = Math.abs(playerCenterX - objCenterX);
+				int dy = Math.abs(playerCenterY - objCenterY);
+
+				if (dx <= interactRange && dy <= interactRange) {
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 
 	public void draw(GraphicsContext gc) {
