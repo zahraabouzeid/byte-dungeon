@@ -1,0 +1,18 @@
+{
+  "spriteSize": 16,
+  "spriteGroups": [
+    {
+      "spriteGroupId": "cut_stone_top_left_edge",
+      "sprites": [
+        {
+          "spriteId": "frame_1",
+          "spriteX": 0,
+          "spriteY": 0,
+          "spriteWidth": 1,
+          "spriteHeight": 1,
+          "hasCollision": true
+        }
+      ]
+    }
+  ]
+}

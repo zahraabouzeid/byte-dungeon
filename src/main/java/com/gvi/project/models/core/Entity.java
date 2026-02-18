@@ -1,4 +1,4 @@
-package com.gvi.project.models.entities;
+package com.gvi.project.models.core;
 
 import javafx.scene.image.Image;
 

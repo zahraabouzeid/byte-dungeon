@@ -4,9 +4,9 @@ import com.gvi.project.GamePanel;
 import com.gvi.project.KeyHandler;
 import com.gvi.project.helper.ImageHelper;
 import com.gvi.project.helper.TimeoutHelper;
+import com.gvi.project.models.core.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.IOException;

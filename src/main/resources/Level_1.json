@@ -1,0 +1,74 @@
+{
+  "id": "level_1",
+  "columnCount": 10,
+  "rowCount": 10,
+  "levelLayers": [
+    {
+      "id": "GROUND",
+      "usedSpriteSheets": [
+        {
+          "spriteSheetPath": "/sprites/tilemaps/damp-dungeons/tiles/Dungeon_Autotiles.png",
+          "spriteSheetDataPath": "/sprites/tilemaps/damp-dungeons/tiles/Dungeon_Autotiles.json",
+          "spriteGroupsIds": [
+            {
+              "spriteGroupId": "cobble_stone_sandy_wet",
+              "spriteIds": [
+                "wet_bottom_right",
+                "wet_bottom",
+                "wet_bottom_left",
+                "wet_right",
+                "wet_full",
+                "wet_left",
+                "wet_top_right",
+                "wet_top",
+                "wet_top_left",
+                "dry_bottom_right",
+                "dry_bottom_left",
+                "dry_top_right",
+                "dry_top_left"
+              ]
+            }
+          ]
+        },
+        {
+          "spriteSheetPath": "/sprites/tilemaps/damp-dungeons/tiles/Dungeon_WallsAndFloors.png",
+          "spriteSheetDataPath": "/sprites/tilemaps/damp-dungeons/tiles/Dungeon_WallsAndFloors.json",
+          "spriteGroupsIds": [
+            {
+              "spriteGroupId": "cobble_stone_sandy_wet",
+              "spriteIds": [
+                "wet_bottom_right",
+                "wet_bottom",
+                "wet_bottom_left",
+                "wet_right",
+                "wet_full",
+                "wet_left",
+                "wet_top_right",
+                "wet_top",
+                "wet_top_left",
+                "dry_bottom_right",
+                "dry_bottom_left",
+                "dry_top_right",
+                "dry_top_left"
+              ]
+            }
+          ]
+        }
+      ],
+      "spriteLayout": [
+        [4,4,4,4,9,7,1,1,1,2],
+        [3,9,7,8,4,4,4,4,4,5],
+        [3,4,9,4,4,4,4,10,4,5],
+        [3,4,4,4,4,4,4,4,4,5],
+        [3,4,4,4,5,6,4,4,4,5],
+        [3,4,4,4,4,4,4,4,4,5],
+        [3,4,4,4,4,4,4,4,4,5],
+        [3,4,11,4,4,4,4,12,4,5],
+        [3,4,4,4,4,4,4,4,4,5],
+        [3,4,4,4,4,4,4,4,4,5]
+      ]
+    }
+
+  ],
+  "objects": []
+}

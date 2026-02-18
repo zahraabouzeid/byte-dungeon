@@ -1,6 +1,6 @@
 package com.gvi.project;
 
-import com.gvi.project.models.entities.Entity;
+import com.gvi.project.models.core.Entity;
 
 public class CollisionChecker {
 	GamePanel gp;
