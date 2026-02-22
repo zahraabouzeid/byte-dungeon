@@ -9,104 +9,91 @@
           "spriteX": 0,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom",
           "spriteX": 1,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom_left",
           "spriteX": 2,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_right",
           "spriteX": 3,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_left",
           "spriteX": 4,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_right",
           "spriteX": 0,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_full",
           "spriteX": 1,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_left",
           "spriteX": 2,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_right",
           "spriteX": 3,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_left",
           "spriteX": 4,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_right",
           "spriteX": 0,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top",
           "spriteX": 1,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_left",
           "spriteX": 2,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -118,104 +105,91 @@
           "spriteX": 5,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom",
           "spriteX": 6,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom_left",
           "spriteX": 7,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 8,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 9,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_right",
           "spriteX": 5,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_full",
           "spriteX": 6,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_left",
           "spriteX": 7,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 8,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 9,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_right",
           "spriteX": 5,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top",
           "spriteX": 6,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_left",
           "spriteX": 7,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -227,104 +201,91 @@
           "spriteX": 10,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_bottom",
           "spriteX": 11,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_bottom_left",
           "spriteX": 12,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 13,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 14,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_right",
           "spriteX": 10,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_full",
           "spriteX": 11,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_left",
           "spriteX": 12,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 13,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 14,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_top_right",
           "spriteX": 10,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_top",
           "spriteX": 11,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "covert_top_left",
           "spriteX": 12,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -336,104 +297,91 @@
           "spriteX": 5,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom",
           "spriteX": 6,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom_left",
           "spriteX": 7,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 8,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 9,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_right",
           "spriteX": 5,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_full",
           "spriteX": 6,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_left",
           "spriteX": 7,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 8,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 9,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_right",
           "spriteX": 0,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top",
           "spriteX": 1,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_left",
           "spriteX": 2,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -445,104 +393,91 @@
           "spriteX": 0,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom",
           "spriteX": 1,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom_left",
           "spriteX": 2,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_right",
           "spriteX": 3,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_left",
           "spriteX": 4,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_right",
           "spriteX": 0,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_full",
           "spriteX": 1,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_left",
           "spriteX": 2,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_right",
           "spriteX": 3,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_left",
           "spriteX": 4,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_right",
           "spriteX": 5,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top",
           "spriteX": 6,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_left",
           "spriteX": 7,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -554,104 +489,91 @@
           "spriteX": 10,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom",
           "spriteX": 11,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom_left",
           "spriteX": 12,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_right",
           "spriteX": 13,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_left",
           "spriteX": 14,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_right",
           "spriteX": 10,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_full",
           "spriteX": 11,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_left",
           "spriteX": 12,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_right",
           "spriteX": 13,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_left",
           "spriteX": 14,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_right",
           "spriteX": 10,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top",
           "spriteX": 11,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_left",
           "spriteX": 12,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -663,104 +585,91 @@
           "spriteX": 0,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom",
           "spriteX": 1,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_bottom_left",
           "spriteX": 3,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_right",
           "spriteX": 4,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_left",
           "spriteX": 5,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_right",
           "spriteX": 0,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_full",
           "spriteX": 1,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_left",
           "spriteX": 3,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_right",
           "spriteX": 4,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_left",
           "spriteX": 5,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_right",
           "spriteX": 0,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top",
           "spriteX": 1,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "wet_top_left",
           "spriteX": 2,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -772,104 +681,91 @@
           "spriteX": 6,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_bottom",
           "spriteX": 7,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_bottom_left",
           "spriteX": 8,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 9,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 10,
           "spriteY": 6,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_right",
           "spriteX": 6,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_full",
           "spriteX": 7,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_left",
           "spriteX": 8,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 9,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 10,
           "spriteY": 7,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top_right",
           "spriteX": 5,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top",
           "spriteX": 6,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top_left",
           "spriteX": 7,
           "spriteY": 8,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -881,104 +777,91 @@
           "spriteX": 0,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_bottom",
           "spriteX": 1,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_bottom_left",
           "spriteX": 3,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 4,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 5,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_right",
           "spriteX": 0,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_full",
           "spriteX": 1,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_left",
           "spriteX": 3,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 4,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 5,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top_right",
           "spriteX": 0,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top",
           "spriteX": 1,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "grass_top_left",
           "spriteX": 2,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -990,104 +873,91 @@
           "spriteX": 6,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_bottom",
           "spriteX": 7,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_bottom_left",
           "spriteX": 8,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 9,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 10,
           "spriteY": 9,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_right",
           "spriteX": 6,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_full",
           "spriteX": 7,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_left",
           "spriteX": 8,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 9,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 10,
           "spriteY": 10,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top_right",
           "spriteX": 5,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top",
           "spriteX": 6,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top_left",
           "spriteX": 7,
           "spriteY": 11,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -1099,104 +969,91 @@
           "spriteX": 0,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_bottom",
           "spriteX": 1,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_bottom_left",
           "spriteX": 3,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_right",
           "spriteX": 4,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_bottom_left",
           "spriteX": 5,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_right",
           "spriteX": 0,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_full",
           "spriteX": 1,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_left",
           "spriteX": 3,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_right",
           "spriteX": 4,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dry_top_left",
           "spriteX": 5,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top_right",
           "spriteX": 0,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top",
           "spriteX": 1,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "puddle_top_left",
           "spriteX": 2,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     },
@@ -1208,104 +1065,91 @@
           "spriteX": 6,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom",
           "spriteX": 7,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_bottom_left",
           "spriteX": 8,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_right",
           "spriteX": 9,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_bottom_left",
           "spriteX": 10,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_right",
           "spriteX": 6,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_full",
           "spriteX": 7,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_left",
           "spriteX": 8,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_right",
           "spriteX": 9,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "cobble_top_left",
           "spriteX": 10,
           "spriteY": 13,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_right",
           "spriteX": 5,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top",
           "spriteX": 6,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         },
         {
           "spriteId": "dusty_top_left",
           "spriteX": 7,
           "spriteY": 14,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": false
+          "spriteHeight": 1
         }
       ]
     }

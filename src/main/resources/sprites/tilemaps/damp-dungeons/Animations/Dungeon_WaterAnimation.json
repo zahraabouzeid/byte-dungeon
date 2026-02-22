@@ -9,24 +9,21 @@
           "spriteX": 0,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -38,24 +35,21 @@
           "spriteX": 1,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -67,24 +61,21 @@
           "spriteX": 2,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 0,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -96,24 +87,21 @@
           "spriteX": 0,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -125,24 +113,21 @@
           "spriteX": 1,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -154,24 +139,21 @@
           "spriteX": 2,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 1,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -183,24 +165,21 @@
           "spriteX": 0,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -212,24 +191,21 @@
           "spriteX": 1,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -241,24 +217,21 @@
           "spriteX": 2,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 2,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -270,24 +243,21 @@
           "spriteX": 0,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -299,24 +269,21 @@
           "spriteX": 1,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -328,24 +295,21 @@
           "spriteX": 2,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 3,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -357,24 +321,21 @@
           "spriteX": 0,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -386,24 +347,21 @@
           "spriteX": 1,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -415,24 +373,21 @@
           "spriteX": 2,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 4,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -444,24 +399,21 @@
           "spriteX": 0,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 3,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 6,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -473,24 +425,21 @@
           "spriteX": 1,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 4,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 7,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     },
@@ -502,24 +451,21 @@
           "spriteX": 2,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_2",
           "spriteX": 5,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         },
         {
           "spriteId": "frame_3",
           "spriteX": 8,
           "spriteY": 5,
           "spriteWidth": 1,
-          "spriteHeight": 1,
-          "hasCollision": true
+          "spriteHeight": 1
         }
       ]
     }

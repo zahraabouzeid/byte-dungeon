@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 public class GameLevel {
 	public String id;
-	public int columnCount, rowCount;
+	public int width, height;
 	public ArrayList<LevelLayer> levelLayers;
-	public ArrayList<Object> objects;
 
 	public GameLevel() {}
 }
