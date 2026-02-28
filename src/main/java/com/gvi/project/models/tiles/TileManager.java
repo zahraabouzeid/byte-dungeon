@@ -8,7 +8,6 @@ import com.gvi.project.models.game_levels.GameLevels;
 import com.gvi.project.models.game_levels.config.GameLevelLayerConfig;
 import com.gvi.project.models.game_levels.config.GameLevelSpriteSheetConfig;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.io.InputStream;
