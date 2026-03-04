@@ -100,6 +100,7 @@ public class UI {
     }
 
     public void drawPauseScreen(GraphicsContext gc) {
+        hud.draw(gc, "Time: " + df.format(playtime));
         pauseScreen.draw(gc);
     }
 

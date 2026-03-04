@@ -41,7 +41,7 @@ public class PauseScreen {
         gc.fillRect(0, 0, screenWidth, screenHeight);
 
         double boxW = 360;
-        double boxH = 290;
+        double boxH = 260;
         double boxX = screenWidth / 2.0 - boxW / 2.0;
         double boxY = screenHeight / 2.0 - boxH / 2.0;
 
@@ -58,8 +58,8 @@ public class PauseScreen {
         gc.setFill(TEXT_GOLD);
         gc.fillText(title, titleX, titleY);
 
-        double optionStartY = boxY + 112;
-        double optionSpacing = 46;
+        double optionStartY = boxY + 106;
+        double optionSpacing = 34;
 
         for (int i = 0; i < OPTION_COUNT; i++) {
             double oy = optionStartY + i * optionSpacing;
