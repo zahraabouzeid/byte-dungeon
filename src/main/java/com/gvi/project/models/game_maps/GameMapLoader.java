@@ -69,11 +69,11 @@ public class GameMapLoader {
 				int spriteId = layerConfig.spriteLayout[y][x];
 
 				if (spriteId == 999) {
-					layer.layout[y][x] = "empty";
+					layer.layout[x][y] = "empty";
 					continue;
 				};
 
-				layer.layout[y][x] = usedSpriteKeys.get(spriteId);
+				layer.layout[x][y] = usedSpriteKeys.get(spriteId);
 			}
 		}
 	}

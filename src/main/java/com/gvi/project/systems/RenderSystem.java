@@ -3,7 +3,6 @@ package com.gvi.project.systems;
 import com.gvi.project.GamePanel;
 import com.gvi.project.models.core.Renderable;
 import com.gvi.project.models.game_maps.GameMapLayer;
-import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,12 +20,13 @@ public class RenderSystem {
 
 		List<Renderable> dynamic = new ArrayList<>();
 		dynamic.addAll(gp.entityList);
+		dynamic.addAll(gp.obj);
 		dynamic.add(gp.player);
 
 		dynamic.sort(Comparator.comparingInt(Renderable::getY));
 
 		for (Renderable r : dynamic) {
-			r.render(gp.gc);
+			r.render(gp);
 		}
 
 		renderLayer(gp.currentMap.getLayer("CEILING"));
@@ -36,11 +36,31 @@ public class RenderSystem {
 	}
 
 	private void renderLayer(GameMapLayer layer) {
-		int tileSize = gp.generalSettings.tileSize;
 
-		for(int y = 0; y < layer.layout.length; y++){
-			for(int x = 0; x < layer.layout[y].length; x++){
-				gp.gc.drawImage(gp.spriteManager.getSprite(layer.layout[y][x]).image, x * tileSize, y * tileSize, tileSize, tileSize);
+		int worldCol = 0;
+		int worldRow = 0;
+
+		while (worldCol < gp.currentMap.width && worldRow < gp.currentMap.height) {
+
+			String spriteKey = layer.layout[worldCol][worldRow];
+
+			int worldX = worldCol * gp.generalSettings.tileSize;
+			int worldY = worldRow * gp.generalSettings.tileSize;
+			int screenX = worldX - gp.player.worldX + gp.player.screenX;
+			int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+			if (worldX + gp.generalSettings.tileSize > gp.player.worldX - gp.player.screenX &&
+					worldX - gp.generalSettings.tileSize < gp.player.worldX + gp.player.screenX &&
+					worldY + gp.generalSettings.tileSize > gp.player.worldY - gp.player.screenY &&
+					worldY - gp.generalSettings.tileSize < gp.player.worldY + gp.player.screenY) {
+				gp.gc.drawImage(gp.spriteManager.getSprite(spriteKey).image, screenX, screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
+			}
+
+			worldCol++;
+
+			if (worldCol == gp.currentMap.width) {
+				worldCol = 0;
+				worldRow++;
 			}
 		}
 	}

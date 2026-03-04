@@ -4,7 +4,6 @@ import com.gvi.project.GamePanel;
 import com.gvi.project.KeyHandler;
 import com.gvi.project.helper.ImageHelper;
 import com.gvi.project.models.core.Entity;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.awt.*;
@@ -41,12 +40,14 @@ public class Player extends Entity {
 
 		setDefaultValues();
 		getPlayerSprites();
+
+		this.gp.entityList.add(this);
 	}
 
 	public void setDefaultValues() {
 		// Startposition des Spielers im Grid (Tile-Koordinaten, nicht Pixel)
-		gridX = 23; // vorher worldX = 48 * 23 = 1104px jetzt ist es grid movement
-		gridY = 23;
+		gridX = 5; // vorher worldX = 48 * 23 = 1154px jetzt ist es grid movement
+		gridY = 5;
 
 		// Ziel-Tile ist am Anfang gleich wie die aktuelle Position (kein laufende Bewegung)
 		targetGridX = gridX;
@@ -177,7 +178,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public void render(GraphicsContext gc) {
+	public void render(GamePanel gp) {
 		Image image = null;
 
 		switch (direction) {
@@ -215,6 +216,6 @@ public class Player extends Entity {
 				}
 				break;
 		}
-		gc.drawImage(image, this.screenX, this.screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
+		gp.gc.drawImage(image, this.screenX, this.screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
 	}
 }

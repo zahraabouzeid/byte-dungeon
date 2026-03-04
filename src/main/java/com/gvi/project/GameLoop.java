@@ -178,16 +178,5 @@ public class GameLoop extends AnimationTimer {
 		}
 
 		gp.renderSystem.render();
-//		gp.spriteManager.draw(gp.gc);
-
-		for (SuperObject obj : gp.obj) {
-			if(obj != null) {
-				obj.draw(gp);
-			}
-		}
-
-//		gp.player.draw(gp.gc);
-//		gp.ui.minimap.draw(gp.gc);
-//		gp.ui.draw(gp.gc);
 	}
 }

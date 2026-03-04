@@ -1,12 +1,13 @@
 package com.gvi.project.models.objects;
 
 import com.gvi.project.GamePanel;
+import com.gvi.project.models.core.Renderable;
 import com.gvi.project.models.entities.Player;
 import javafx.scene.image.Image;
 
 import java.awt.*;
 
-public abstract class SuperObject {
+public abstract class SuperObject implements Renderable {
 
 	public Image image;
 	public String name;
@@ -26,7 +27,14 @@ public abstract class SuperObject {
 		// Default behavior: do nothing
 	}
 
-	public void draw(GamePanel gp) {
+
+	@Override
+	public int getY() {
+		return worldY;
+	}
+
+	@Override
+	public void render(GamePanel gp) {
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;
 		int screenY = worldY - gp.player.worldY + gp.player.screenY;
 

@@ -1,5 +1,6 @@
 package com.gvi.project;
 
+import com.gvi.project.models.core.Entity;
 import com.gvi.project.models.core.Renderable;
 import com.gvi.project.models.game_maps.GameMap;
 import com.gvi.project.models.game_maps.GameMapLoader;
@@ -31,6 +32,8 @@ public class GamePanel {
 	Sound music = new Sound();
 	Sound se = new Sound();
 
+	public final List<Entity> entityList = new ArrayList<>();
+	public final List<SuperObject> obj = new ArrayList<>();
 	public final Canvas canvas = new Canvas(generalSettings.screenWidth, generalSettings.screenHeight);
 	public final GraphicsContext gc = canvas.getGraphicsContext2D();
 	public final GameLoop gameLoop = new GameLoop(this);
@@ -38,8 +41,6 @@ public class GamePanel {
 	public final Player player = new Player(this, keyHandler);
 	public final UI ui = new UI(this);
 	public final CollisionChecker cChecker = new CollisionChecker(this);
-	public final List<Renderable> entityList = new ArrayList<>();
-	public final List<SuperObject> obj = new ArrayList<>();
 	public int interactingObjectIndex = -1;
 	public final QuestionService questionProvider = new QuestionProvider();
 	public final RenderSystem renderSystem = new RenderSystem(this);
