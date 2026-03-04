@@ -22,7 +22,7 @@ public class OBJ_Key extends SuperObject {
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
 		gp.playSE(1);
 		player.playerKeys++;
-		gp.obj[objIndex] = null;
+		gp.obj.remove(objIndex);
 		gp.ui.openMessage("You got a key!");
 	}
 }

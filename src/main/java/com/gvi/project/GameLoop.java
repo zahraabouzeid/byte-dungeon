@@ -81,8 +81,8 @@ public class GameLoop extends AnimationTimer {
 						gp.ui.showFloatingScore(10);
 						gp.ui.closeQuiz();
 						int idx = gp.interactingObjectIndex;
-						if (idx != -1 && gp.obj[idx] != null) {
-							gp.obj[idx].onConfirm(gp.player, gp, idx);
+						if (idx != -1 && gp.obj.get(idx) != null) {
+							gp.obj.get(idx).onConfirm(gp.player, gp, idx);
 						if (!gp.ui.isQuizOpen()) {
 								gp.interactingObjectIndex = -1;
 								gp.gameState = GameState.PLAY;
@@ -163,9 +163,9 @@ public class GameLoop extends AnimationTimer {
 	}
 
 	private void renderScreen() {
-		gp.gc.clearRect(0, 0, gp.screenWidth, gp.screenHeight);
+		gp.gc.clearRect(0, 0, gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
 		gp.gc.setFill(Color.BLACK);
-		gp.gc.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+		gp.gc.fillRect(0, 0, gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
 
 		if (gp.gameState == GameState.TITLE) {
 			gp.ui.drawTitleScreen(gp.gc);
@@ -177,7 +177,8 @@ public class GameLoop extends AnimationTimer {
 			return;
 		}
 
-		gp.tileManager.draw(gp.gc);
+		gp.renderSystem.render();
+//		gp.spriteManager.draw(gp.gc);
 
 		for (SuperObject obj : gp.obj) {
 			if(obj != null) {
@@ -185,8 +186,8 @@ public class GameLoop extends AnimationTimer {
 			}
 		}
 
-		gp.player.draw(gp.gc);
-		gp.ui.minimap.draw(gp.gc);
-		gp.ui.draw(gp.gc);
+//		gp.player.draw(gp.gc);
+//		gp.ui.minimap.draw(gp.gc);
+//		gp.ui.draw(gp.gc);
 	}
 }

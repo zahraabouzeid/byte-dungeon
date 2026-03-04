@@ -3,6 +3,7 @@ package com.gvi.project.models.entities;
 import com.gvi.project.GamePanel;
 import com.gvi.project.KeyHandler;
 import com.gvi.project.helper.ImageHelper;
+import com.gvi.project.models.core.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -30,8 +31,8 @@ public class Player extends Entity {
 		this.gp = gp;
 		this.keyH = keyH;
 
-		screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
-		screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+		screenX = gp.generalSettings.screenWidth / 2 - (gp.generalSettings.tileSize / 2);
+		screenY = gp.generalSettings.screenHeight / 2 - (gp.generalSettings.tileSize / 2);
 
 		this.collisionBox = new Rectangle(8, 16, 32, 32);
 
@@ -52,8 +53,8 @@ public class Player extends Entity {
 		targetGridY = gridY;
 
 		// Pixel-Position berechnen: gridX * 48px = worldX
-		worldX = gp.tileSize * gridX;
-		worldY = gp.tileSize * gridY;
+		worldX = gp.generalSettings.tileSize * gridX;
+		worldY = gp.generalSettings.tileSize * gridY;
 
 		isMoving = false;
 
@@ -93,8 +94,8 @@ public class Player extends Entity {
 	public void update() {
 		if (isMoving) {
 			// Ziel-Position in Pixel berechnen (targetGridX/Y * 48px)
-			int targetWorldX = targetGridX * gp.tileSize;
-			int targetWorldY = targetGridY * gp.tileSize;
+			int targetWorldX = targetGridX * gp.generalSettings.tileSize;
+			int targetWorldY = targetGridY * gp.generalSettings.tileSize;
 
 			// Spieler Schritt für Schritt Richtung Ziel bewegen (4px pro Frame)
 			// Math.min/max verhindert, dass der Spieler über das Ziel hinausschießt
@@ -147,22 +148,22 @@ public class Player extends Entity {
 		// F-Taste: Objekt in der Nähe interagieren (z.B. Quiz-Station öffnen)
 		if (keyH.fPressed) {
 			keyH.fPressed = false;
-			if (nearbyObjectIndex != -1 && gp.obj[nearbyObjectIndex] != null) {
-				gp.obj[nearbyObjectIndex].onInteract(this, gp, nearbyObjectIndex);
+			if (nearbyObjectIndex != -1 && gp.obj.get(nearbyObjectIndex) != null) {
+				gp.obj.get(nearbyObjectIndex).onInteract(this, gp, nearbyObjectIndex);
 			}
 		}
 	}
 
 	private int findNearbyObject() {
-		int interactRange = gp.tileSize;
+		int interactRange = gp.generalSettings.tileSize;
 
 		int playerCenterX = worldX + collisionBox.x + collisionBox.width / 2;
 		int playerCenterY = worldY + collisionBox.y + collisionBox.height / 2;
 
-		for (int i = 0; i < gp.obj.length; i++) {
-			if (gp.obj[i] != null) {
-				int objCenterX = gp.obj[i].worldX + gp.tileSize / 2;
-				int objCenterY = gp.obj[i].worldY + gp.tileSize / 2;
+		for (int i = 0; i < gp.obj.size(); i++) {
+			if (gp.obj.get(i) != null) {
+				int objCenterX = gp.obj.get(i).worldX + gp.generalSettings.tileSize / 2;
+				int objCenterY = gp.obj.get(i).worldY + gp.generalSettings.tileSize / 2;
 
 				int dx = Math.abs(playerCenterX - objCenterX);
 				int dy = Math.abs(playerCenterY - objCenterY);
@@ -175,7 +176,8 @@ public class Player extends Entity {
 		return -1;
 	}
 
-	public void draw(GraphicsContext gc) {
+	@Override
+	public void render(GraphicsContext gc) {
 		Image image = null;
 
 		switch (direction) {
@@ -213,7 +215,6 @@ public class Player extends Entity {
 				}
 				break;
 		}
-
-		gc.drawImage(image, this.screenX, this.screenY, gp.tileSize, gp.tileSize);
+		gc.drawImage(image, this.screenX, this.screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
 	}
 }

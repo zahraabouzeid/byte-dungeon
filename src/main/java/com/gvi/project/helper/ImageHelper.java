@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageHelper {
+
+
 	public static Image getImage(String path) throws IOException {
 		InputStream stream = ImageHelper.class.getResourceAsStream(path);
 

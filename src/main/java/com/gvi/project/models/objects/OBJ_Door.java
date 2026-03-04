@@ -23,7 +23,7 @@ public class OBJ_Door extends SuperObject {
 	@Override
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
 		if (player.playerKeys > 0) {
-			gp.obj[objIndex] = null;
+			gp.obj.remove(objIndex);
 			gp.playSE(3);
 			player.playerKeys--;
 			gp.ui.openMessage("You opened the door!");

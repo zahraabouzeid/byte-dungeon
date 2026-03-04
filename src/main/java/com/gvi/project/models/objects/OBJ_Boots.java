@@ -23,7 +23,7 @@ public class OBJ_Boots extends SuperObject {
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
 		gp.playSE(2);
 		player.speed = 8;
-		gp.obj[objIndex] = null;
+		gp.obj.remove(objIndex);
 		gp.ui.openMessage("SPEED UP!");
 		TimeoutHelper.setTimeout(() -> {
 			player.speed = 4;

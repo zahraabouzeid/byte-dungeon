@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 import java.awt.*;
 
-public abstract class Entity {
+public abstract class Entity implements Renderable{
 	public int worldX, worldY;
 	public int speed;
 
@@ -26,5 +26,10 @@ public abstract class Entity {
 	public Rectangle collisionBox;
 	public int collisionBoxDefaultX, collisionBoxDefaultY;
 	public boolean collisionActive = false;
+
+	@Override
+	public int getY() {
+		return worldY;
+	}
 }
 

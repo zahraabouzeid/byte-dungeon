@@ -1,1157 +1,989 @@
 {
   "spriteSize": 16,
-  "spriteGroups": [
-    {
-      "spriteGroupId": "cobble_stone_sandy_wet",
-      "sprites": [
-        {
-          "spriteId": "wet_bottom_right",
+  "spriteGroups": {
+    "cobble_stone_sandy_wet": {
+      "sprites": {
+        "wet_bottom_right": {
           "spriteX": 0,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom",
+        "wet_bottom": {
           "spriteX": 1,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom_left",
+        "wet_bottom_left": {
           "spriteX": 2,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_right",
+        "dry_bottom_right": {
           "spriteX": 3,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_left",
+        "dry_bottom_left": {
           "spriteX": 4,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_right",
+        "wet_right": {
           "spriteX": 0,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_full",
+        "wet_full": {
           "spriteX": 1,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_left",
+        "wet_left": {
           "spriteX": 2,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_right",
+        "dry_top_right": {
           "spriteX": 3,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_left",
+        "dry_top_left": {
           "spriteX": 4,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_right",
+        "wet_top_right": {
           "spriteX": 0,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top",
+        "wet_top": {
           "spriteX": 1,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_left",
+        "wet_top_left": {
           "spriteX": 2,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_stone_sandy_dusty",
-      "sprites": [
-        {
-          "spriteId": "dusty_bottom_right",
+    "cobble_stone_sandy_dusty": {
+      "sprites": {
+        "dusty_bottom_right": {
           "spriteX": 5,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom",
+        "dusty_bottom": {
           "spriteX": 6,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom_left",
+        "dusty_bottom_left": {
           "spriteX": 7,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 8,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 9,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_right",
+        "dusty_right": {
           "spriteX": 5,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_full",
+        "dusty_full": {
           "spriteX": 6,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_left",
+        "dusty_left": {
           "spriteX": 7,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 8,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 9,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_right",
+        "dusty_top_right": {
           "spriteX": 5,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top",
+        "dusty_top": {
           "spriteX": 6,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_left",
+        "dusty_top_left": {
           "spriteX": 7,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_stone_sandy_covert",
-      "sprites": [
-        {
-          "spriteId": "covert_bottom_right",
+    "cobble_stone_sandy_covert": {
+      "sprites": {
+        "covert_bottom_right": {
           "spriteX": 10,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_bottom",
+        "covert_bottom": {
           "spriteX": 11,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_bottom_left",
+        "covert_bottom_left": {
           "spriteX": 12,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 13,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 14,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_right",
+        "covert_right": {
           "spriteX": 10,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_full",
+        "covert_full": {
           "spriteX": 11,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_left",
+        "covert_left": {
           "spriteX": 12,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 13,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 14,
           "spriteY": 1,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_top_right",
+        "covert_top_right": {
           "spriteX": 10,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_top",
+        "covert_top": {
           "spriteX": 11,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "covert_top_left",
+        "covert_top_left": {
           "spriteX": 12,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_sand_stone_dusty",
-      "sprites": [
-        {
-          "spriteId": "dusty_bottom_right",
+    "cobble_sand_stone_dusty": {
+      "sprites": {
+        "dusty_bottom_right": {
           "spriteX": 5,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom",
+        "dusty_bottom": {
           "spriteX": 6,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom_left",
+        "dusty_bottom_left": {
           "spriteX": 7,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 8,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 9,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_right",
+        "dusty_right": {
           "spriteX": 5,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_full",
+        "dusty_full": {
           "spriteX": 6,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_left",
+        "dusty_left": {
           "spriteX": 7,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 8,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 9,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_right",
+        "dusty_top_right": {
           "spriteX": 0,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top",
+        "dusty_top": {
           "spriteX": 1,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_left",
+        "dusty_top_left": {
           "spriteX": 2,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_sand_stone_wet",
-      "sprites": [
-        {
-          "spriteId": "wet_bottom_right",
+    "cobble_sand_stone_wet": {
+      "sprites": {
+        "wet_bottom_right": {
           "spriteX": 0,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom",
+        "wet_bottom": {
           "spriteX": 1,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom_left",
+        "wet_bottom_left": {
           "spriteX": 2,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_right",
+        "dry_bottom_right": {
           "spriteX": 3,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_left",
+        "dry_bottom_left": {
           "spriteX": 4,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_right",
+        "wet_right": {
           "spriteX": 0,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_full",
+        "wet_full": {
           "spriteX": 1,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_left",
+        "wet_left": {
           "spriteX": 2,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_right",
+        "dry_top_right": {
           "spriteX": 3,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_left",
+        "dry_top_left": {
           "spriteX": 4,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_right",
+        "wet_top_right": {
           "spriteX": 5,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top",
+        "wet_top": {
           "spriteX": 6,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_left",
+        "wet_top_left": {
           "spriteX": 7,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cut_sand_stone_wet",
-      "sprites": [
-        {
-          "spriteId": "wet_bottom_right",
+    "cut_sand_stone_wet": {
+      "sprites": {
+        "wet_bottom_right": {
           "spriteX": 10,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom",
+        "wet_bottom": {
           "spriteX": 11,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom_left",
+        "wet_bottom_left": {
           "spriteX": 12,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_right",
+        "dry_bottom_right": {
           "spriteX": 13,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_left",
+        "dry_bottom_left": {
           "spriteX": 14,
           "spriteY": 3,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_right",
+        "wet_right": {
           "spriteX": 10,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_full",
+        "wet_full": {
           "spriteX": 11,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_left",
+        "wet_left": {
           "spriteX": 12,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_right",
+        "dry_top_right": {
           "spriteX": 13,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_left",
+        "dry_top_left": {
           "spriteX": 14,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_right",
+        "wet_top_right": {
           "spriteX": 10,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top",
+        "wet_top": {
           "spriteX": 11,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_left",
+        "wet_top_left": {
           "spriteX": 12,
           "spriteY": 5,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cut_stone_wet",
-      "sprites": [
-        {
-          "spriteId": "wet_bottom_right",
+    "cut_stone_wet": {
+      "sprites": {
+        "wet_bottom_right": {
           "spriteX": 0,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom",
+        "wet_bottom": {
           "spriteX": 1,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_bottom_left",
+        "wet_bottom_left": {
           "spriteX": 3,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_right",
+        "dry_bottom_right": {
           "spriteX": 4,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_left",
+        "dry_bottom_left": {
           "spriteX": 5,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_right",
+        "wet_right": {
           "spriteX": 0,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_full",
+        "wet_full": {
           "spriteX": 1,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_left",
+        "wet_left": {
           "spriteX": 3,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_right",
+        "dry_top_right": {
           "spriteX": 4,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_left",
+        "dry_top_left": {
           "spriteX": 5,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_right",
+        "wet_top_right": {
           "spriteX": 0,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top",
+        "wet_top": {
           "spriteX": 1,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "wet_top_left",
+        "wet_top_left": {
           "spriteX": 2,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_sand_stone_grass",
-      "sprites": [
-        {
-          "spriteId": "grass_bottom_right",
+    "cobble_sand_stone_grass": {
+      "sprites": {
+        "grass_bottom_right": {
           "spriteX": 6,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_bottom",
+        "grass_bottom": {
           "spriteX": 7,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_bottom_left",
+        "grass_bottom_left": {
           "spriteX": 8,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 9,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 10,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_right",
+        "grass_right": {
           "spriteX": 6,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_full",
+        "grass_full": {
           "spriteX": 7,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_left",
+        "grass_left": {
           "spriteX": 8,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 9,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 10,
           "spriteY": 7,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top_right",
+        "grass_top_right": {
           "spriteX": 5,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top",
+        "grass_top": {
           "spriteX": 6,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top_left",
+        "grass_top_left": {
           "spriteX": 7,
           "spriteY": 8,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_stone_grass",
-      "sprites": [
-        {
-          "spriteId": "grass_bottom_right",
+    "cobble_stone_grass": {
+      "sprites": {
+        "grass_bottom_right": {
           "spriteX": 0,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_bottom",
+        "grass_bottom": {
           "spriteX": 1,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_bottom_left",
+        "grass_bottom_left": {
           "spriteX": 3,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 4,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 5,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_right",
+        "grass_right": {
           "spriteX": 0,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_full",
+        "grass_full": {
           "spriteX": 1,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_left",
+        "grass_left": {
           "spriteX": 3,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 4,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 5,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top_right",
+        "grass_top_right": {
           "spriteX": 0,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top",
+        "grass_top": {
           "spriteX": 1,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "grass_top_left",
+        "grass_top_left": {
           "spriteX": 2,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_stone_puddle",
-      "sprites": [
-        {
-          "spriteId": "puddle_bottom_right",
+    "cobble_stone_puddle": {
+      "sprites": {
+        "puddle_bottom_right": {
           "spriteX": 6,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_bottom",
+        "puddle_bottom": {
           "spriteX": 7,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_bottom_left",
+        "puddle_bottom_left": {
           "spriteX": 8,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 9,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 10,
           "spriteY": 9,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_right",
+        "puddle_right": {
           "spriteX": 6,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_full",
+        "puddle_full": {
           "spriteX": 7,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_left",
+        "puddle_left": {
           "spriteX": 8,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 9,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 10,
           "spriteY": 10,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top_right",
+        "puddle_top_right": {
           "spriteX": 5,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top",
+        "puddle_top": {
           "spriteX": 6,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top_left",
+        "puddle_top_left": {
           "spriteX": 7,
           "spriteY": 11,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cut_stone_puddle",
-      "sprites": [
-        {
-          "spriteId": "puddle_bottom_right",
+    "cut_stone_puddle": {
+      "sprites": {
+        "puddle_bottom_right": {
           "spriteX": 0,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_bottom",
+        "puddle_bottom": {
           "spriteX": 1,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_bottom_left",
+        "puddle_bottom_left": {
           "spriteX": 3,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_right",
+        "dry_bottom_right": {
           "spriteX": 4,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_bottom_left",
+        "dry_bottom_left": {
           "spriteX": 5,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_right",
+        "puddle_right": {
           "spriteX": 0,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_full",
+        "puddle_full": {
           "spriteX": 1,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_left",
+        "puddle_left": {
           "spriteX": 3,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_right",
+        "dry_top_right": {
           "spriteX": 4,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dry_top_left",
+        "dry_top_left": {
           "spriteX": 5,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top_right",
+        "puddle_top_right": {
           "spriteX": 0,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top",
+        "puddle_top": {
           "spriteX": 1,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "puddle_top_left",
+        "puddle_top_left": {
           "spriteX": 2,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     },
-    {
-      "spriteGroupId": "cobble_stone_dusty",
-      "sprites": [
-        {
-          "spriteId": "dusty_bottom_right",
+    "cobble_stone_dusty": {
+      "sprites": {
+        "dusty_bottom_right": {
           "spriteX": 6,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom",
+        "dusty_bottom": {
           "spriteX": 7,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_bottom_left",
+        "dusty_bottom_left": {
           "spriteX": 8,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_right",
+        "cobble_bottom_right": {
           "spriteX": 9,
           "spriteY": 12,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_bottom_left",
+        "cobble_bottom_left": {
           "spriteX": 10,
           "spriteY": 12,
           "spriteWidth": 1,
-          "spriteHeight": 1
+            "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_right",
+        "dusty_right": {
           "spriteX": 6,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_full",
+        "dusty_full": {
           "spriteX": 7,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_left",
+        "dusty_left": {
           "spriteX": 8,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_right",
+        "cobble_top_right": {
           "spriteX": 9,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "cobble_top_left",
+        "cobble_top_left": {
           "spriteX": 10,
           "spriteY": 13,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_right",
+        "dusty_top_right": {
           "spriteX": 5,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top",
-          "spriteX": 6,
+        "dusty_top": {
+            "spriteX": 6,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         },
-        {
-          "spriteId": "dusty_top_left",
-          "spriteX": 7,
+        "dusty_top_left": {
+            "spriteX": 7,
           "spriteY": 14,
           "spriteWidth": 1,
           "spriteHeight": 1
         }
-      ]
+      }
     }
-  ]
+  }
 }

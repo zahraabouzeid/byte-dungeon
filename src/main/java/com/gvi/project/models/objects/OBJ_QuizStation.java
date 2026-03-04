@@ -100,8 +100,9 @@ public class OBJ_QuizStation extends SuperObject {
 	}
 
 	private void spawnKey(GamePanel gp, int objIndex) {
-		gp.obj[objIndex] = new OBJ_Key();
-		gp.obj[objIndex].worldX = this.worldX;
-		gp.obj[objIndex].worldY = this.worldY;
+		gp.obj.remove(objIndex);
+		gp.obj.add(objIndex, new OBJ_Key());
+		gp.obj.get(objIndex).worldX = this.worldX;
+		gp.obj.get(objIndex).worldY = this.worldY;
 	}
 }
