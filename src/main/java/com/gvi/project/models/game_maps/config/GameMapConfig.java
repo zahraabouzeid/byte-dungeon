@@ -7,8 +7,7 @@ public class GameMapConfig extends Config {
 	public String name;
 	public int width, height;
 	public GameMapLayerConfig[] layers;
+	public GameObjectConfig[] objects;
 
-	public GameMapConfig() {
-
-	}
+	public GameMapConfig() {}
 }

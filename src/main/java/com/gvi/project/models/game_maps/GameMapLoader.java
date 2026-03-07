@@ -2,13 +2,9 @@ package com.gvi.project.models.game_maps;
 
 import com.gvi.project.GamePanel;
 import com.gvi.project.helper.ConfigHelper;
-import com.gvi.project.models.game_maps.config.GameMapConfig;
-import com.gvi.project.models.game_maps.config.GameMapLayerConfig;
-import com.gvi.project.models.game_maps.config.GameMapSpriteConfig;
-import com.gvi.project.models.game_maps.config.GameMapSpriteSheetConfig;
+import com.gvi.project.models.game_maps.config.*;
 import com.gvi.project.models.sprite_sheets.Sprite;
 import com.gvi.project.models.sprite_sheets.SpriteSheet;
-import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
 import java.util.ArrayList;
@@ -31,9 +27,6 @@ public class GameMapLoader {
 		GameMapConfig config;
 
 		config = ConfigHelper.getConfig(GameMapConfig.class, "/maps/%s".formatted(filename));
-
-		assert config != null;
-
 		return buildMap(config);
 	}
 
@@ -45,7 +38,10 @@ public class GameMapLoader {
 				config.height
 		);
 
+		gp.cChecker.collisionMap = new boolean[config.width][config.height];
+
 		addGameMapLayers(map, config);
+		initMapObjects(config);
 
 		return map;
 	}
@@ -61,6 +57,15 @@ public class GameMapLoader {
 		}
 	}
 
+	private void initMapObjects(GameMapConfig config){
+		/*
+		for (GameObjectConfig objectConfig : config.objects){
+			// TODO GameObject factory call einbauen.
+		}
+
+		 */
+	}
+
 	private void parseSpriteInformation(GameMapLayer layer, GameMapLayerConfig layerConfig, int width, int height){
 		List<String> usedSpriteKeys = registerUsedSprites(layerConfig.usedSpriteSheets);
 
@@ -73,7 +78,10 @@ public class GameMapLoader {
 					continue;
 				};
 
-				layer.layout[x][y] = usedSpriteKeys.get(spriteId);
+				String spriteKey = usedSpriteKeys.get(spriteId);
+
+				layer.layout[x][y] = spriteKey;
+				gp.cChecker.collisionMap[x][y] = spriteKey.charAt(0) == '1' && !gp.cChecker.collisionMap[x][y];
 			}
 		}
 	}
@@ -102,7 +110,6 @@ public class GameMapLoader {
 				spriteKeys.add(key);
 			}
 		}
-
 
 		return spriteKeys;
 	}

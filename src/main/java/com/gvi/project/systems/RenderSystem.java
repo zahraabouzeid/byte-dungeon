@@ -17,6 +17,7 @@ public class RenderSystem {
 
 	public void render() {
 		renderLayer(gp.currentMap.getLayer("FLOOR"));
+		renderLayer(gp.currentMap.getLayer("WALLS"));
 
 		List<Renderable> dynamic = new ArrayList<>();
 		dynamic.addAll(gp.entityList);
@@ -52,7 +53,7 @@ public class RenderSystem {
 					worldX - gp.generalSettings.tileSize < gp.player.worldX + gp.player.screenX &&
 					worldY + gp.generalSettings.tileSize > gp.player.worldY - gp.player.screenY &&
 					worldY - gp.generalSettings.tileSize < gp.player.worldY + gp.player.screenY) {
-				gp.gc.drawImage(gp.spriteManager.getSprite(spriteKey).image, screenX, screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
+				gp.gc.drawImage(gp.spriteManager.getStoredSprite(spriteKey).image, screenX, screenY, gp.generalSettings.tileSize, gp.generalSettings.tileSize);
 			}
 
 			worldCol++;

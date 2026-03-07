@@ -19,8 +19,7 @@ public class ConfigHelper {
 
 			return mapper.readValue(iStream, configClass);
 		} catch (IOException e) {
-			System.out.printf("Error while parsing file: %s%n", filePath);
-			return null;
+			throw new RuntimeException("Error while parsing file: " + filePath, e);
 		}
 	}
 }

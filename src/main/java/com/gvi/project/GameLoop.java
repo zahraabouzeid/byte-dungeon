@@ -1,6 +1,5 @@
 package com.gvi.project;
 
-import com.gvi.project.models.objects.SuperObject;
 import com.gvi.project.models.questions.Answer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;

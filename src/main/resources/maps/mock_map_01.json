@@ -31,15 +31,15 @@
       ],
       "spriteLayout": [
         [999,999,999,999,999,999,999,999,999,999],
-        [999,999,999,999,0,0,999,999,999,999],
-        [999,999,999,999,0,0,999,999,999,999],
-        [999,999,999,999,0,0,999,999,999,999],
-        [999,0,0,0,0,0,0,0,0,999],
-        [999,0,0,0,0,0,0,0,0,999],
-        [0,0,0,1,2,1,2,0,0,0],
-        [999,0,0,2,1,2,1,0,0,999],
-        [999,0,0,1,2,1,2,0,0,999],
-        [999,999,999,999,0,999,999,999,999,999]
+        [999,999,999,999,0  ,0  ,999,999,999,999],
+        [999,999,999,999,0  ,0  ,999,999,999,999],
+        [999,999,999,999,0  ,0  ,999,999,999,999],
+        [999,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,999],
+        [999,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,999],
+        [0  ,0  ,0  ,1  ,2  ,1  ,2  ,0  ,0  ,0  ],
+        [999,0  ,0  ,2  ,1  ,2  ,1  ,0  ,0  ,999],
+        [999,0  ,0  ,1  ,2  ,1  ,2  ,0  ,0  ,999],
+        [999,999,999,999,0  ,0  ,999,999,999,999]
       ]
     },
     {
@@ -96,6 +96,134 @@
       ]
     },
     {
+      "renderId": "WALLS",
+      "usedSpriteSheets": [
+        {
+          "fileName": "Dungeon_WallsAndFloors",
+          "filePath": "/sprites/tilemaps/damp-dungeons/Tiles/",
+          "usedSprites": [
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"top_left_outer",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"top",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"top_right_outer",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"left",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"right",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"top_right_inner",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"top_left_inner",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"top_edge_left",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"middle_edge_left",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"bottom_edge_left",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"top",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"middle",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"bottom",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"top_edge_right",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"middle_edge_right",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_wall",
+              "spriteId":"bottom_edge_right",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"bottom_left_outer",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"bottom",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"bottom_right_outer",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"bottom_right_inner",
+              "hasCollision": true
+            },
+            {
+              "spriteGroup": "stone_trim",
+              "spriteId":"bottom_left_inner",
+              "hasCollision": true
+            }
+          ]
+        }
+      ],
+      "spriteLayout": [
+        [19 ,17 ,17 ,17 ,17 ,17 ,17 ,17 ,17 ,20 ],
+        [4  ,10 ,10 ,10 ,999,999,10 ,10 ,10 ,3  ],
+        [18 ,11 ,11 ,14 ,999,999,8  ,11 ,11 ,16 ],
+        [13 ,12 ,12 ,15 ,999,999,9  ,12 ,12 ,7  ],
+        [14 ,999,999,999,999,999,999,999,999,8  ],
+        [15 ,999,999,999,999,999,999,999,999,9  ],
+        [999,999,999,999,999,999,999,999,999,999],
+        [2  ,999,999,999,999,999,999,999,999,0  ],
+        [4  ,999,999,999,999,999,999,999,999,3  ],
+        [5  ,1  ,1  ,2  ,999,999,0  ,1  ,1  ,6  ]
+      ]
+    },
+    {
       "renderId": "CEILING",
       "usedSpriteSheets": [
         {
@@ -146,13 +274,23 @@
               "spriteGroup": "wood_colum_beam_framing",
               "spriteId": "beam_vertical_end",
               "hasCollision": false
+            },
+            {
+              "spriteGroup": "cut_stone_wall_assets",
+              "spriteId": "lintel_left",
+              "hasCollision": false
+            },
+            {
+              "spriteGroup": "cut_stone_wall_assets",
+              "spriteId": "lintel_right",
+              "hasCollision": false
             }
           ]
         }
       ],
       "spriteLayout": [
         [999,999,999,999,999,999,999,999,999,999],
-        [999,999,999,999,999,999,999,999,999,999],
+        [999,999,999,999,9  ,10 ,999,999,999,999],
         [999,999,999,999,999,999,999,999,999,999],
         [999,999,999,999,999,999,999,999,999,999],
         [999,999,999,999,999,999,999,999,999,999],
@@ -162,6 +300,48 @@
         [999,999,999,999,999,999,999,999,999,999],
         [999,999,999,999,999,999,999,999,999,999]
       ]
+    }
+  ],
+  "objects": [
+    {
+      "objectId": "QUIZ_STATION_JOINS_SUBQUERIES",
+      "x": 5,
+      "y": 7
+    },
+    {
+      "objectId": "QUIZ_STATION_DDL_DML",
+      "x": 4,
+      "y": 7
+    },
+    {
+      "objectId": "QUIZ_STATION_ER_MODELLIERUNG",
+      "x": 3,
+      "y": 7
+    },
+    {
+      "objectId": "QUIZ_STATION_NORMALISIERUNG",
+      "x": 6,
+      "y": 7
+    },
+    {
+      "objectId": "QUIZ_STATION_SELECT_ABFRAGEN",
+      "x": 7,
+      "y": 7
+    },
+    {
+      "objectId": "QUIZ_STATION_SQL_GRUNDLAGEN",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "objectId": "DOOR",
+      "x": 7,
+      "y": 3
+    },
+    {
+      "objectId": "BOOTS",
+      "x": 3,
+      "y": 3
     }
   ]
 }

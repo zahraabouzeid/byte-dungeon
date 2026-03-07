@@ -19,7 +19,7 @@ public class CollisionChecker {
 
 		// Prüft über alle Layer der game Map
 		for (var layer : gp.currentMap.gameMapLayers.values()){
-			if (gp.spriteManager.getSprite(layer.layout[gridX][gridY]).hasCollision){
+			if (gp.spriteManager.getStoredSprite(layer.layout[gridX][gridY]).hasCollision){
 				return true;
 			}
 		}

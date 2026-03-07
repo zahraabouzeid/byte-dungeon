@@ -118,17 +118,7 @@ public class Minimap {
             return Color.TRANSPARENT;
         }
 
-        Image image = gp.spriteManager.getSprite(tileKey).image;
+        Image image = gp.spriteManager.getStoredSprite(tileKey).image;
         return ColorHelper.getMostCommonColor(image);
-
-//        return switch (tileNum) {
-//            case 0 -> Color.rgb(76, 153, 0);     // Grass
-//            case 1 -> Color.rgb(128, 128, 128);   // Wall
-//            case 2 -> Color.rgb(51, 102, 204);    // Water
-//            case 3 -> Color.rgb(139, 90, 43);     // Earth
-//            case 4 -> Color.rgb(34, 102, 0);      // Tree
-//            case 5 -> Color.rgb(210, 180, 120);   // Sand
-//            default -> Color.BLACK;
-//        };
     }
 }
