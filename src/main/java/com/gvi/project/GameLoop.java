@@ -19,6 +19,7 @@ public class GameLoop extends AnimationTimer {
 	private int pauseNavCooldown = 0;
 	private int slotNavCooldown  = 0;
 	private int loadingCounter   = 0;
+	private GameState loadSlotOrigin = GameState.PAUSE;
 
 	public GameLoop(GamePanel gp) {
 		this.gp = gp;
@@ -178,6 +179,7 @@ public class GameLoop extends AnimationTimer {
 				case 2 -> {
 					gp.ui.openLoadSlot();
 					slotNavCooldown = 12;
+					loadSlotOrigin = GameState.PAUSE;
 					gp.gameState = GameState.LOAD_SLOT;
 				}
 				case 3 -> Platform.exit();
@@ -215,8 +217,12 @@ public class GameLoop extends AnimationTimer {
 		if (slotNavCooldown > 0) slotNavCooldown--;
 		if (gp.keyHandler.escPressed) {
 			gp.keyHandler.escPressed = false;
-			gp.ui.resetPauseScreen();
-			gp.gameState = GameState.PAUSE;
+			if (loadSlotOrigin == GameState.CHARACTER_NAME) {
+				gp.gameState = GameState.CHARACTER_NAME;
+			} else {
+				gp.ui.resetPauseScreen();
+				gp.gameState = GameState.PAUSE;
+			}
 			return;
 		}
 		if (slotNavCooldown == 0) {
@@ -241,7 +247,14 @@ public class GameLoop extends AnimationTimer {
 	}
 
 	private void handleCharacterNameInput() {
-		// Handle text input
+		if (gp.keyHandler.tabPressed) {
+			gp.keyHandler.tabPressed = false;
+			gp.ui.openLoadSlot();
+			slotNavCooldown = 12;
+			loadSlotOrigin = GameState.CHARACTER_NAME;
+			gp.gameState = GameState.LOAD_SLOT;
+			return;
+		}
 		if (!gp.keyHandler.typedCharacter.isEmpty()) {
 			if (gp.player.playerName.length() < gp.ui.getCharacterNameMaxLength()) {
 				gp.player.playerName += gp.keyHandler.typedCharacter;
@@ -291,6 +304,12 @@ public class GameLoop extends AnimationTimer {
 		}
 		if (gp.gameState == GameState.LOADING) {
 			gp.ui.drawLoadingScreen(gp.gc, loadingCounter);
+			return;
+		}
+
+		if (gp.gameState == GameState.LOAD_SLOT && loadSlotOrigin == GameState.CHARACTER_NAME) {
+			gp.ui.drawCharacterNameScreen(gp.gc);
+			gp.ui.drawLoadSlotScreen(gp.gc);
 			return;
 		}
 
