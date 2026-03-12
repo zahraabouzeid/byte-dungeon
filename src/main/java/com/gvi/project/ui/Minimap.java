@@ -2,7 +2,6 @@ package com.gvi.project.ui;
 
 import com.gvi.project.GamePanel;
 import com.gvi.project.helper.ColorHelper;
-import com.gvi.project.models.sprite_sheets.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
