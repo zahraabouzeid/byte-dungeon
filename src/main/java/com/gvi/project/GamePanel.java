@@ -53,7 +53,7 @@ public class GamePanel {
 	}
 
 	public void setupGame() {
-		loadMap(GameMaps.MAP_00);
+		loadMap(GameMaps.MAP_01);
 		assetSetter.setObject();
 		playMusic(0);
 		se.preload(1);
