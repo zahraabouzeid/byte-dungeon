@@ -23,6 +23,9 @@ public class Player extends Entity {
 	public boolean isDead = false;
 	public int score = 0;
 
+	// Character sprite customization
+	public String selectedSpriteSet = "Dungeon_HeroMan1"; // Name des gewählten Sprite-Sets
+
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
@@ -75,7 +78,8 @@ public class Player extends Entity {
 	}
 
 	public void getPlayerSprites() {
-		SpriteSheet sheet = new SpriteSheet("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_HeroMan1");
+		String spriteSetPath = "/sprites/tilemaps/damp-dungeons/characters/" + selectedSpriteSet;
+		SpriteSheet sheet = new SpriteSheet(spriteSetPath);
 
 		spriteMap.put("up_1", sheet.getSprite("walk", "up_1"));
 		spriteMap.put("up_2", sheet.getSprite("walk", "up_2"));

@@ -16,6 +16,7 @@ public class GameLoop extends AnimationTimer {
 	int drawCount = 0;
 	long timer = 0;
 	private int pauseNavCooldown = 0;
+	private int creationNavCooldown = 0;
 
 	public GameLoop(GamePanel gp) {
 		this.gp = gp;
@@ -54,6 +55,10 @@ public class GameLoop extends AnimationTimer {
 		}
 		if (gp.gameState == GameState.CHARACTER_NAME) {
 			handleCharacterNameInput();
+			return;
+		}
+		if (gp.gameState == GameState.CHARACTER_CREATION) {
+			handleCharacterCreationInput();
 			return;
 		}
 		if (gp.player.isDead) {
@@ -180,14 +185,15 @@ public class GameLoop extends AnimationTimer {
 			gp.keyHandler.backspacePressed = false; // Reset to prevent repeating
 		}
 
-		// Handle ENTER to start game
+		// Handle ENTER to go to character creation
 		if (gp.keyHandler.enterPressed) {
 			gp.keyHandler.enterPressed = false;
 			// Set a default name if empty
 			if (gp.player.playerName.trim().isEmpty()) {
 				gp.player.playerName = "Player";
 			}
-			gp.gameState = GameState.PLAY;
+			gp.ui.resetCharacterCreationScreen();
+			gp.gameState = GameState.CHARACTER_CREATION;
 		}
 
 		// Handle ESC to go back to title
@@ -195,6 +201,40 @@ public class GameLoop extends AnimationTimer {
 			gp.keyHandler.escPressed = false;
 			gp.player.playerName = "Player";
 			gp.gameState = GameState.TITLE;
+		}
+	}
+
+	private void handleCharacterCreationInput() {
+		if (creationNavCooldown > 0) creationNavCooldown--;
+
+		if (gp.keyHandler.escPressed) {
+			gp.keyHandler.escPressed = false;
+			gp.gameState = GameState.CHARACTER_NAME;
+			return;
+		}
+
+		if (creationNavCooldown == 0) {
+			if (gp.keyHandler.upPressed) {
+				gp.ui.navigateCharacterCreationUp();
+				creationNavCooldown = 12;
+			} else if (gp.keyHandler.downPressed) {
+				gp.ui.navigateCharacterCreationDown();
+				creationNavCooldown = 12;
+			} else if (gp.keyHandler.leftPressed) {
+				gp.ui.navigateCharacterCreationLeft();
+				creationNavCooldown = 8;
+			} else if (gp.keyHandler.rightPressed) {
+				gp.ui.navigateCharacterCreationRight();
+				creationNavCooldown = 8;
+			}
+		}
+
+		if (gp.keyHandler.enterPressed) {
+			gp.keyHandler.enterPressed = false;
+			gp.ui.applyCharacterCreation();
+			// Reload player sprites based on selected sprite set
+			gp.player.getPlayerSprites();
+			gp.gameState = GameState.PLAY;
 		}
 	}
 
@@ -210,6 +250,11 @@ public class GameLoop extends AnimationTimer {
 
 		if (gp.gameState == GameState.CHARACTER_NAME) {
 			gp.ui.drawCharacterNameScreen(gp.gc);
+			return;
+		}
+
+		if (gp.gameState == GameState.CHARACTER_CREATION) {
+			gp.ui.drawCharacterCreationScreen(gp.gc);
 			return;
 		}
 
