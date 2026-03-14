@@ -3,6 +3,8 @@ package com.gvi.project.models.game_maps;
 import com.gvi.project.GamePanel;
 import com.gvi.project.helper.ConfigHelper;
 import com.gvi.project.models.game_maps.config.*;
+import com.gvi.project.models.objects.ObjectFactory;
+import com.gvi.project.models.objects.SuperObject;
 import com.gvi.project.models.sprite_sheets.Sprite;
 import com.gvi.project.models.sprite_sheets.SpriteSheet;
 import javafx.scene.image.WritableImage;
@@ -58,14 +60,25 @@ public class GameMapLoader {
 	}
 
 	private void initMapObjects(GameMapConfig config){
-		/*
+		if (config.objects == null) return;
 		for (GameObjectConfig objectConfig : config.objects){
-			// TODO GameObject factory call einbauen.
+			SuperObject obj = ObjectFactory.create(objectConfig);
+			obj.worldX = objectConfig.x * gp.generalSettings.tileSize;
+			obj.worldY = objectConfig.y * gp.generalSettings.tileSize;
+			gp.obj.add(obj);
 		}
-
-		 */
 	}
 
+
+	/**
+	 *
+	 * @param layer Layer Object das bearbeitet werden muss
+	 * @param layerConfig Config für Karten Layer
+	 * @param width Breite der Map
+	 * @param height Höhe der Map
+	 *
+	 * @apiNote Itteriert über
+	 */
 	private void parseSpriteInformation(GameMapLayer layer, GameMapLayerConfig layerConfig, int width, int height){
 		List<String> usedSpriteKeys = registerUsedSprites(layerConfig.usedSpriteSheets);
 
@@ -80,12 +93,17 @@ public class GameMapLoader {
 
 				if (spriteId == 998) {
 					layer.layout[x][y] = "blocker";
+
+
+					gp.cChecker.collisionMap[x][y] = true;
 					continue;
 				};
 
 				String spriteKey = usedSpriteKeys.get(spriteId);
 
 				layer.layout[x][y] = spriteKey;
+
+				// Setze Collision als true in collision Map
 				gp.cChecker.collisionMap[x][y] = spriteKey.charAt(0) == '1' && !gp.cChecker.collisionMap[x][y];
 			}
 		}
@@ -113,6 +131,7 @@ public class GameMapLoader {
 				sprite.hasCollision = usedSprite.hasCollision;
 
 				String key = "%s:%s:%s:%s".formatted(usedSprite.hasCollision ? "1": "0",sheetConfig.fileName, usedSprite.spriteGroup, usedSprite.spriteId);
+
 				this.gp.spriteManager.registerSprite(key, sprite);
 				spriteKeys.add(key);
 			}

@@ -55,8 +55,7 @@ public class GamePanel {
 	}
 
 	public void setupGame() {
-		loadMap(GameMaps.MAP_01);
-		assetSetter.setObject();
+		loadMap(GameMaps.MAP_00);
 		playMusic(0);
 		se.preload(1);
 		se.preload(2);
@@ -90,6 +89,7 @@ public class GamePanel {
 	}
 
 	public void loadMap(GameMaps map){
+		obj.clear();
 		GameMapLoader mapLoader = new GameMapLoader(this);
 		this.currentMap = mapLoader.loadMap(map.getConfigFileName());
 	}

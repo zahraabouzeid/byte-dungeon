@@ -17,14 +17,7 @@ public class CollisionChecker {
 			return true; // außerhalb der Karte wird blockiert
 		}
 
-		// Prüft über alle Layer der game Map
-		for (var layer : gp.currentMap.gameMapLayers.values()){
-			if (gp.spriteManager.getStoredSprite(layer.layout[gridX][gridY]).hasCollision){
-				return true;
-			}
-		}
-
-		return false;
+		return collisionMap[gridX][gridY];
 	}
 
 	// Prüft, ob ein blockierendes Objekt (z.B. Tür) auf dem Ziel-Tile steht
