@@ -707,12 +707,6 @@
         "duration":""
       }
     },
-
-    {
-      "objectId": "DOOR",
-      "x": 12,
-      "y": 6
-    },
     {
       "objectId": "MAP_CHANGE_TRIGGER",
       "x": 0,
