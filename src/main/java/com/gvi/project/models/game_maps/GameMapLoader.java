@@ -69,6 +69,16 @@ public class GameMapLoader {
 		}
 	}
 
+
+	/**
+	 *
+	 * @param layer Layer Object das bearbeitet werden muss
+	 * @param layerConfig Config für Karten Layer
+	 * @param width Breite der Map
+	 * @param height Höhe der Map
+	 *
+	 * @apiNote Itteriert über
+	 */
 	private void parseSpriteInformation(GameMapLayer layer, GameMapLayerConfig layerConfig, int width, int height){
 		List<String> usedSpriteKeys = registerUsedSprites(layerConfig.usedSpriteSheets);
 
@@ -83,12 +93,17 @@ public class GameMapLoader {
 
 				if (spriteId == 998) {
 					layer.layout[x][y] = "blocker";
+
+
+					gp.cChecker.collisionMap[x][y] = true;
 					continue;
 				};
 
 				String spriteKey = usedSpriteKeys.get(spriteId);
 
 				layer.layout[x][y] = spriteKey;
+
+				// Setze Collision als true in collision Map
 				gp.cChecker.collisionMap[x][y] = spriteKey.charAt(0) == '1' && !gp.cChecker.collisionMap[x][y];
 			}
 		}
@@ -116,6 +131,7 @@ public class GameMapLoader {
 				sprite.hasCollision = usedSprite.hasCollision;
 
 				String key = "%s:%s:%s:%s".formatted(usedSprite.hasCollision ? "1": "0",sheetConfig.fileName, usedSprite.spriteGroup, usedSprite.spriteId);
+
 				this.gp.spriteManager.registerSprite(key, sprite);
 				spriteKeys.add(key);
 			}
