@@ -7,7 +7,10 @@ import com.gvi.project.models.objects.ObjectFactory;
 import com.gvi.project.models.objects.SuperObject;
 import com.gvi.project.models.sprite_sheets.Sprite;
 import com.gvi.project.models.sprite_sheets.SpriteSheet;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,25 +81,27 @@ public class GameMapLoader {
 			for (int x = 0; x < width; x++){
 				int spriteId = layerConfig.spriteLayout[y][x];
 
-				if (spriteId == 999) {
-					layer.layout[x][y] = "empty";
-					continue;
-				};
-
-				if (spriteId == 998) {
-					layer.layout[x][y] = "blocker";
-
-					// Setze Collision als true in collision Map
-					gp.cChecker.collisionMap[x][y] = true;
-					continue;
-				};
-
-				String spriteKey = usedSpriteKeys.get(spriteId);
-
-				layer.layout[x][y] = spriteKey;
-
-				// Setze Collision als true in collision Map
-				gp.cChecker.collisionMap[x][y] = spriteKey.charAt(0) == '1' && !gp.cChecker.collisionMap[x][y];
+				switch (spriteId){
+					case 999:
+						layer.layout[x][y] = "empty";
+						continue;
+					case 998:
+						layer.layout[x][y] = "blocker";
+						// Setze Collision als true in collision Map
+						gp.cChecker.collisionMap[x][y] = true;
+						continue;
+					case 997:
+						layer.layout[x][y] = "cover";
+						continue;
+					default:
+						String spriteKey = usedSpriteKeys.get(spriteId);
+						layer.layout[x][y] = spriteKey;
+						// Setze Collision als true in collision Map
+						if(!gp.cChecker.collisionMap[x][y]){
+							gp.cChecker.collisionMap[x][y] = spriteKey.charAt(0) == '1';
+						}
+						break;
+				}
 			}
 		}
 	}
@@ -135,5 +140,23 @@ public class GameMapLoader {
 	private void registerBasicSprites(){
 		this.gp.spriteManager.registerSprite("empty", new Sprite(new WritableImage(gp.generalSettings.tileSize, gp.generalSettings.tileSize),1,1,false));
 		this.gp.spriteManager.registerSprite("blocker", new Sprite(new WritableImage(gp.generalSettings.tileSize, gp.generalSettings.tileSize),1,1,true));
+		this.gp.spriteManager.registerSprite("cover", new Sprite(createMonoColorImage(gp.generalSettings.tileSize, gp.generalSettings.tileSize, Color.BLACK),1,1,true));
+	}
+
+	private Image createMonoColorImage(int width, int height, Color color){
+		WritableImage img = new WritableImage(
+				gp.generalSettings.tileSize,
+				gp.generalSettings.tileSize
+		);
+
+		PixelWriter pw = img.getPixelWriter();
+
+		for (int y = 0; y < gp.generalSettings.tileSize; y++) {
+			for (int x = 0; x < gp.generalSettings.tileSize; x++) {
+				pw.setColor(x, y, color);
+			}
+		}
+
+		return img;
 	}
 }
