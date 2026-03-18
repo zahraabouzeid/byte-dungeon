@@ -29,8 +29,8 @@ public class OBJ_Door extends AnimatedObject {
 	@Override
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
 		if (!canInteract) return;
-		if (player.playerKeys == 3) {
-			player.playerKeys = 0;
+		if (player.playerKeys == 0) {
+//			player.playerKeys = 0;
 			((AnimationComponent)components.get("Animation")).trigger();
 			sound.setFile(4);
 			sound.loop();

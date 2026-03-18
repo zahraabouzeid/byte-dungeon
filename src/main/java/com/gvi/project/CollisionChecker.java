@@ -16,7 +16,6 @@ public class CollisionChecker {
 		if (gridX < 0 || gridX >= gp.currentMap.width || gridY < 0 || gridY >= gp.currentMap.height) {
 			return true; // außerhalb der Karte wird blockiert
 		}
-
 		return collisionMap[gridX][gridY];
 	}
 
@@ -46,5 +45,20 @@ public class CollisionChecker {
 		}
 
 		return false;
+	}
+
+	public void printCollisionMap(){
+		StringBuilder output = new StringBuilder();
+		int i = 0;
+
+		for(int y = 0; y< collisionMap.length; y++){
+			for(int x = 0; x< collisionMap[y].length; x++){
+				output.append("|").append(collisionMap[y][x] ? "1" : " ");
+				i++;
+			}
+			output.append("|\n");
+		}
+
+		System.out.println(output);
 	}
 }
