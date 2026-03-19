@@ -19,18 +19,21 @@ public class CharacterCreationScreen {
     private final int screenHeight;
     private int blinkCounter = 0;
 
-    // Available sprite sets (can be extended in the future)
+    // Bereitgestellte sprites
     private final String[] availableSpriteNames = {
-        "Hero",
-        "Mushroom",
-        "Adventurer"
+            "Hero",
+            "Mushroom",
+            "Goblin",
+            "Skeleton"
+
     };
 
     private final String[] availableSpriteIds = {
-        "Dungeon_HeroMan1",
-        "Dungeon_MushroomMan",
-        "Dungeon_Adventurer",
-        "Dungeon_Monster"
+            "Dungeon_HeroMan1",
+            "Dungeon_MushroomMan16",
+            "Dungeon_Goblin1",
+            "Dungeon_Skeleton"
+
     };
 
     private int selectedSpriteIndex = 0;
@@ -51,7 +54,7 @@ public class CharacterCreationScreen {
         drawBorder(gc);
 
         // Title
-        String title = "SELECT CHARACTER SPRITE";
+        String title = "SELECT CHARACTER";
         gc.setFont(FONT_XL);
         double tw = getTextWidth(title, FONT_XL);
         double tx = screenWidth / 2.0 - tw / 2.0;
@@ -97,7 +100,7 @@ public class CharacterCreationScreen {
             // Draw box
             if (isSelected) {
                 gc.setFill(Color.web("#FFD700"));
-                gc.fillRect(boxX - 3, y - 3, boxWidth + 6, boxHeight + 6);
+                gc.fillRect(boxX - 3, y - 3, boxWidth + 10, boxHeight + 10);
                 gc.setFill(Color.web("#1A1A1A"));
             } else {
                 gc.setFill(Color.web("#404040"));
@@ -107,13 +110,13 @@ public class CharacterCreationScreen {
             // Draw Player sprite
             try {
                 String spriteSetName = availableSpriteIds[i];
-                SpriteSheet sheet = new SpriteSheet("/sprites/tilemaps/damp-dungeons/characters/" + spriteSetName);
+                SpriteSheet sheet = new SpriteSheet("/sprites/tilemaps/damp-dungeons/Characters/" + spriteSetName);
                 Sprite sprite = sheet.getSprite("walk", "down_1");
-                
+
                 double spriteSize = 60;
                 double spriteX = boxX + (boxWidth - spriteSize) / 2.0;
                 double spriteY = y + 10;
-                
+
                 // Draw the actual sprite image
                 if (sprite != null && sprite.image != null) {
                     gc.drawImage(sprite.image, spriteX, spriteY, spriteSize, spriteSize);
@@ -128,16 +131,24 @@ public class CharacterCreationScreen {
                 gc.setLineWidth(2);
                 gc.strokeRect(spriteX - 1, spriteY - 1, spriteSize + 2, spriteSize + 2);
             } catch (Exception e) {
+                // Better error message for debugging
+                System.err.println("Failed to load sprite: " + availableSpriteIds[i] + " - " + e.getMessage());
+                
                 // Fallback if sprite loading fails
                 gc.setFill(Color.web("#555555"));
                 double spriteSize = 60;
                 double spriteX = boxX + (boxWidth - spriteSize) / 2.0;
                 double spriteY = y + 10;
                 gc.fillRect(spriteX, spriteY, spriteSize, spriteSize);
-                
+
                 gc.setStroke(isSelected ? TEXT_GOLD : Color.web("#888888"));
                 gc.setLineWidth(2);
                 gc.strokeRect(spriteX - 1, spriteY - 1, spriteSize + 2, spriteSize + 2);
+                
+                // Draw error indicator
+                gc.setFont(FONT_XS);
+                gc.setFill(Color.web("#FF6666"));
+                gc.fillText("ERROR", spriteX + 15, spriteY + 30);
             }
 
             // Draw label

@@ -10,7 +10,7 @@
           "spriteHeight": 2
         },
         "down_2": {
-          "spriteX": 1,
+          "spriteX": 3,
           "spriteY": 0,
           "spriteWidth": 1,
           "spriteHeight": 2
@@ -22,7 +22,7 @@
           "spriteHeight": 2
         },
         "left_2": {
-          "spriteX": 1,
+          "spriteX": 3,
           "spriteY": 2,
           "spriteWidth": 1,
           "spriteHeight": 2
@@ -34,7 +34,7 @@
           "spriteHeight": 2
         },
         "right_2": {
-          "spriteX": 1,
+          "spriteX": 3,
           "spriteY": 4,
           "spriteWidth": 1,
           "spriteHeight": 2
@@ -46,7 +46,7 @@
           "spriteHeight": 2
         },
         "up_2": {
-          "spriteX": 1,
+          "spriteX": 3,
           "spriteY": 6,
           "spriteWidth": 1,
           "spriteHeight": 2

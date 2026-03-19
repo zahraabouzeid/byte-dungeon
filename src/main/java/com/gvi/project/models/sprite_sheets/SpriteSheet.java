@@ -10,10 +10,12 @@ import javafx.scene.image.WritableImage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class SpriteSheet {
 	private SpriteSheetConfig config;
 	private Image sheetImage;
+	private static final Logger logger = Logger.getLogger(SpriteSheet.class.getName());
 
 	/**
 	 *
@@ -26,13 +28,40 @@ public class SpriteSheet {
 
 	// Isoliert Teilbild vom Spritesheet Bild
 	public Image getImage(String spriteGroupId, String spriteId) {
+		try {
+			SpriteConfig spriteConfig = config.spriteGroups.get(spriteGroupId).sprites.get(spriteId);
+			
+			// Validiere Konfiguration
+			if (spriteConfig == null) {
+				throw new IllegalArgumentException("Sprite not found: group=" + spriteGroupId + ", id=" + spriteId);
+			}
 
-		SpriteConfig spriteConfig = config.spriteGroups.get(spriteGroupId).sprites.get(spriteId);
+			int startX = spriteConfig.spriteX * config.spriteSize;
+			int startY = spriteConfig.spriteY * config.spriteSize;
+			int width = spriteConfig.spriteWidth * config.spriteSize;
+			int height = spriteConfig.spriteHeight * config.spriteSize;
 
-		PixelReader reader = sheetImage.getPixelReader();
-		WritableImage subImage = new WritableImage(reader, spriteConfig.spriteX * config.spriteSize, spriteConfig.spriteY * config.spriteSize, spriteConfig.spriteWidth * config.spriteSize, spriteConfig.spriteHeight * config.spriteSize);
+			// Überprüfe ob die angeforderten Koordinaten im Bild liegen
+			if (startX < 0 || startY < 0 || startX + width > sheetImage.getWidth() || startY + height > sheetImage.getHeight()) {
+				logger.warning(String.format(
+					"Sprite coordinates out of bounds for %s:%s. Config: x=%d, y=%d, w=%d, h=%d. Image: %dx%d",
+					spriteGroupId, spriteId, startX, startY, width, height, 
+					(int)sheetImage.getWidth(), (int)sheetImage.getHeight()
+				));
+				// Erstelle ein leeres Bild als Fallback
+				return new WritableImage(width, height);
+			}
 
-		return subImage;
+			PixelReader reader = sheetImage.getPixelReader();
+			WritableImage subImage = new WritableImage(reader, startX, startY, width, height);
+
+			return subImage;
+		} catch (Exception e) {
+			logger.severe("Error loading sprite: group=" + spriteGroupId + ", id=" + spriteId + ". Error: " + e.getMessage());
+			e.printStackTrace();
+			// Erstelle ein leeres Fallback-Bild
+			return new WritableImage(16, 16);
+		}
 	}
 
 	public Sprite getSprite(String spriteGroupId, String spriteId) {
