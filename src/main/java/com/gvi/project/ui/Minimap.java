@@ -1,7 +1,9 @@
 package com.gvi.project.ui;
 
 import com.gvi.project.GamePanel;
+import com.gvi.project.helper.ColorHelper;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import static com.gvi.project.ui.UITheme.*;
@@ -9,22 +11,25 @@ import static com.gvi.project.ui.UITheme.*;
 public class Minimap {
 
     private final GamePanel gp;
-    private final int pixelSize = 3;
+    private static final int MINIMAP_SIZE = 120;
 
     public Minimap(GamePanel gp) {
         this.gp = gp;
     }
 
     public void draw(GraphicsContext gc) {
-        int minimapW = gp.maxWorldCol * pixelSize;
-        int minimapH = gp.maxWorldRow * pixelSize;
-        int margin = 10;
-        int startX = gp.screenWidth - minimapW - margin;
-        int startY = margin;
+        int mapMax = Math.max(gp.currentMap.width, gp.currentMap.height);
+        int pixelSize = Math.max(1, MINIMAP_SIZE / mapMax);
 
-        double centerX = startX + minimapW / 2.0;
-        double centerY = startY + minimapH / 2.0;
-        double radius = Math.min(minimapW, minimapH) / 2.0;
+        int minimapW = gp.currentMap.width * pixelSize;
+        int minimapH = gp.currentMap.height * pixelSize;
+        int margin = 10;
+        int startX = gp.generalSettings.screenWidth - MINIMAP_SIZE - margin + (MINIMAP_SIZE - minimapW) / 2;
+        int startY = margin + (MINIMAP_SIZE - minimapH) / 2;
+
+        double centerX = gp.generalSettings.screenWidth - MINIMAP_SIZE / 2.0 - margin;
+        double centerY = margin + MINIMAP_SIZE / 2.0;
+        double radius = MINIMAP_SIZE / 2.0;
 
         // Background circle
         drawCircleBackground(gc, centerX, centerY, radius);
@@ -33,13 +38,13 @@ public class Minimap {
         drawCircleBorder(gc, centerX, centerY, radius);
 
         // Tiles (clipped to circle)
-        drawTiles(gc, startX, startY, centerX, centerY, radius);
+        drawTiles(gc, startX, startY, centerX, centerY, radius, pixelSize);
 
         // Objects (clipped to circle)
-        drawObjects(gc, startX, startY, centerX, centerY, radius);
+        drawObjects(gc, startX, startY, centerX, centerY, radius, pixelSize);
 
         // Player marker (clipped to circle)
-        drawPlayer(gc, startX, startY, centerX, centerY, radius);
+        drawPlayer(gc, startX, startY, centerX, centerY, radius, pixelSize);
     }
 
     private void drawCircleBackground(GraphicsContext gc, double cx, double cy, double radius) {
@@ -67,27 +72,27 @@ public class Minimap {
     }
 
     private void drawTiles(GraphicsContext gc, int startX, int startY,
-                           double cx, double cy, double radius) {
-        for (int col = 0; col < gp.maxWorldCol; col++) {
-            for (int row = 0; row < gp.maxWorldRow; row++) {
+                           double cx, double cy, double radius, int pixelSize) {
+        for (int col = 0; col < gp.currentMap.width; col++) {
+            for (int row = 0; row < gp.currentMap.height; row++) {
                 double tileX = startX + col * pixelSize + pixelSize / 2.0;
                 double tileY = startY + row * pixelSize + pixelSize / 2.0;
                 if (distance(tileX, tileY, cx, cy) > radius) continue;
 
-                int tileNum = gp.tileManager.mapTileNumber[col][row];
-                gc.setFill(getTileColor(tileNum));
+                String tileKey = gp.currentMap.getLayer("FLOOR").layout[col][row];
+                gc.setFill(getTileColor(tileKey));
                 gc.fillRect(startX + col * pixelSize, startY + row * pixelSize, pixelSize, pixelSize);
             }
         }
     }
 
     private void drawObjects(GraphicsContext gc, int startX, int startY,
-                             double cx, double cy, double radius) {
+                             double cx, double cy, double radius, int pixelSize) {
         gc.setFill(Color.YELLOW);
-        for (int i = 0; i < gp.obj.length; i++) {
-            if (gp.obj[i] != null) {
-                int objCol = gp.obj[i].worldX / gp.tileSize;
-                int objRow = gp.obj[i].worldY / gp.tileSize;
+        for (int i = 0; i < gp.obj.size(); i++) {
+            if (gp.obj.get(i) != null) {
+                int objCol = gp.obj.get(i).worldX / gp.generalSettings.tileSize;
+                int objRow = gp.obj.get(i).worldY / gp.generalSettings.tileSize;
                 double ox = startX + objCol * pixelSize + pixelSize / 2.0;
                 double oy = startY + objRow * pixelSize + pixelSize / 2.0;
                 if (distance(ox, oy, cx, cy) <= radius) {
@@ -98,9 +103,9 @@ public class Minimap {
     }
 
     private void drawPlayer(GraphicsContext gc, int startX, int startY,
-                            double cx, double cy, double radius) {
-        int playerCol = gp.player.worldX / gp.tileSize;
-        int playerRow = gp.player.worldY / gp.tileSize;
+                            double cx, double cy, double radius, int pixelSize) {
+        int playerCol = gp.player.worldX / gp.generalSettings.tileSize;
+        int playerRow = gp.player.worldY / gp.generalSettings.tileSize;
         gc.setFill(Color.RED);
         gc.fillRect(startX + playerCol * pixelSize - 1, startY + playerRow * pixelSize - 1,
                     pixelSize + 2, pixelSize + 2);
@@ -110,15 +115,12 @@ public class Minimap {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    private Color getTileColor(int tileNum) {
-        return switch (tileNum) {
-            case 0 -> Color.rgb(76, 153, 0);     // Grass
-            case 1 -> Color.rgb(128, 128, 128);   // Wall
-            case 2 -> Color.rgb(51, 102, 204);    // Water
-            case 3 -> Color.rgb(139, 90, 43);     // Earth
-            case 4 -> Color.rgb(34, 102, 0);      // Tree
-            case 5 -> Color.rgb(210, 180, 120);   // Sand
-            default -> Color.BLACK;
-        };
+    private Color getTileColor(String tileKey) {
+        if (tileKey.equals("empty")) {
+            return Color.TRANSPARENT;
+        }
+
+        Image image = gp.spriteManager.getStoredSprite(tileKey).image;
+        return ColorHelper.getMostCommonColor(image);
     }
 }

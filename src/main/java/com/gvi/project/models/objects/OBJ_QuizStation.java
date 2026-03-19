@@ -1,33 +1,32 @@
 package com.gvi.project.models.objects;
 
+import com.gvi.project.Components.AnimationComponent;
 import com.gvi.project.GamePanel;
 import com.gvi.project.GameState;
-import com.gvi.project.helper.ImageHelper;
 import com.gvi.project.models.entities.Player;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.TopicArea;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OBJ_QuizStation extends SuperObject {
+public class OBJ_QuizStation extends AnimatedObject {
 
 	private final TopicArea topicArea;
 	private List<Question> remainingQuestions;
 	public boolean completed = false;
 
-	public OBJ_QuizStation(TopicArea topicArea) {
+	public OBJ_QuizStation(TopicArea topicArea, String spriteGroupId) {
+		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon",spriteGroupId);
 		this.topicArea = topicArea;
-		name = "Crystal";
+		name = spriteGroupId;
 		interactHint = "[F] " + topicArea.getDisplayName();
+		collision = true;
+		spriteDirectionUp = true;
+		canInteract = true;
 
-		try {
-			image = ImageHelper.getImage("/sprites/objects/crystal.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		setUpAnimationComponent();
 	}
 
 	public TopicArea getTopicArea() {
@@ -99,9 +98,28 @@ public class OBJ_QuizStation extends SuperObject {
 		}
 	}
 
+	@Override
+	public void setUpAnimationComponent(){
+		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
+		animComp.isLooping();
+		animComp.cycleLength = 1.5;
+		animComp.setCycleOrder(List.of(0,1,2,2,1));
+		animComp.delayBetweenCycles = 0.3;
+		animComp.setStartOffset(Math.random() * animComp.cycleLength);
+
+		sprite = animComp.getCurrentSprite();
+	};
+
 	private void spawnKey(GamePanel gp, int objIndex) {
-		gp.obj[objIndex] = new OBJ_Key();
-		gp.obj[objIndex].worldX = this.worldX;
-		gp.obj[objIndex].worldY = this.worldY;
+		OBJ_Key key = switch (this.name) {
+			case "crystal_blue" -> new OBJ_Key("key_iron");
+			case "crystal_green" -> new OBJ_Key("key_gold");
+			default -> new OBJ_Key("key_copper");
+		};
+
+		gp.obj.remove(objIndex);
+		gp.obj.add(objIndex, key);
+		gp.obj.get(objIndex).worldX = this.worldX;
+		gp.obj.get(objIndex).worldY = this.worldY;
 	}
 }

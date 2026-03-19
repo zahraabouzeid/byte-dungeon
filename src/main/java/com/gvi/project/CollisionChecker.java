@@ -4,6 +4,7 @@ import com.gvi.project.models.objects.SuperObject;
 
 public class CollisionChecker {
 	GamePanel gp;
+	public boolean[][] collisionMap;
 
 	public CollisionChecker(GamePanel gp) {
 		this.gp = gp;
@@ -12,23 +13,52 @@ public class CollisionChecker {
 	// Prüft, ob ein Tile im Grid begehbar ist (Wand, Wasser, Baum blockiert)
 	// Gibt auch true zurück, wenn die Position außerhalb der Weltkarte liegt
 	public boolean isTileBlocked(int gridX, int gridY) {
-		if (gridX < 0 || gridX >= gp.maxWorldCol || gridY < 0 || gridY >= gp.maxWorldRow) {
+		if (gridX < 0 || gridX >= gp.currentMap.width || gridY < 0 || gridY >= gp.currentMap.height) {
 			return true; // außerhalb der Karte wird blockiert
 		}
-		int tileNum = gp.tileManager.mapTileNumber[gridX][gridY];
-		return gp.tileManager.tiles[tileNum].hasCollision;
+		return collisionMap[gridX][gridY];
 	}
 
 	// Prüft, ob ein blockierendes Objekt (z.B. Tür) auf dem Ziel-Tile steht
 	// Vergleicht die Pixel-Position des Objekts mit dem Ziel-Grid-Feld
 	public boolean isObjectBlocking(int gridX, int gridY) {
-		int targetWorldX = gridX * gp.tileSize;
-		int targetWorldY = gridY * gp.tileSize;
+		int targetX = gridX * gp.generalSettings.tileSize + (int) gp.player.collisionBox.getX();
+		int targetY = gridY * gp.generalSettings.tileSize + (int) gp.player.collisionBox.getY();
+		int targetW = (int) gp.player.collisionBox.getWidth();
+		int targetH = (int) gp.player.collisionBox.getHeight();
+
 		for (SuperObject obj : gp.obj) {
-			if (obj != null && obj.collision && obj.worldX == targetWorldX && obj.worldY == targetWorldY) {
-				return true;
+			if (obj != null && obj.collision) {
+				int objX = obj.worldX + (int) obj.collisionBox.getX();
+				int objY = obj.worldY + (int) obj.collisionBox.getY();
+				int objW = (int) obj.collisionBox.getWidth();
+				int objH = (int) obj.collisionBox.getHeight();
+
+				if (targetX < objX + objW &&
+					targetX + targetW > objX &&
+					targetY < objY + objH &&
+					targetY + targetH > objY
+				) {
+					return true;
+				}
 			}
 		}
+
 		return false;
+	}
+
+	public void printCollisionMap(){
+		StringBuilder output = new StringBuilder();
+		int i = 0;
+
+		for(int y = 0; y< collisionMap.length; y++){
+			for(int x = 0; x< collisionMap[y].length; x++){
+				output.append("|").append(collisionMap[y][x] ? "1" : " ");
+				i++;
+			}
+			output.append("|\n");
+		}
+
+		System.out.println(output);
 	}
 }
