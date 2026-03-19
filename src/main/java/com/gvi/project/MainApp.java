@@ -29,9 +29,9 @@ public class MainApp extends Application {
 			springContext = new SpringApplicationBuilder(MainApp.class)
 					.headless(false)
 					.run();
-			log.info("Spring application started with datasource/JPA configuration.");
+			log.info("Spring application started.");
 		} catch (Exception exception) {
-			log.warn("Failed to start Spring with database access. Retrying with datasource/JPA disabled.", exception);
+			log.warn("Failed to start Spring. Retrying with datasource/JPA auto-configuration disabled.", exception);
 			springContext = new SpringApplicationBuilder(MainApp.class)
 					.headless(false)
 					.properties(
@@ -41,7 +41,7 @@ public class MainApp extends Application {
 									"org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration"
 					)
 					.run();
-			log.warn("Spring application started in fallback mode without datasource/JPA.");
+			log.warn("Spring application started in fallback mode without datasource/JPA auto-configuration.");
 		}
 	}
 

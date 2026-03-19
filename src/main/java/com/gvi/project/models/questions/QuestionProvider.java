@@ -62,8 +62,8 @@ public class QuestionProvider implements QuestionService {
 			return List.copyOf(loadQuestionsFromJson());
 		}
 
-		if (!questionDataService.isRepositoryAvailable()) {
-			log.warn("QuestionRepository is not available in the current Spring context. Falling back to local questions.");
+		if (!questionDataService.isQuestionSourceAvailable()) {
+			log.warn("No configured question data source is available. Falling back to local questions.");
 			return List.copyOf(loadQuestionsFromJson());
 		}
 

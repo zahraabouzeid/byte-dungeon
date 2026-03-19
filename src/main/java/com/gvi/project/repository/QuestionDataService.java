@@ -18,21 +18,34 @@ public class QuestionDataService {
     private static final Logger log = LoggerFactory.getLogger(QuestionDataService.class);
 
     private final QuestionRepository questionRepository;
+    private final SqliteQuestionLoader sqliteQuestionLoader;
+    private volatile List<QuestionEntity> cachedSqliteQuestions;
 
-    public QuestionDataService(ObjectProvider<QuestionRepository> questionRepositoryProvider) {
+    public QuestionDataService(ObjectProvider<QuestionRepository> questionRepositoryProvider,
+                               ObjectProvider<SqliteQuestionLoader> sqliteQuestionLoaderProvider) {
         this.questionRepository = questionRepositoryProvider.getIfAvailable();
+        this.sqliteQuestionLoader = sqliteQuestionLoaderProvider.getIfAvailable();
     }
 
     /**
      * Get all questions
      */
     public List<QuestionEntity> getAllQuestions() {
-        return requireRepository().findAll();
+        if (questionRepository != null) {
+            return questionRepository.findAll();
+        }
+        return getAllQuestionsWithDetails();
     }
 
     public List<QuestionEntity> getAllQuestionsWithDetails() {
-        List<QuestionEntity> questions = requireRepository().findAllWithDetailsOrderByIdAsc();
-        log.info("QuestionDataService loaded {} question entities with details from repository.", questions.size());
+        if (questionRepository != null) {
+            List<QuestionEntity> questions = questionRepository.findAllWithDetailsOrderByIdAsc();
+            log.info("QuestionDataService loaded {} question entities with details from repository.", questions.size());
+            return questions;
+        }
+
+        List<QuestionEntity> questions = loadQuestionsFromSqlite();
+        log.info("QuestionDataService loaded {} question entities with details from SQLite.", questions.size());
         return questions;
     }
 
@@ -40,21 +53,30 @@ public class QuestionDataService {
      * Get all Multiple Choice (MC) questions
      */
     public List<QuestionEntity> getAllMultipleChoiceQuestions() {
-        return requireRepository().findAllMultipleChoice();
+        if (questionRepository != null) {
+            return questionRepository.findAllMultipleChoice();
+        }
+        return getQuestionsByType(QuestionType.MC);
     }
 
     /**
      * Get all True/False (TF) questions
      */
     public List<QuestionEntity> getAllTrueFalseQuestions() {
-        return requireRepository().findAllTrueFalse();
+        if (questionRepository != null) {
+            return questionRepository.findAllTrueFalse();
+        }
+        return getQuestionsByType(QuestionType.TF);
     }
 
     /**
      * Get all Gap/Fill-in-the-blank (GAP) questions
      */
     public List<QuestionEntity> getAllGapQuestions() {
-        return requireRepository().findAllGapQuestions();
+        if (questionRepository != null) {
+            return questionRepository.findAllGapQuestions();
+        }
+        return getQuestionsByType(QuestionType.GAP);
     }
 
     /**
@@ -62,41 +84,73 @@ public class QuestionDataService {
      * @param questionType the type of question (MC, TF, or GAP)
      */
     public List<QuestionEntity> getQuestionsByType(QuestionType questionType) {
-        return requireRepository().findByQuestionType(questionType);
+        if (questionRepository != null) {
+            return questionRepository.findByQuestionType(questionType);
+        }
+        return loadQuestionsFromSqlite().stream()
+                .filter(question -> question.getQuestionType() == questionType)
+                .collect(Collectors.toList());
     }
 
     /**
      * Get questions by question set id
      */
     public List<QuestionEntity> getQuestionsByQuestionSet(Integer questionSetId) {
-        return requireRepository().findByQuestionSetId(questionSetId);
+        if (questionRepository != null) {
+            return questionRepository.findByQuestionSetId(questionSetId);
+        }
+        return loadQuestionsFromSqlite().stream()
+                .filter(question -> Objects.equals(question.getQuestionSetId(), questionSetId))
+                .collect(Collectors.toList());
     }
 
     /**
      * Get questions by question set id and type
      */
     public List<QuestionEntity> getQuestionsByQuestionSetAndType(Integer questionSetId, QuestionType questionType) {
-        return requireRepository().findByQuestionSetIdAndQuestionType(questionSetId, questionType);
+        if (questionRepository != null) {
+            return questionRepository.findByQuestionSetIdAndQuestionType(questionSetId, questionType);
+        }
+        return loadQuestionsFromSqlite().stream()
+                .filter(question -> Objects.equals(question.getQuestionSetId(), questionSetId))
+                .filter(question -> question.getQuestionType() == questionType)
+                .collect(Collectors.toList());
     }
 
     /**
      * Get a single question
      */
     public Optional<QuestionEntity> getQuestion(Integer id) {
-        return requireRepository().findById(id);
+        if (questionRepository != null) {
+            return questionRepository.findById(id);
+        }
+        return loadQuestionsFromSqlite().stream()
+                .filter(question -> Objects.equals(question.getId(), id))
+                .findFirst();
     }
 
     /**
      * Find questions by keyword in start text
      */
     public List<QuestionEntity> searchQuestions(String keyword) {
-        return requireRepository().findByStartTextContainingIgnoreCase(keyword);
+        if (questionRepository != null) {
+            return questionRepository.findByStartTextContainingIgnoreCase(keyword);
+        }
+
+        String normalizedKeyword = keyword == null ? "" : keyword.toLowerCase(Locale.ROOT);
+        return loadQuestionsFromSqlite().stream()
+                .filter(question -> question.getStartText() != null)
+                .filter(question -> question.getStartText().toLowerCase(Locale.ROOT).contains(normalizedKeyword))
+                .collect(Collectors.toList());
     }
 
     /**
      * Save a question
      */
     public QuestionEntity save(QuestionEntity entity) {
+        if (questionRepository == null) {
+            throw new UnsupportedOperationException("SQLite question loading is read-only. Saving requires a JPA repository.");
+        }
         return requireRepository().save(entity);
     }
 
@@ -104,11 +158,14 @@ public class QuestionDataService {
      * Delete a question
      */
     public void delete(Integer id) {
+        if (questionRepository == null) {
+            throw new UnsupportedOperationException("SQLite question loading is read-only. Deleting requires a JPA repository.");
+        }
         requireRepository().deleteById(id);
     }
 
-    public boolean isRepositoryAvailable() {
-        return questionRepository != null;
+    public boolean isQuestionSourceAvailable() {
+        return questionRepository != null || (sqliteQuestionLoader != null && sqliteQuestionLoader.isAvailable());
     }
 
     private QuestionRepository requireRepository() {
@@ -116,6 +173,27 @@ public class QuestionDataService {
             throw new IllegalStateException("QuestionRepository is not available in the current Spring context.");
         }
         return questionRepository;
+    }
+
+    private List<QuestionEntity> loadQuestionsFromSqlite() {
+        List<QuestionEntity> current = cachedSqliteQuestions;
+        if (current != null) {
+            return current;
+        }
+
+        synchronized (this) {
+            if (cachedSqliteQuestions == null) {
+                cachedSqliteQuestions = List.copyOf(requireSqliteQuestionLoader().loadAllQuestionsWithDetails());
+            }
+            return cachedSqliteQuestions;
+        }
+    }
+
+    private SqliteQuestionLoader requireSqliteQuestionLoader() {
+        if (sqliteQuestionLoader == null) {
+            throw new IllegalStateException("SqliteQuestionLoader bean is not available in the current Spring context.");
+        }
+        return sqliteQuestionLoader;
     }
 
     /**
