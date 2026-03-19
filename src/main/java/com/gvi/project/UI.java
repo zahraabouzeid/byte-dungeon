@@ -16,6 +16,7 @@ public class UI {
 
     private final TitleScreen titleScreen;
     private final CharacterNameScreen characterNameScreen;
+    private final CharacterCreationScreen characterCreationScreen;
     private final GameOverScreen gameOverScreen;
     private final WinScreen winScreen;
     private final PauseScreen pauseScreen;
@@ -42,6 +43,7 @@ public class UI {
 
         titleScreen = new TitleScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
         characterNameScreen = new CharacterNameScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
+        characterCreationScreen = new CharacterCreationScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
         gameOverScreen = new GameOverScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
         winScreen = new WinScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
         pauseScreen = new PauseScreen(gp.generalSettings.screenWidth, gp.generalSettings.screenHeight);
@@ -169,6 +171,34 @@ public class UI {
 
     public int getCharacterNameMaxLength() {
         return characterNameScreen.getMaxNameLength();
+    }
+
+    public void drawCharacterCreationScreen(GraphicsContext gc) {
+        characterCreationScreen.draw(gc, gp.player);
+    }
+
+    public void navigateCharacterCreationUp() {
+        characterCreationScreen.navigateUp();
+    }
+
+    public void navigateCharacterCreationDown() {
+        characterCreationScreen.navigateDown();
+    }
+
+    public void navigateCharacterCreationLeft() {
+        characterCreationScreen.navigateLeft();
+    }
+
+    public void navigateCharacterCreationRight() {
+        characterCreationScreen.navigateRight();
+    }
+
+    public void applyCharacterCreation() {
+        characterCreationScreen.applyChanges(gp.player);
+    }
+
+    public void resetCharacterCreationScreen() {
+        characterCreationScreen.reset();
     }
 
     public void draw(GraphicsContext gc) {

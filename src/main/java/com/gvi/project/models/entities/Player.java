@@ -24,6 +24,9 @@ public class Player extends Entity {
 	public boolean isDead = false;
 	public int score = 0;
 
+	// Character sprite customization
+	public String selectedSpriteSet = "Dungeon_HeroMan1"; // Name des gewählten Sprite-Sets
+
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
@@ -85,16 +88,41 @@ public class Player extends Entity {
 	}
 
 	public void getPlayerSprites() {
-		SpriteSheet sheet = new SpriteSheet("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_HeroMan1");
+		try {
+			String spriteSetPath = "/sprites/tilemaps/damp-dungeons/Characters/" + selectedSpriteSet;
+			SpriteSheet sheet = new SpriteSheet(spriteSetPath);
 
-		spriteMap.put("up_1", sheet.getSprite("walk", "up_1"));
-		spriteMap.put("up_2", sheet.getSprite("walk", "up_2"));
-		spriteMap.put("down_1", sheet.getSprite("walk", "down_1"));
-		spriteMap.put("down_2", sheet.getSprite("walk", "down_2"));
-		spriteMap.put("left_1", sheet.getSprite("walk", "left_1"));
-		spriteMap.put("left_2", sheet.getSprite("walk", "left_2"));
-		spriteMap.put("right_1", sheet.getSprite("walk", "right_1"));
-		spriteMap.put("right_2", sheet.getSprite("walk", "right_2"));
+			spriteMap.put("up_1", sheet.getSprite("walk", "up_1"));
+			spriteMap.put("up_2", sheet.getSprite("walk", "up_2"));
+			spriteMap.put("down_1", sheet.getSprite("walk", "down_1"));
+			spriteMap.put("down_2", sheet.getSprite("walk", "down_2"));
+			spriteMap.put("left_1", sheet.getSprite("walk", "left_1"));
+			spriteMap.put("left_2", sheet.getSprite("walk", "left_2"));
+			spriteMap.put("right_1", sheet.getSprite("walk", "right_1"));
+			spriteMap.put("right_2", sheet.getSprite("walk", "right_2"));
+		} catch (Exception e) {
+			System.err.println("Error loading player sprites for: " + selectedSpriteSet);
+			e.printStackTrace();
+			// Fallback zu HeroMan1 wenn das Sprite nicht geladen werden kann
+			try {
+				String spriteSetPath = "/sprites/tilemaps/damp-dungeons/Characters/Dungeon_HeroMan1";
+				SpriteSheet sheet = new SpriteSheet(spriteSetPath);
+
+				spriteMap.put("up_1", sheet.getSprite("walk", "up_1"));
+				spriteMap.put("up_2", sheet.getSprite("walk", "up_2"));
+				spriteMap.put("down_1", sheet.getSprite("walk", "down_1"));
+				spriteMap.put("down_2", sheet.getSprite("walk", "down_2"));
+				spriteMap.put("left_1", sheet.getSprite("walk", "left_1"));
+				spriteMap.put("left_2", sheet.getSprite("walk", "left_2"));
+				spriteMap.put("right_1", sheet.getSprite("walk", "right_1"));
+				spriteMap.put("right_2", sheet.getSprite("walk", "right_2"));
+				selectedSpriteSet = "Dungeon_HeroMan1";
+				System.out.println("Fallback zu HeroMan1 Sprite");
+			} catch (Exception e2) {
+				System.err.println("ERROR: Could not load even fallback sprite!");
+				e2.printStackTrace();
+			}
+		}
 	}
 
 	// bewegung und animation
