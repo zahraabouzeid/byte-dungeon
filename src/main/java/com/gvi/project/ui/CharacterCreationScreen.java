@@ -88,24 +88,28 @@ public class CharacterCreationScreen {
 
     private void drawSpriteSelection(GraphicsContext gc, double y) {
         // Draw available sprites
-        double boxWidth = 150;
-        double boxHeight = 100;
+        double spriteSize = 16 * 3 * 1.5;
+        double boxWidth = spriteSize + 2 * 18;
+        double boxHeight = spriteSize * 2 + 2 * 20;
         double spacing = 20;
         double startX = screenWidth / 2.0 - (boxWidth * availableSpriteNames.length + spacing * (availableSpriteNames.length - 1)) / 2.0;
+        double lineWidthSpriteBox = 2 ;
+        double lineWidthBoxSelected = 5 ;
 
         for (int i = 0; i < availableSpriteNames.length; i++) {
             double boxX = startX + i * (boxWidth + spacing);
+            double boxY = y;
             boolean isSelected = (i == selectedSpriteIndex);
 
             // Draw box
             if (isSelected) {
                 gc.setFill(Color.web("#FFD700"));
-                gc.fillRect(boxX - 3, y - 3, boxWidth + 10, boxHeight + 10);
+                gc.fillRect(boxX - lineWidthBoxSelected, boxY - lineWidthBoxSelected, boxWidth + lineWidthBoxSelected * 2, boxHeight + lineWidthBoxSelected * 2);
                 gc.setFill(Color.web("#1A1A1A"));
             } else {
                 gc.setFill(Color.web("#404040"));
             }
-            gc.fillRect(boxX, y, boxWidth, boxHeight);
+            gc.fillRect(boxX, boxY, boxWidth, boxHeight);
 
             // Draw Player sprite
             try {
@@ -113,13 +117,12 @@ public class CharacterCreationScreen {
                 SpriteSheet sheet = new SpriteSheet("/sprites/tilemaps/damp-dungeons/Characters/" + spriteSetName);
                 Sprite sprite = sheet.getSprite("walk", "down_1");
 
-                double spriteSize = 60;
                 double spriteX = boxX + (boxWidth - spriteSize) / 2.0;
-                double spriteY = y + 10;
+                double spriteY = boxY + 15;
 
                 // Draw the actual sprite image
                 if (sprite != null && sprite.image != null) {
-                    gc.drawImage(sprite.image, spriteX, spriteY, spriteSize, spriteSize);
+                    gc.drawImage(sprite.image, spriteX, spriteY, spriteSize * sprite.imageWidth, spriteSize * sprite.imageHeight);
                 } else {
                     // Fallback: gray box if sprite fails to load
                     gc.setFill(Color.web("#555555"));
@@ -129,14 +132,13 @@ public class CharacterCreationScreen {
                 // Draw sprite border
                 gc.setStroke(isSelected ? TEXT_GOLD : Color.web("#888888"));
                 gc.setLineWidth(2);
-                gc.strokeRect(spriteX - 1, spriteY - 1, spriteSize + 2, spriteSize + 2);
+                gc.strokeRect(spriteX - lineWidthSpriteBox, spriteY - lineWidthSpriteBox, spriteSize * sprite.imageWidth + lineWidthSpriteBox * 2, spriteSize * sprite.imageHeight + lineWidthSpriteBox * 2);
             } catch (Exception e) {
                 // Better error message for debugging
                 System.err.println("Failed to load sprite: " + availableSpriteIds[i] + " - " + e.getMessage());
                 
                 // Fallback if sprite loading fails
                 gc.setFill(Color.web("#555555"));
-                double spriteSize = 60;
                 double spriteX = boxX + (boxWidth - spriteSize) / 2.0;
                 double spriteY = y + 10;
                 gc.fillRect(spriteX, spriteY, spriteSize, spriteSize);
@@ -153,10 +155,10 @@ public class CharacterCreationScreen {
 
             // Draw label
             gc.setFont(FONT_SM);
-            gc.setFill(isSelected ? Color.BLACK : TEXT_WHITE);
+            gc.setFill(isSelected ? TEXT_WHITE : Color.BLACK);
             String name = availableSpriteNames[i];
             double tw = getTextWidth(name, FONT_SM);
-            gc.fillText(name, boxX + boxWidth / 2.0 - tw / 2.0, y + boxHeight - 15);
+            gc.fillText(name, boxX + boxWidth / 2.0 - tw / 2.0, boxY + boxHeight - 5);
 
             // Draw selection indicator
             if (isSelected) {
@@ -164,7 +166,7 @@ public class CharacterCreationScreen {
                 gc.setFill(Color.web("#FFD700"));
                 String selected = "Selected";
                 double sw = getTextWidth(selected, FONT_XS);
-                gc.fillText(selected, boxX + boxWidth / 2.0 - sw / 2.0, y + boxHeight + 20);
+                gc.fillText(selected, boxX + boxWidth / 2.0 - sw / 2.0, boxY + boxHeight + 30);
             }
         }
     }
