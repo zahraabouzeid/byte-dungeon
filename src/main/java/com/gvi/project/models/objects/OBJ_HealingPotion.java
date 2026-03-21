@@ -9,6 +9,7 @@ public class OBJ_HealingPotion extends AnimatedObject {
 	public OBJ_HealingPotion(){
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon", "potion_red");
 		name = "Healing Potion";
+		id = "potion_red";
 		canInteract = true;
 		interactHint = "[F] Use healing potion";
 		collision = true;

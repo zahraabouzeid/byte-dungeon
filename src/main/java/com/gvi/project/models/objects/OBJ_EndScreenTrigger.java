@@ -8,6 +8,7 @@ import com.gvi.project.models.sprite_sheets.SpriteSheet;
 public class OBJ_EndScreenTrigger extends SuperObject {
 
     public OBJ_EndScreenTrigger() {
+        id = "end_screen_trigger";
         initImageLoad();
         setCollisionBox();
     }

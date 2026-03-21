@@ -1,8 +1,6 @@
 package com.gvi.project;
 
 import com.gvi.project.helper.SaveManager;
-import com.gvi.project.models.objects.KeyTyp;
-import com.gvi.project.models.objects.OBJ_Key;
 import com.gvi.project.models.questions.Answer;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.ui.*;

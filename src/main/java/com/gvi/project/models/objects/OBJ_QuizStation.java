@@ -20,7 +20,8 @@ public class OBJ_QuizStation extends AnimatedObject {
 	public OBJ_QuizStation(TopicArea topicArea, String spriteGroupId) {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon",spriteGroupId);
 		this.topicArea = topicArea;
-		name = spriteGroupId;
+		name = "Quiz station";
+		id = spriteGroupId;
 		interactHint = "[F] " + topicArea.getDisplayName();
 		collision = true;
 		spriteDirectionUp = true;
@@ -111,10 +112,10 @@ public class OBJ_QuizStation extends AnimatedObject {
 	}
 
     private void spawnKey(GamePanel gp, int objIndex) {
-		OBJ_Key key = switch (this.name) {
-			case "crystal_blue" -> new OBJ_Key("key_iron");
-			case "crystal_green" -> new OBJ_Key("key_gold");
-			default -> new OBJ_Key("key_copper");
+		OBJ_Key key = switch (this.id) {
+			case "crystal_blue" -> new OBJ_Key(KeyType.IRON);
+			case "crystal_green" -> new OBJ_Key(KeyType.GOLD);
+			default -> new OBJ_Key(KeyType.COPPER);
 		};
 
 		gp.obj.remove(objIndex);

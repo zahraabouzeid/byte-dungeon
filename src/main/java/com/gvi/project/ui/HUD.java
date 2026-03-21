@@ -1,10 +1,14 @@
 package com.gvi.project.ui;
 
 import com.gvi.project.GamePanel;
+import com.gvi.project.models.objects.KeyType;
+import com.gvi.project.models.objects.OBJ_Key;
+import com.gvi.project.models.objects.SuperObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +24,7 @@ public class HUD {
     private boolean floatingPositive = true;
     private int floatingCounter = 0;
     private static final int FLOATING_DURATION = 60; // 1 second
+    private final Map<String, SuperObject> hudObjects = new HashMap<>();
 
     private Map<String, Image> images;
 
@@ -34,8 +39,19 @@ public class HUD {
     }
 
     public void initHudImagesLoading(){
-        images = new HashMap<>();
+        List<SuperObject> objects = new ArrayList<>(List.of(
+                new OBJ_Key(KeyType.COPPER),
+                new OBJ_Key(KeyType.GOLD),
+                new OBJ_Key(KeyType.IRON)
+        ));
 
+        gp.obj.addAll(objects);
+
+        for (SuperObject object : objects) {
+            object.canInteract = false;
+            object.collision = false;
+            hudObjects.put(object.id, object);
+        }
     };
 
     public void showFloatingScore(int points) {
@@ -186,17 +202,26 @@ public class HUD {
     }
 
     private void drawKeys(GraphicsContext gc, double hudX, double hudY) {
+        String text = "x %s";
+        double fontHeight = getTextHeight(text, FONT_MD);
+        double imageSize = 40;
+        double index = 1;
+        double gap = 30;
+		double imageY = hudY + 36;
+        double textY = imageY + fontHeight;
 
-        int keySize = 36;
-        double keyY = hudY + 55;
-        gc.drawImage(keyImage, hudX, keyY, keySize, keySize);
-        gc.setFont(FONT_MD);
-        gc.setFill(TEXT_WHITE);
-        gc.fillText("x" + gp.player.playerIronKeys, hudX + keySize + 6, keyY + 26);
+        for(SuperObject object : hudObjects.values()) {
+            if (object.id.contains("key_")){
+                if(gp.player.playerItems.get(object.id) != null){
+                    double imageX = hudX + (imageSize * (index - 1)) + (gap * (index - 1));
 
-        gc.drawImage(keyImage, hudX, keyY, keySize, keySize);
-        gc.setFont(FONT_MD);
-        gc.setFill(TEXT_WHITE);
-        gc.fillText("x" + gp.player.playerIronKeys, hudX + keySize + 6, keyY + 26);
+                    gc.drawImage(object.sprite.image, imageX , imageY, imageSize, imageSize);
+                    gc.setFont(FONT_MD);
+                    gc.setFill(TEXT_WHITE);
+                    gc.fillText(text.formatted(gp.player.playerItems.get(object.id)), imageX + imageSize , textY);
+                }
+            };
+            index++;
+        }
     };
 }

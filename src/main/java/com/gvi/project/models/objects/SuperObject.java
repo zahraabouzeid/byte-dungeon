@@ -16,6 +16,7 @@ public abstract class SuperObject implements Renderable {
 	public Sprite sprite;
 	public Boolean spriteDirectionUp = false;
 	public String name;
+	public String id;
 	public boolean collision = false;
 	public int worldX, worldY;
 	public Rectangle collisionBox = new Rectangle(0, 0, 48, 48);

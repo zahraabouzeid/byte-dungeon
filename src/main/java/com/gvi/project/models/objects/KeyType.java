@@ -1,13 +1,13 @@
 package com.gvi.project.models.objects;
 
-public enum KeyTyp {
+public enum KeyType {
     COPPER("key_copper"),
     IRON("key_iron"),
-    GOLDEN("key_gold");
+    GOLD("key_gold");
 
     private final String spriteGroupID;
 
-    KeyTyp (String spriteGroupID){
+    KeyType(String spriteGroupID){
         this.spriteGroupID = spriteGroupID;
     }
 

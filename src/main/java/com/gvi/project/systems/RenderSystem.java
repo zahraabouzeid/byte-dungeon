@@ -46,7 +46,7 @@ public class RenderSystem {
 		for (int worldRow = 0; worldRow < gp.currentMap.height; worldRow++) {
 			for (int worldCol = 0; worldCol < gp.currentMap.width; worldCol++) {
 				String spriteKey = layer.layout[worldCol][worldRow];
-				Sprite sprite = gp.spriteManager.getStoredSprite(spriteKey);
+				Sprite sprite = gp.spriteManager.getRegisterdSprite(spriteKey);
 
 				int tileSize = gp.generalSettings.tileSize;
 

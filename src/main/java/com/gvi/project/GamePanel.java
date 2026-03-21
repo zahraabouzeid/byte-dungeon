@@ -92,4 +92,5 @@ public class GamePanel {
 		this.currentMap = mapLoader.loadMap(map.getConfigFileName());
 //		cChecker.printCollisionMap();
 	}
+
 }

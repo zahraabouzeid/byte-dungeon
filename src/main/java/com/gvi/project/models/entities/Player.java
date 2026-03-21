@@ -22,7 +22,7 @@ public class Player extends Entity {
 
 	public String playerName = "Player";
 
-	public Map<String, Integer> playerKeys = new HashMap<>();
+	public Map<String, Integer> playerItems = new HashMap<>();
 
 	public int playerGoldKeys = 0;
 	public int playerIronKeys = 0;
@@ -311,6 +311,17 @@ public class Player extends Entity {
 		if(gp.generalSettings.isDevMode){
 			gp.gc.setFill(new Color(0,0,1,0.3));
 			gp.gc.fillRect(screenX + collisionBox.getX(), this.screenY + collisionBox.getY(), this.collisionBox.getWidth(), this.collisionBox.getHeight());
+		}
+	}
+
+	public void addItem(String id) {
+		System.out.println(id);
+
+		// Erhöhe Item Anzahl wenn vorhanden oder lege das Item an wenn es nicht existiert
+		if (playerItems.containsKey(id)){
+			playerItems.put(id, playerItems.get(id) + 1);
+		} else {
+			playerItems.put(id, 1);
 		}
 	}
 }

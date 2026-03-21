@@ -7,7 +7,6 @@ import com.gvi.project.models.entities.Player;
 import com.gvi.project.models.sprite_sheets.Sprite;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OBJ_Door extends AnimatedObject {
 	ArrayList<Sprite> sprites;
@@ -15,13 +14,13 @@ public class OBJ_Door extends AnimatedObject {
 
 	public OBJ_Door() {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDoorUp", "door");
-		name = "Door";
-		interactHint = "[F] Unlock Door";
+		name = "door";
+		id = name;
+		interactHint = "[F] Unlock %s".formatted(name);
 		spriteDirectionUp = true;
 		collision = true;
 		collisionBox.setWidth(2 * 16 * 3);
 		canInteract = true;
-
 		setUpAnimationComponent();
 	}
 
@@ -29,14 +28,14 @@ public class OBJ_Door extends AnimatedObject {
 	@Override
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
 		if (!canInteract) return;
-		if (player.playerKeys == 0) {
-//			player.playerKeys = 0;
+//		if (player.playerItems.containsKey(KeyType.IRON.getName())) {
+//			if(player.playerItems.get(KeyType.IRON.getName()) == 0) {}
 			((AnimationComponent)components.get("Animation")).trigger();
 			sound.setFile(4);
 			sound.loop();
 			sound.play();
 			canInteract = false;
-		}
+//		}
 
 	}
 

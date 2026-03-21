@@ -120,7 +120,7 @@ public class Minimap {
             return Color.TRANSPARENT;
         }
 
-        Image image = gp.spriteManager.getStoredSprite(tileKey).image;
+        Image image = gp.spriteManager.getRegisterdSprite(tileKey).image;
         return ColorHelper.getMostCommonColor(image);
     }
 }

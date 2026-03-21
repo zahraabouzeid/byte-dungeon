@@ -9,8 +9,9 @@ import com.gvi.project.models.entities.Player;
 public class OBJ_Boots extends AnimatedObject {
 	public OBJ_Boots() {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon", "boots");
-		name = "Boots";
-		interactHint = "[F] Equip Boots";
+		name = "boots";
+		id = name;
+		interactHint = "[F] Equip %s".formatted(name);
 		canInteract = true;
 		collision = true;
 		setUpAnimationComponent();
