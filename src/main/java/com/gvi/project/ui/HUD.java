@@ -1,17 +1,14 @@
 package com.gvi.project.ui;
 
+import com.gvi.project.Components.AnimationComponent;
 import com.gvi.project.GamePanel;
 import com.gvi.project.models.objects.KeyType;
 import com.gvi.project.models.objects.OBJ_Key;
 import com.gvi.project.models.objects.SuperObject;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.gvi.project.ui.UITheme.*;
 import static com.gvi.project.ui.UIUtils.*;
@@ -24,10 +21,6 @@ public class HUD {
     private boolean floatingPositive = true;
     private int floatingCounter = 0;
     private static final int FLOATING_DURATION = 60; // 1 second
-    private final Map<String, SuperObject> hudObjects = new HashMap<>();
-
-    private Map<String, Image> images;
-
     private final double hudX;
     private final double hudY;
 
@@ -38,21 +31,20 @@ public class HUD {
         initHudImagesLoading();
     }
 
-    public void initHudImagesLoading(){
-        List<SuperObject> objects = new ArrayList<>(List.of(
+    public void initHudImagesLoading() {
+        List<SuperObject> objects = List.of(
                 new OBJ_Key(KeyType.COPPER),
-                new OBJ_Key(KeyType.GOLD),
-                new OBJ_Key(KeyType.IRON)
-        ));
-
-        gp.obj.addAll(objects);
+                new OBJ_Key(KeyType.IRON),
+                new OBJ_Key(KeyType.GOLD)
+        );
 
         for (SuperObject object : objects) {
             object.canInteract = false;
             object.collision = false;
-            hudObjects.put(object.id, object);
+
+            gp.hudObj.add(object);
         }
-    };
+    }
 
     public void showFloatingScore(int points) {
         floatingText = (points > 0 ? "+" : "") + points;
@@ -205,23 +197,24 @@ public class HUD {
         String text = "x %s";
         double fontHeight = getTextHeight(text, FONT_MD);
         double imageSize = 40;
-        double index = 1;
         double gap = 30;
-		double imageY = hudY + 36;
+        double index = 0;
+        double imageY = hudY + 36;
         double textY = imageY + fontHeight;
 
-        for(SuperObject object : hudObjects.values()) {
-            if (object.id.contains("key_")){
-                if(gp.player.playerItems.get(object.id) != null){
-                    double imageX = hudX + (imageSize * (index - 1)) + (gap * (index - 1));
+        for (SuperObject keyObj : gp.hudObj) {
+            if (keyObj == null) continue;
 
-                    gc.drawImage(object.sprite.image, imageX , imageY, imageSize, imageSize);
-                    gc.setFont(FONT_MD);
-                    gc.setFill(TEXT_WHITE);
-                    gc.fillText(text.formatted(gp.player.playerItems.get(object.id)), imageX + imageSize , textY);
-                }
-            };
-            index++;
+            if(keyObj.id.contains("key_")){
+                double imageX = hudX + (imageSize * index ) + (gap * index );
+
+                gc.drawImage(keyObj.sprite.image, imageX, imageY, imageSize, imageSize);
+                gc.setFont(FONT_MD);
+                gc.setFill(TEXT_WHITE);
+                gc.fillText(text.formatted(gp.player.playerItems.getOrDefault(keyObj.id, 0)), imageX + imageSize, textY);
+
+                index++;
+            }
         }
-    };
+    }
 }

@@ -5,7 +5,9 @@ import com.gvi.project.Components.AnimationComponent;
 public abstract class AnimatedObject extends SuperObject{
 
 	public AnimatedObject(String sheetPath, String spriteGroupId) {
-		this.addComponent(new AnimationComponent(sheetPath, spriteGroupId));
+		AnimationComponent animComp = new AnimationComponent(sheetPath, spriteGroupId);
+		components.put("Animation", animComp);
+		this.sprite = animComp.getCurrentSprite();
 	}
 
 	public abstract void setUpAnimationComponent();

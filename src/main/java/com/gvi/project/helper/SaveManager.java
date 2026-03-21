@@ -141,7 +141,7 @@ public class SaveManager {
         gp.player.isDead        = false;
 
         gp.loadMap(parseMap(data.currentMap));
-        gp.obj.clear();
+        gp.clearObjects();
         applyObjectStates(gp, data.presentObjects);
 
         return true;

@@ -18,7 +18,7 @@ public class OBJ_Key extends AnimatedObject {
 	}
 
 	@Override
-	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+	public void onConfirm(GamePanel gp, int objIndex) {
 		gp.playSE(1);
 
 		gp.player.addItem(id);
@@ -33,7 +33,5 @@ public class OBJ_Key extends AnimatedObject {
 		animComp.isLooping();
 		animComp.cycleLength = 0.5;
 		animComp.delayBetweenCycles = 0.8;
-
-		sprite = animComp.getCurrentSprite();
 	}
 }

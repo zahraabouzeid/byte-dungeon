@@ -14,6 +14,7 @@ public class AnimationComponent extends Component {
 	public double cycleLength = 1.0;          // duration of one cycle in seconds
 	public double delay = 0.0;                // initial delay before starting
 	public double delayBetweenCycles = 0.0;   // pause between looping cycles
+	public boolean stopPlayerMovement = false;
 	private boolean looping = false;
 
 	private double timer = 0;
@@ -22,9 +23,10 @@ public class AnimationComponent extends Component {
 	private boolean started = false;
 	private boolean inCooldown = false;
 
-	private int currentFrame = 0;
+	public int currentFrame = 0;
 
 	public Runnable onFinished;               // optional callback
+	public Runnable onStarted;               // optional callback
 
 	public AnimationComponent(String sheetPath, String spriteGroupId) {
 		super("Animation");
@@ -64,25 +66,25 @@ public class AnimationComponent extends Component {
 	public void update(double delta) {
 		if (!playing) return;
 
-		// Handle initial delay
+		timer += delta;
+
+		// Initial delay
 		if (!started) {
-			timer += delta;
 			if (timer >= delay) {
 				timer -= delay;
 				started = true;
 			} else {
-				return; // still waiting
+				return;
 			}
 		}
 
-		// Handle cooldown between cycles
+		// Cooldown
 		if (inCooldown) {
-			timer += delta;
 			if (timer >= delayBetweenCycles) {
 				timer = 0;
 				inCooldown = false;
 			} else {
-				return; // still pausing
+				return;
 			}
 		}
 
@@ -90,6 +92,7 @@ public class AnimationComponent extends Component {
 		int index = (int)(timer / frameDuration);
 
 		if (!looping) {
+
 			if (index >= cycleOrder.size()) {
 				index = cycleOrder.size() - 1;
 				playing = false;
@@ -100,20 +103,24 @@ public class AnimationComponent extends Component {
 				}
 			}
 		} else {
-			// looping animation
-			if (index >= cycleOrder.size()) {
-				index = index % cycleOrder.size();
-				inCooldown = delayBetweenCycles > 0; // start pause after cycle
-				timer = 0;
+			if (timer >= cycleLength) {
+				timer -= cycleLength;
+				inCooldown = delayBetweenCycles > 0;
 			}
+
+			index = (int)(timer / frameDuration);
+			index = Math.min(index, cycleOrder.size() - 1);
 		}
 
 		currentFrame = cycleOrder.get(index);
-		timer += delta;
 	}
 
 	public Sprite getCurrentSprite() {
 		return sprites.get(currentFrame);
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 
 	public void setCycleOrder(){

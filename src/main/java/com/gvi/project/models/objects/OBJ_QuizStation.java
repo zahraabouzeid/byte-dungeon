@@ -82,7 +82,7 @@ public class OBJ_QuizStation extends AnimatedObject {
 	}
 
 	@Override
-	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+	public void onConfirm(GamePanel gp, int objIndex) {
 		markCurrentCorrect();
 		gp.playSE(1);
 

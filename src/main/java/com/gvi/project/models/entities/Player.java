@@ -3,7 +3,6 @@ package com.gvi.project.models.entities;
 import com.gvi.project.GamePanel;
 import com.gvi.project.KeyHandler;
 import com.gvi.project.models.core.Entity;
-import com.gvi.project.models.objects.OBJ_Key;
 import com.gvi.project.models.objects.SuperObject;
 import com.gvi.project.models.sprite_sheets.Sprite;
 import com.gvi.project.models.sprite_sheets.SpriteSheet;
@@ -77,6 +76,7 @@ public class Player extends Entity {
 		healthHalf = 10;
 		isDead = false;
 		score = 0;
+		canMove = true;
 	}
 
 	public void setPlayerPosition(int gridPosX, int gridPosY){
@@ -166,7 +166,7 @@ public class Player extends Entity {
 			}
 		} else {
 			// Eingabe verarbeiten nur wenn der Spieler stillsteht
-			if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+			if ((keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) && canMove) {
 				// Nächste Grid-Position berechnen basierend auf gedrückter Taste
 				int nextGridX = gridX;
 				int nextGridY = gridY;

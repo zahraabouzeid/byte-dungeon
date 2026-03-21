@@ -17,7 +17,7 @@ public class OBJ_HealingPotion extends AnimatedObject {
 	}
 
 	@Override
-	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+	public void onConfirm(GamePanel gp, int objIndex) {
 		if (gp.player.healthHalf == gp.player.maxHealthHalf) return;
 
 		gp.player.healthHalf = Math.min(gp.player.healthHalf + 2, gp.player.maxHealthHalf);

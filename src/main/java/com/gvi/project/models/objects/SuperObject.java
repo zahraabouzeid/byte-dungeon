@@ -29,10 +29,14 @@ public abstract class SuperObject implements Renderable {
 	}
 
 	public void onInteract(Player player, GamePanel gp, int objIndex) {
-		onConfirm(player, gp, objIndex);
+		onConfirm(gp, objIndex);
 	}
 
-	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+	public void onConfirm(GamePanel gp, int objIndex) {
+		// Default behavior: do nothing
+	}
+
+	public void onDestroy() {
 		// Default behavior: do nothing
 	}
 

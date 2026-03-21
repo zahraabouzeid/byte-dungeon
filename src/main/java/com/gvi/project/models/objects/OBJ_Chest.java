@@ -21,7 +21,7 @@ public class OBJ_Chest extends SuperObject {
 	}
 
 	@Override
-	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+	public void onConfirm(GamePanel gp, int objIndex) {
 		gp.ui.gameFinished = true;
 		gp.stopMusic();
 		gp.playSE(4);
