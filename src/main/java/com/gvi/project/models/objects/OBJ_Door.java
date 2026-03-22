@@ -75,6 +75,6 @@ public class OBJ_Door extends AnimatedObject {
 
 	private boolean conditionsAreMeet(GamePanel gp){
 		if (!hasConditions) return true;
-		return ConditionsHelper.conditionsAreMeet(gp, conditions);
+		return ConditionsHelper.conditionsAreMet(gp, conditions);
 	}
 }

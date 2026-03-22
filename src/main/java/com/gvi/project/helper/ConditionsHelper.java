@@ -6,86 +6,67 @@ import com.gvi.project.models.data_objects.ConditionsObject;
 
 
 public class ConditionsHelper {
-	private static boolean meet = false;
-	public static boolean conditionsAreMeet(GamePanel gp, ConditionsObject conditions){
 
-		switch (conditions.and_or){
-			case "and":
-				meet = true;
-				for(ConditionObject cObj: conditions.conditionObjects){
-					if (meet){
-						checkCondition(gp, cObj);
-					}
+	public static boolean conditionsAreMet(GamePanel gp, ConditionsObject conditions) {
+
+		if ("and".equals(conditions.and_or)) {
+			for (ConditionObject cObj : conditions.conditionObjects) {
+				if (!checkCondition(gp, cObj)) {
+					return false; // sofort abbrechen
 				}
-				break;
-			case "or":
-				meet = false;
-				for(ConditionObject cObj: conditions.conditionObjects){
-					if (!meet){
-						checkCondition(gp, cObj);
-					}
-				}
-				break;
-			default:
-				meet = false;
+			}
+			return true;
 		}
 
-		return meet;
-	}
-
-	private static void checkCondition(GamePanel gp, ConditionObject cObj ){
-
-		switch (cObj.type) {
-			case "item":
-				checkForItems(gp, cObj);
-				break;
-			case "statistic":
-				checkForStatistic(gp, cObj);
-				break;
-			default: meet = false;
-		}
-	}
-
-	private static void checkForItems(GamePanel gp, ConditionObject cObj){
-		boolean itemsMeet = true;
-		switch (cObj.compareWith) {
-			case "key_copper":
-			case "key_gold":
-			case "key_iron":
-				if (!gp.player.playerItems.containsKey(cObj.compareWith)) {
-					gp.ui.openMessage("You have no keys of any kind");
-					itemsMeet = false;
-					break;
+		if ("or".equals(conditions.and_or)) {
+			for (ConditionObject cObj : conditions.conditionObjects) {
+				if (checkCondition(gp, cObj)) {
+					return true; // sofort erfüllt
 				}
-
-				if (!compareValues(gp.player.playerItems.get(cObj.compareWith), cObj.value, cObj.comparator)) {
-					gp.ui.openMessage("Needs %d key of each kind".formatted(cObj.value));
-					itemsMeet = false;
-				}
-				break;
-			default:
-				itemsMeet = false;
+			}
+			return false;
 		}
-		meet = itemsMeet;
+
+		return false;
 	}
 
-	private static void checkForStatistic(GamePanel gp, ConditionObject cObj){
-		boolean statisticMeet = true;
-		switch (cObj.compareWith) {
-			case "score":
-				if(!compareValues(gp.player.score, cObj.value, cObj.comparator)){
+	private static boolean checkCondition(GamePanel gp, ConditionObject cObj) {
+
+		return switch (cObj.type) {
+			case "item" -> checkForItems(gp, cObj);
+			case "statistic" -> checkForStatistic(gp, cObj);
+			default -> false;
+		};
+	}
+
+	private static boolean checkForItems(GamePanel gp, ConditionObject cObj) {
+
+		int playerValue = gp.player.playerItems.getOrDefault(cObj.compareWith, 0);
+
+		boolean result = compareValues(playerValue, cObj.value, cObj.comparator);
+
+		if (!result) {
+			gp.ui.openMessage("Missing Key".formatted(cObj.value, cObj.compareWith));
+		}
+
+		return result;
+	}
+
+	private static boolean checkForStatistic(GamePanel gp, ConditionObject cObj) {
+
+		return switch (cObj.compareWith) {
+			case "score" -> {
+				boolean result = compareValues(gp.player.score, cObj.value, cObj.comparator);
+				if (!result) {
 					gp.ui.openMessage("Needs a score of %s or higher".formatted(cObj.value));
-					statisticMeet = false;
 				}
-				break;
-			default:
-				statisticMeet = false;
-		}
-
-		meet = statisticMeet;
+				yield result;
+			}
+			default -> false;
+		};
 	}
 
-	private static boolean compareValues(int val1, int val2, String comparator){
+	private static boolean compareValues(int val1, int val2, String comparator) {
 		return switch (comparator) {
 			case "==" -> val1 == val2;
 			case ">=" -> val1 >= val2;
