@@ -3,6 +3,7 @@ package com.gvi.project.ui;
 import com.gvi.project.GamePanel;
 import com.gvi.project.GeneralSettings;
 import com.gvi.project.helper.ColorHelper;
+import com.gvi.project.models.objects.SuperObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -87,17 +88,18 @@ public class Minimap {
         }
     }
 
-    private void drawObjects(GraphicsContext gc, int startX, int startY,
-                             double cx, double cy, double radius, int pixelSize) {
+    private void drawObjects(GraphicsContext gc, int startX, int startY, double cx, double cy, double radius, int pixelSize) {
         gc.setFill(Color.YELLOW);
         for (int i = 0; i < gp.obj.size(); i++) {
             if (gp.obj.get(i) != null) {
-                int objCol = gp.obj.get(i).worldX / GeneralSettings.getTileSize();
-                int objRow = gp.obj.get(i).worldY / GeneralSettings.getTileSize();
+                SuperObject obj = gp.obj.get(i);
+                if (!obj.visibleInMinimap) continue;
+                int objCol = obj.worldX / GeneralSettings.getTileSize();
+                int objRow = obj.worldY / GeneralSettings.getTileSize();
                 double ox = startX + objCol * pixelSize + pixelSize / 2.0;
                 double oy = startY + objRow * pixelSize + pixelSize / 2.0;
                 if (distance(ox, oy, cx, cy) <= radius) {
-                    gc.fillRect(startX + objCol * pixelSize, startY + objRow * pixelSize, pixelSize, pixelSize);
+                    gc.fillRect(startX + objCol * pixelSize, startY + objRow * pixelSize, pixelSize * (obj.collisionBox.getWidth() / GeneralSettings.getTileSize()), pixelSize * (obj.collisionBox.getHeight() / GeneralSettings.getTileSize()));
                 }
             }
         }

@@ -21,7 +21,6 @@ public class OBJ_QuizStation extends AnimatedObject {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon",spriteGroupId);
 		this.topicArea = topicArea;
 		name = "Quiz station";
-		id = spriteGroupId;
 		interactHint = "[F] " + topicArea.getDisplayName();
 		collision = true;
 		spriteDirectionUp = true;
@@ -102,7 +101,7 @@ public class OBJ_QuizStation extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.isLooping();
+		animComp.setLooping(true);
 		animComp.cycleLength = 1.5;
 		animComp.setCycleOrder(List.of(0,1,2,2,1));
 		animComp.delayBetweenCycles = 0.3;

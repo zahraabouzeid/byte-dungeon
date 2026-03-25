@@ -24,6 +24,7 @@ public abstract class SuperObject implements Renderable {
 	public String interactHint = "[F] Interact";
 	public final Map<String, Component> components = new HashMap<>();
 	public boolean canInteract = false;
+	public boolean visibleInMinimap = true;
 
 	public SuperObject() {
 		sprite = new Sprite();
@@ -42,6 +43,9 @@ public abstract class SuperObject implements Renderable {
 	}
 
 	public void onStep(Player player, GamePanel gp, int objIndex) {
+		// Default behavior: do nothing
+	}
+	public void onEventTrigger(){
 		// Default behavior: do nothing
 	}
 

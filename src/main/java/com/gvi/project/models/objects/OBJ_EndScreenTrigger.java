@@ -9,7 +9,7 @@ import com.gvi.project.models.sprite_sheets.SpriteSheet;
 public class OBJ_EndScreenTrigger extends SuperObject {
 
     public OBJ_EndScreenTrigger() {
-        id = "end_screen_trigger";
+        this.visibleInMinimap = false;
         initImageLoad();
         setCollisionBox();
     }
@@ -27,6 +27,7 @@ public class OBJ_EndScreenTrigger extends SuperObject {
 
     @Override
     public void onStep(Player player, GamePanel gp, int objIndex) {
+        // TODO: GameEnd Screen Trigger implementieren!!
     }
 }
 

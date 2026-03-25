@@ -5,12 +5,10 @@ import com.gvi.project.Sound;
 import com.gvi.project.components.AnimationComponent;
 import com.gvi.project.helper.ConditionResult;
 import com.gvi.project.helper.ConditionsHelper;
-import com.gvi.project.helper.ImageHelper;
+
 import com.gvi.project.models.data_objects.ConditionObject;
 import com.gvi.project.models.data_objects.ConditionsObject;
-import com.gvi.project.models.entities.Player;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class OBJ_Chest extends AnimatedObject {

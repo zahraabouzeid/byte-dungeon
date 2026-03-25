@@ -11,10 +11,11 @@ public class AnimationComponent extends Component {
 	public List<Sprite> sprites;
 	private List<Integer> cycleOrder = new ArrayList<>();
 
-	public double cycleLength = 1.0;          // duration of one cycle in seconds
-	public double delay = 0.0;                // initial delay before starting
-	public double delayBetweenCycles = 0.0;   // pause between looping cycles
-	public boolean stopPlayerMovement = false;
+	public double cycleLength = 1.0;
+	public double delay = 0.0;
+	public double delayBetweenCycles = 0.0;
+
+	public boolean pingPongAnimation = false;
 	private boolean looping = false;
 
 	private double timer = 0;
@@ -23,10 +24,12 @@ public class AnimationComponent extends Component {
 	private boolean started = false;
 	private boolean inCooldown = false;
 
+	private int direction = 1; // 1 = forward, -1 = backward
+
 	public int currentFrame = 0;
 
-	public Runnable onFinished;               // optional callback
-	public Runnable onStarted;               // optional callback
+	public Runnable onFinished;
+	public Runnable onStarted;
 
 	public AnimationComponent(String sheetPath, String spriteGroupId) {
 		super("Animation");
@@ -35,15 +38,13 @@ public class AnimationComponent extends Component {
 		setCycleOrder();
 	}
 
-	// Set a start offset (e.g., for staggered animations)
 	public void setStartOffset(double offset) {
 		timer = offset;
 		started = true;
 	}
 
-	public void isLooping(){
-		looping = true;
-		playing = true;
+	public void setLooping(boolean looping) {
+		this.looping = looping;
 	}
 
 	public void trigger() {
@@ -52,23 +53,46 @@ public class AnimationComponent extends Component {
 		started = false;
 		inCooldown = false;
 		finished = false;
+		direction = 1;
+
+		if (onStarted != null) {
+			onStarted.run();
+		}
 	}
 
 	public void triggerLoop() {
-		playing = true;
-		timer = 0;
-		started = false;
-		inCooldown = false;
-		finished = false;
+		trigger();
 		looping = true;
+	}
+
+	// 🚪 Für Tür etc.
+	public void invertCycleOrder() {
+		List<Integer> inverted = new ArrayList<>();
+		for (int i = cycleOrder.size() - 1; i >= 0; i--) {
+			inverted.add(cycleOrder.get(i));
+		}
+		cycleOrder = inverted;
+	}
+
+	public void playForward() {
+		setCycleOrder();
+		direction = 1;
+		trigger();
+	}
+
+	public void playBackward() {
+		setCycleOrder();
+		invertCycleOrder();
+		direction = 1;
+		trigger();
 	}
 
 	public void update(double delta) {
 		if (!playing) return;
 
-		timer += delta;
+		timer += delta * direction;
 
-		// Initial delay
+		// Initial Delay
 		if (!started) {
 			if (timer >= delay) {
 				timer -= delay;
@@ -91,25 +115,45 @@ public class AnimationComponent extends Component {
 		double frameDuration = cycleLength / cycleOrder.size();
 		int index = (int)(timer / frameDuration);
 
-		if (!looping) {
+		// 🔁 PingPong Handling
+		if (pingPongAnimation) {
+			if (index >= cycleOrder.size()) {
+				direction = -1;
+				timer = cycleLength;
+				index = cycleOrder.size() - 1;
+			} else if (index < 0) {
+				direction = 1;
+				timer = 0;
+				index = 0;
 
+				if (!looping) {
+					playing = false;
+					finished = true;
+					if (onFinished != null) onFinished.run();
+				}
+			}
+		}
+		// 🔁 Normal Looping
+		else if (looping) {
+			if (timer >= cycleLength) {
+				timer -= cycleLength;
+				inCooldown = delayBetweenCycles > 0;
+			} else if (timer < 0) {
+				timer += cycleLength;
+			}
+
+			index = Math.max(0, Math.min(index, cycleOrder.size() - 1));
+		}
+		// ▶️ One-shot
+		else {
 			if (index >= cycleOrder.size()) {
 				index = cycleOrder.size() - 1;
 				playing = false;
 				finished = true;
-				if (onFinished != null) {
-					onFinished.run();
-					onFinished = null;
-				}
+				if (onFinished != null) onFinished.run();
+			} else if (index < 0) {
+				index = 0;
 			}
-		} else {
-			if (timer >= cycleLength) {
-				timer -= cycleLength;
-				inCooldown = delayBetweenCycles > 0;
-			}
-
-			index = (int)(timer / frameDuration);
-			index = Math.min(index, cycleOrder.size() - 1);
 		}
 
 		currentFrame = cycleOrder.get(index);
@@ -123,15 +167,15 @@ public class AnimationComponent extends Component {
 		return finished;
 	}
 
-	public void setCycleOrder(){
-		List<Integer> cycleOrder = new ArrayList<>();
+	public void setCycleOrder() {
+		List<Integer> order = new ArrayList<>();
 		for (int i = 0; i < sprites.size(); i++) {
-			cycleOrder.add(i);
+			order.add(i);
 		}
-		this.cycleOrder = cycleOrder;
+		this.cycleOrder = order;
 	}
 
-    public void setCycleOrder(List<Integer> cycleOrder){
+	public void setCycleOrder(List<Integer> cycleOrder) {
 		this.cycleOrder = cycleOrder;
 	}
 }

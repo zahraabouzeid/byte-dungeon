@@ -27,7 +27,7 @@ public class OBJ_HealingPotion extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.isLooping();
+		animComp.setLooping(true);
 		animComp.cycleLength = 0.4;
 		animComp.delayBetweenCycles = 2;
 

@@ -5,7 +5,6 @@ import com.gvi.project.GamePanel;
 
 
 public class OBJ_Key extends AnimatedObject {
-
 	public OBJ_Key(KeyType typ) {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDungeon", typ.getSpriteGroupID());
 		id = typ.getSpriteGroupID();
@@ -29,7 +28,7 @@ public class OBJ_Key extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.isLooping();
+		animComp.setLooping(true);
 		animComp.cycleLength = 0.5;
 		animComp.delayBetweenCycles = 0.8;
 	}

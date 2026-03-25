@@ -18,6 +18,7 @@ public class OBJ_Wood_Column extends SuperObject {
 		sprite.imageWidth = 1;
 		spriteDirectionUp = true;
 		collision = true;
+		visibleInMinimap = false;
 	}
 
 	@Override

@@ -10,11 +10,14 @@ public class OBJ_MapChangeTrigger extends SuperObject {
 	public int targetMapId;
 	public int targetMapSpawnLocationX;
 	public int targetMapSpawnLocationY;
+	public String playerDirection;
 
-	public OBJ_MapChangeTrigger(String direction, int targetMapId, int targetMapSpawnLocationX, int targetMapSpawnLocationY) {
+	public OBJ_MapChangeTrigger(String playerDirection, String direction, int targetMapId, int targetMapSpawnLocationX, int targetMapSpawnLocationY) {
 		this.targetMapId = targetMapId;
 		this.targetMapSpawnLocationX = targetMapSpawnLocationX;
 		this.targetMapSpawnLocationY = targetMapSpawnLocationY;
+		this.playerDirection = playerDirection;
+		this.visibleInMinimap = false;
 		initImageLoad(direction);
 		setCollisionBox(direction);
 	}
@@ -67,5 +70,6 @@ public class OBJ_MapChangeTrigger extends SuperObject {
 		gp.playSE(3);
 		gp.loadMap(GameMaps.fromId(targetMapId));
 		player.setPlayerPosition(targetMapSpawnLocationX + xDiff, targetMapSpawnLocationY + yDiff);
+		player.direction = playerDirection;
 	}
 }

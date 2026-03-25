@@ -13,13 +13,13 @@ import java.util.Objects;
 
 public class OBJ_Door extends AnimatedObject {
 	Sound sound = new Sound();
-	public boolean isOpen = false;
-	public boolean canClose = false;
+	private boolean isOpen = false;
 	private boolean hasConditions = false;
 	private ConditionsObject conditions;
 
-	public OBJ_Door(String type, ConditionsObject conditions) {
+	public OBJ_Door(Boolean isOpen, String type, ConditionsObject conditions) {
 		super("/sprites/tilemaps/damp-dungeons/Animations/Dungeon_ObjectsDoorUp", "door");
+		this.isOpen = isOpen;
 		setSpritesForType(type);
 		setDefaultValues();
 		setConditions(conditions);
@@ -37,12 +37,12 @@ public class OBJ_Door extends AnimatedObject {
 
 	private void setDefaultValues(){
 		name = "door";
-		id = name + ("_horizontal");
 		interactHint = "[F] Unlock %s".formatted(name);
 		spriteDirectionUp = true;
 		collision = true;
 		collisionBox.setWidth(2 * GeneralSettings.getTileSize());
-		canInteract = true;
+		canInteract = !isOpen;
+		visibleInMinimap = !isOpen;
 		hasConditions = false;
 		setUpAnimationComponent();
 	}
@@ -54,30 +54,54 @@ public class OBJ_Door extends AnimatedObject {
 		hasConditions = true;
 	}
 
+	public void runAnimation() {
+		AnimationComponent animComp = (AnimationComponent) components.get("Animation");
+		if (!isOpen) {
+			animComp.playForward();   // öffnen
+			isOpen = true;
+		} else {
+			animComp.playBackward();  // schließen
+			isOpen = false;
+		}
+		sound.setFile(4);
+		sound.loop();
+		sound.play();
+	}
+
 	@Override
 	public void onConfirm(GamePanel gp, int objIndex) {
 		if (!canInteract) return;
+
 		if (conditions != null) {
 			if (!conditionsAreMeet(gp)) return;
 			onSuccess(gp);
 		}
-		AnimationComponent animComp = (AnimationComponent) components.get("Animation");
-		animComp.trigger();
-		sound.setFile(4);
-		sound.loop();
-		sound.play();
-		isOpen = true;
+
+		runAnimation();
 		canInteract = false;
+		visibleInMinimap = false;
 	}
 
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
 		animComp.cycleLength = 2;
+		animComp.setLooping(false); // Tür ist One-Shot
+
 		animComp.onFinished = () -> {
-			this.collision = false;
+			this.collision = !isOpen;
+			this.canInteract = !isOpen;
+			this.visibleInMinimap = !isOpen;
 			this.sound.stop();
 		};
+
+		if (isOpen) {
+			canInteract = false;
+			collision = false;
+			visibleInMinimap = false;
+			animComp.currentFrame = animComp.sprites.size() - 1; // letzter Frame
+			sprite = animComp.getCurrentSprite();
+		}
 	}
 
 	@Override
@@ -96,6 +120,12 @@ public class OBJ_Door extends AnimatedObject {
 			);
 		}
 		return result.success ;
+	}
+
+	@Override
+	public void onEventTrigger(){
+		runAnimation();
+		collision = true;
 	}
 
 	private void onSuccess(GamePanel gp){

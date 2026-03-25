@@ -711,75 +711,76 @@
   ],
   "objects": [
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 32,
       "y": 26,
+      "id": "quiz_station_1",
       "conditions": null,
       "data": {
         "topicArea": "JOINS_SUBQUERIES",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 25,
       "y": 19,
+      "id": "quiz_station_2",
       "conditions": null,
       "data": {
         "topicArea": "DDL_DML",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 4,
       "y": 25,
+      "id": "quiz_station_3",
       "conditions": null,
       "data": {
         "topicArea": "ER_MODELLIERUNG",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 3,
       "y": 6,
+      "id": "quiz_station_4",
       "conditions": null,
       "data": {
         "topicArea": "NORMALISIERUNG",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 14,
       "y": 12,
+      "id": "quiz_station_5",
       "conditions": null,
       "data": {
         "topicArea": "SELECT_ABFRAGEN",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "QUIZ_STATION",
+      "objectType": "QUIZ_STATION",
       "x": 39,
       "y": 7,
+      "id": "quiz_station_6",
       "conditions": null,
       "data": {
         "topicArea": "SQL_GRUNDLAGEN",
         "spriteGroup": "crystal_red"
-
       }
     },
     {
-      "objectId": "CHEST",
+      "objectType": "CHEST",
       "x": 28,
       "y": 10,
+      "id": "chest_brown_1",
       "conditions": {
         "and_or": "and",
         "conditionObjects": [
@@ -798,9 +799,10 @@
       }
     },
     {
-      "objectId": "CHEST",
+      "objectType": "CHEST",
       "x": 23,
       "y": 10,
+      "id": "chest_red_1",
       "conditions": {
         "and_or": "and",
         "conditionObjects": [
@@ -819,9 +821,10 @@
       }
     },
     {
-      "objectId": "MAP_CHANGE_TRIGGER",
+      "objectType": "MAP_CHANGE_TRIGGER",
       "x": 39,
       "y": 14,
+      "id": "map_change_trigger_1",
       "conditions": null,
       "data": {
         "target_map_spawn_location_x": "2",
@@ -829,13 +832,14 @@
         "direction": "up",
         "map_id": "0",
         "height": "2",
-        "player_direction": "right"
+        "player_direction": "down"
       }
     },
     {
-      "objectId": "DOOR",
+      "objectType": "DOOR",
       "x": 39,
       "y": 16,
+      "id": "door_1",
       "conditions": {
         "and_or": "and",
         "conditionObjects": [
@@ -850,7 +854,20 @@
         ]
       },
       "data": {
-        "type": "double_door"
+        "type": "double_door",
+        "isOpen": "true"
+      }
+    },
+    {
+      "objectType": "EVENT_TRIGGER",
+      "x": 38,
+      "y": 17,
+      "id": "event_trigger",
+      "conditions": null,
+      "data": {
+        "width": "4",
+        "height": "2",
+        "targetObject": "door_1"
       }
     }
   ]

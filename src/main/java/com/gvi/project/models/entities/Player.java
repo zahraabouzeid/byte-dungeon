@@ -57,7 +57,7 @@ public class Player extends Entity {
 
 	public void setDefaultValues() {
 		// Startposition des Spielers im Grid (Tile-Koordinaten, nicht Pixel)
-		gridX = 4; // vorher worldX = 48 * 23 = 1154px jetzt ist es grid movement
+		gridX = 9; // vorher worldX = 48 * 23 = 1154px jetzt ist es grid movement
 		gridY = 6;
 
 		// Ziel-Tile ist am Anfang gleich wie die aktuelle Position (kein laufende Bewegung)

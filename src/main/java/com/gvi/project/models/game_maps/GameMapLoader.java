@@ -67,6 +67,12 @@ public class GameMapLoader {
 		if (config.objects == null) return;
 		for (GameObjectConfig objectConfig : config.objects){
 			SuperObject obj = ObjectFactory.create(objectConfig);
+
+			if (obj == null) {
+				throw new IllegalArgumentException("Unknown objectId: " + objectConfig.objectType);
+			};
+
+			obj.id = objectConfig.id != null ? objectConfig.id : "object id not set";
 			obj.worldX = objectConfig.x * GeneralSettings.getTileSize();
 			obj.worldY = objectConfig.y * GeneralSettings.getTileSize();
 			gp.obj.add(obj);

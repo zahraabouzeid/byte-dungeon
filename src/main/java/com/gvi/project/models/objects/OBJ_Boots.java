@@ -30,7 +30,7 @@ public class OBJ_Boots extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.isLooping();
+		animComp.setLooping(true);
 		animComp.cycleLength = 0.4;
 		animComp.delayBetweenCycles = 2;
 		animComp.delay = 0.8;
