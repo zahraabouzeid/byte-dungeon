@@ -163,9 +163,11 @@ public class QuestionProvider implements QuestionService {
 
 	@Override
 	public List<Question> getQuestionsByTopic(TopicArea topicArea) {
-		return loadQuestions().stream()
+		List<Question> questionsByTopic = loadQuestions().stream()
 			.filter(q -> q.getTopicArea() == topicArea)
-			.collect(Collectors.toList());
+			.collect(Collectors.toCollection(ArrayList::new));
+		Collections.shuffle(questionsByTopic);
+		return questionsByTopic;
 	}
 
 	@Override

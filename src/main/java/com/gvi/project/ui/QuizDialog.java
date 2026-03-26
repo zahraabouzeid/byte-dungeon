@@ -24,6 +24,7 @@ public class QuizDialog extends GameScreen {
     private static final double ANSWER_GAP = 8;
     private static final double ANSWER_MIN_HEIGHT = 32;
     private static final double ANSWER_TEXT_LINE_HEIGHT = 14;
+    private static final int MAX_NUMBER_SHORTCUT = 9;
 
     public boolean quizOpen = false;
     public Question currentQuestion = null;
@@ -106,7 +107,8 @@ public class QuizDialog extends GameScreen {
 
     public boolean handleNumberInput(int number) {
         List<Answer> answers = getSelectableAnswers();
-        if (number < 1 || number > answers.size() || answerFeedback) {
+        int inputLimit = Math.min(MAX_NUMBER_SHORTCUT, answers.size());
+        if (number < 1 || number > inputLimit || answerFeedback) {
             return false;
         }
 
@@ -188,7 +190,7 @@ public class QuizDialog extends GameScreen {
         if (currentQuestion == null) return;
 
         double boxW = screenWidth - 80;
-        double boxH = 240;
+        double boxH = 230;
         double boxX = 40;
         double boxY = screenHeight - boxH - 20;
 
@@ -274,14 +276,19 @@ public class QuizDialog extends GameScreen {
         if (!answerFeedback) {
             gc.setFont(FONT_XS);
             gc.setFill(TEXT_GRAY);
-            int maxSelectable = Math.min(9, getSelectableAnswers().size());
-            String rangeHint = maxSelectable <= 1 ? "[1]" : "[1-" + maxSelectable + "]";
-            String hint = "Mit " + rangeHint + " Antworten markieren";
-            if (getSelectableAnswers().size() > 9) {
-                hint += " (max 9)";
-            }
+            String hint = buildSelectionHint(getSelectableAnswers().size());
             gc.fillText(hint, contentX, boxY + boxH - 10);
         }
+    }
+
+    private String buildSelectionHint(int answerCount) {
+        int maxSelectable = Math.min(MAX_NUMBER_SHORTCUT, answerCount);
+        String rangeHint = maxSelectable <= 1 ? "[1]" : "[1-" + maxSelectable + "]";
+        String hint = "Mit " + rangeHint + " auswaehlen";
+        if (answerCount > MAX_NUMBER_SHORTCUT) {
+            hint += " (max " + MAX_NUMBER_SHORTCUT + ")";
+        }
+        return hint;
     }
 
     private void drawAnswerGrid(GraphicsContext gc, double contentX, double contentY,

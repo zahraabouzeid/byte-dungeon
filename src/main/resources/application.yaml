@@ -7,6 +7,7 @@ spring:
 
 app:
   quiz:
+    max-questions: 10
     sqlite:
       path: ${user.dir}/AllQuestions_clear_themes.db
 

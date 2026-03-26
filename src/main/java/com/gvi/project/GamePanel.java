@@ -13,6 +13,7 @@ import com.gvi.project.systems.AnimationSystem;
 import com.gvi.project.systems.RenderSystem;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,8 @@ public class GamePanel {
 	public final SaveManager saveManager = new SaveManager();
 	public int interactingObjectIndex = -1;
 	public final QuestionService questionProvider = MainApp.getBean(QuestionService.class);
+	public final int maxQuestionsPerQuizStation = Math.max(1,
+			MainApp.getBean(Environment.class).getProperty("app.quiz.max-questions", Integer.class, 10));
 	public final RenderSystem renderSystem = new RenderSystem(this);
 	public final AnimationSystem animationSystem = new AnimationSystem(this);
 
