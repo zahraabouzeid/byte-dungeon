@@ -2,15 +2,10 @@ package com.gvi.project;
 
 import com.gvi.project.models.game_maps.GameMaps;
 import com.gvi.project.models.objects.OBJ_QuizStation;
-import com.gvi.project.models.objects.SuperObject;
-import com.gvi.project.models.questions.Answer;
-import com.gvi.project.systems.AnimationSystem;
 import com.gvi.project.ui.LoadingScreen;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
-
-import java.util.List;
 
 public class GameLoop extends AnimationTimer {
 
@@ -101,54 +96,6 @@ public class GameLoop extends AnimationTimer {
 			return;
 		}
 		if (gp.gameState == GameState.PLAY) {
-			GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
-
-			// Cheat keys for testing reward system
-			if (gp.keyHandler.f7Pressed) {
-				gp.keyHandler.f7Pressed = false;
-				// Bronze: 60% (600/1000)
-				gp.player.score = 600;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f8Pressed) {
-				gp.keyHandler.f8Pressed = false;
-				// Silver: 80% (800/1000)
-				gp.player.score = 800;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f9Pressed) {
-				gp.keyHandler.f9Pressed = false;
-				// Gold: 95% (950/1000)
-				gp.player.score = 950;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f10Pressed) {
-				gp.keyHandler.f10Pressed = false;
-				// Gold Perfect: 99% (990/1000)
-				gp.player.score = 990;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();
@@ -496,6 +443,33 @@ public class GameLoop extends AnimationTimer {
 				}
 			}
 			if (!found) gp.ui.openMessage("[DEBUG] Keine offene Quiz-Station");
+		}
+		if (k.f10Pressed) {
+			k.f10Pressed = false;
+			gp.player.score = 600;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
+		}
+		if (k.f11Pressed) {
+			k.f11Pressed = false;
+			gp.player.score = 800;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
+		}
+		if (k.f12Pressed) {
+			k.f12Pressed = false;
+			gp.player.score = 990;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
 		}
 	}
 
