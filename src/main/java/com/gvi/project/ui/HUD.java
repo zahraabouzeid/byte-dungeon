@@ -104,6 +104,11 @@ public class HUD {
         double timeW = getTextWidth(formattedTime, FONT_LG);
         gc.fillText(formattedTime, GeneralSettings.getScreenWidth() - timeW - 14, GeneralSettings.getScreenHeight() - 14);
 
+        // Dev mode indicator
+        if (GeneralSettings.isDevMode()) {
+            drawDevMode(gc);
+        }
+
         if (gp.player.speed > 4) {
             drawSpeedBoost(gc);
         }
@@ -114,16 +119,18 @@ public class HUD {
         if (idx < 0 || idx >= gp.obj.size() || gp.obj.get(idx) == null) return;
 
         String hint = gp.obj.get(idx).interactHint;
-        gc.setFont(FONT_XS);
+        gc.setFont(FONT_LG);
 
-        double textW = getTextWidth(hint, FONT_XS);
+        double textW = getTextWidth(hint, FONT_LG);
         double px = GeneralSettings.getScreenWidth() / 2.0 - textW / 2.0;
-        double py = gp.player.screenY - 20;
+        double py = gp.player.screenY - 30;
 
-        // Shadow
-        gc.setFill(Color.rgb(0, 0, 0, 0.6));
+        gc.setFill(Color.rgb(0, 0, 0, 0.5));
         gc.fillText(hint, px + 2, py + 2);
-        // Text
+        gc.fillText(hint, px - 2, py - 2);
+        gc.fillText(hint, px + 2, py - 2);
+        gc.fillText(hint, px - 2, py + 2);
+        
         gc.setFill(TEXT_GOLD);
         gc.fillText(hint, px, py);
     }
@@ -193,6 +200,29 @@ public class HUD {
         gc.fillText(text, x, y + 2);
     }
 
+    private void drawDevMode(GraphicsContext gc) {
+        String devText = "DEV MODE [F2]";
+        gc.setFont(FONT_XS);
+        double dtw = getTextWidth(devText, FONT_XS);
+        double dx = GeneralSettings.getScreenWidth() - dtw - 20;
+        double dy = 20;
+
+        drawPixelBox(gc, dx - 8, dy - 14, dtw + 16, 22);
+        gc.setFill(Color.rgb(255, 80, 80)); // Red for dev mode
+        gc.fillText(devText, dx, dy);
+
+        // Reward test hints
+        String hintText = "F7:Bronze | F8:Silver | F9:Gold | F10:Perfect";
+        gc.setFont(FONT_XS);
+        double htw = getTextWidth(hintText, FONT_XS);
+        double hx = GeneralSettings.getScreenWidth() - htw - 20;
+        double hy = 44;
+
+        drawPixelBox(gc, hx - 8, hy - 14, htw + 16, 22);
+        gc.setFill(TEXT_GRAY);
+        gc.fillText(hintText, hx, hy);
+    }
+    
     private void drawKeys(GraphicsContext gc, double hudX, double hudY) {
         String text = "x %s";
         double fontHeight = getTextHeight(text, FONT_MD);
