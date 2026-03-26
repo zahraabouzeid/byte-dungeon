@@ -7,6 +7,7 @@ import com.gvi.project.models.questions.MultipleChoiceQuestion;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.QuestionType;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Collections;
