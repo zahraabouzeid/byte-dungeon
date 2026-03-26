@@ -6,12 +6,14 @@ import com.gvi.project.GameState;
 import com.gvi.project.models.entities.Player;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.TopicArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OBJ_QuizStation extends AnimatedObject {
+	private static final Logger log = LoggerFactory.getLogger(OBJ_QuizStation.class);
 
 	private final TopicArea topicArea;
 	private List<Question> remainingQuestions;
@@ -65,8 +67,15 @@ public class OBJ_QuizStation extends AnimatedObject {
 		}
 
 		if (remainingQuestions == null) {
-			remainingQuestions = new ArrayList<>(gp.questionProvider.getQuestionsByTopic(topicArea));
-			Collections.shuffle(remainingQuestions);
+			List<Question> questionsByTopic = gp.questionProvider.getQuestionsByTopic(topicArea);
+			if (questionsByTopic == null || questionsByTopic.isEmpty()) {
+				log.warn("No questions available for topic area {}.", topicArea);
+			}
+			if (questionsByTopic != null && questionsByTopic.size() < gp.maxQuestionsPerQuizStation) {
+				log.warn("Configured max questions ({}) exceeds available questions ({}) for topic area {}. Using all available questions.",
+						gp.maxQuestionsPerQuizStation, questionsByTopic.size(), topicArea);
+			}
+			remainingQuestions = selectQuestionsForStation(questionsByTopic, gp.maxQuestionsPerQuizStation);
 		}
 
 		Question question = getNextQuestion();
@@ -80,6 +89,19 @@ public class OBJ_QuizStation extends AnimatedObject {
 			completed = true;
 			gp.ui.openMessage("Bereich abgeschlossen!");
 		}
+	}
+
+	static List<Question> selectQuestionsForStation(List<Question> shuffledQuestions, int maxQuestionsPerQuizStation) {
+		if (shuffledQuestions == null || shuffledQuestions.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		if (maxQuestionsPerQuizStation <= 0) {
+			return new ArrayList<>(shuffledQuestions);
+		}
+
+		int selectedCount = Math.min(maxQuestionsPerQuizStation, shuffledQuestions.size());
+		return new ArrayList<>(shuffledQuestions.subList(0, selectedCount));
 	}
 
 	@Override

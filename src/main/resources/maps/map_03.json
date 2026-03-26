@@ -729,7 +729,7 @@
       "conditions": null,
       "data": {
         "topicArea": "DDL_DML",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_green"
       }
     },
     {
@@ -740,7 +740,7 @@
       "conditions": null,
       "data": {
         "topicArea": "ER_MODELLIERUNG",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_blue"
       }
     },
     {
@@ -762,7 +762,7 @@
       "conditions": null,
       "data": {
         "topicArea": "SELECT_ABFRAGEN",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_green"
       }
     },
     {
@@ -773,7 +773,7 @@
       "conditions": null,
       "data": {
         "topicArea": "SQL_GRUNDLAGEN",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_blue"
       }
     },
     {

@@ -731,7 +731,7 @@
       "conditions": null,
       "data": {
         "topicArea": "JOINS_SUBQUERIES",
-        "spriteGroup": "crystal_green"
+        "spriteGroup": "crystal_red"
       }
     },
     {
@@ -753,7 +753,7 @@
       "conditions": null,
       "data": {
         "topicArea": "ER_MODELLIERUNG",
-        "spriteGroup": "crystal_green"
+        "spriteGroup": "crystal_blue"
       }
     },
     {
@@ -764,7 +764,7 @@
       "conditions": null,
       "data": {
         "topicArea": "NORMALISIERUNG",
-        "spriteGroup": "crystal_green"
+        "spriteGroup": "crystal_red"
       }
     },
     {
@@ -786,7 +786,7 @@
       "conditions": null,
       "data": {
         "topicArea": "SQL_GRUNDLAGEN",
-        "spriteGroup": "crystal_green"
+        "spriteGroup": "crystal_blue"
       }
     },
     {
