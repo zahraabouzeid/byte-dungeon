@@ -60,10 +60,10 @@ public class OBJ_Chest extends AnimatedObject {
 			onSuccess(gp, objIndex);
 		}
 		// Calculate reward before finishing game
-		gp.ui.calculateReward();
-		gp.ui.gameFinished = true;
-		gp.stopMusic();
-		gp.playSE(4);
+//		gp.ui.calculateReward();
+//		gp.ui.gameFinished = true;
+//		gp.stopMusic();
+//		gp.playSE(4);
 	}
 	
 	public void setUpAnimationComponent(){
@@ -108,14 +108,16 @@ public class OBJ_Chest extends AnimatedObject {
 	}
 
 	private void spawnItem(GamePanel gp, int objIndex) {
-		SuperObject obj = switch (this.id) {
+		String chestType = id.substring(0, id.lastIndexOf("_"));
+
+		SuperObject obj = switch (chestType) {
 			case "chest_brown" -> new OBJ_Boots();
 			case "chest_red" -> new OBJ_HealingPotion();
 			default -> null;
 		};
 
+		if (obj == null) throw new NullPointerException("Item with id " + this.id + " not found");
 		gp.obj.remove(objIndex);
-		if (obj == null) return;
 		obj.worldX = this.worldX;
 		obj.worldY = this.worldY;
 		gp.obj.add(objIndex, obj);

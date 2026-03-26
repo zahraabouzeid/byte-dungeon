@@ -161,15 +161,14 @@ public class OBJ_QuizStation extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.setLooping(true);
+		animComp.triggerLoop();
 		animComp.cycleLength = 1.5;
-		animComp.setCycleOrder(List.of(0,1,2,2,1));
+		animComp.setCycleOrder(List.of(0,1,2,2,1,0));
 		animComp.delayBetweenCycles = 0.3;
 		animComp.setStartOffset(Math.random() * animComp.cycleLength);
 
 		sprite = animComp.getCurrentSprite();
 
-		animComp.triggerLoop();
 	}
 
     private void spawnKey(GamePanel gp, int objIndex) {
