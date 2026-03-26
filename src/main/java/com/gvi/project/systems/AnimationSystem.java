@@ -4,6 +4,9 @@ import com.gvi.project.components.AnimationComponent;
 import com.gvi.project.GamePanel;
 import com.gvi.project.models.objects.SuperObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnimationSystem {
 
 	private final GamePanel gp;
@@ -13,7 +16,9 @@ public class AnimationSystem {
 	}
 
 	public void tick(double delta) {
-		for (SuperObject obj : gp.obj) {
+		List<SuperObject> copyOBJ = new ArrayList<>(gp.obj);
+
+		for (SuperObject obj : copyOBJ) {
 			if (obj == null) continue;
 			updateSprite(obj, delta);
 		}
