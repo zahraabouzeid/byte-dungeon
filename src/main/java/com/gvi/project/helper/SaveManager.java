@@ -19,11 +19,17 @@ import java.util.Map;
 
 public class SaveManager {
 
-    private static final Path SAVE_DIR = Path.of(System.getProperty("user.home"), ".sql-dungeon", "saves");
+    private static final Path DEFAULT_SAVE_DIR = Path.of(System.getProperty("user.home"), ".sql-dungeon", "saves");
     private static final DateTimeFormatter TIMESTAMP_FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     private final ObjectMapper mapper;
+    private final Path saveDir;
 
     public SaveManager() {
+        this(DEFAULT_SAVE_DIR);
+    }
+
+    SaveManager(Path saveDir) {
+        this.saveDir = saveDir;
         mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
@@ -52,7 +58,7 @@ public class SaveManager {
     }
 
     private Path slotFile(int slot) {
-        return SAVE_DIR.resolve("save_" + slot + ".json");
+        return saveDir.resolve("save_" + slot + ".json");
     }
 
     public boolean hasSave(int slot) {
@@ -104,7 +110,7 @@ public class SaveManager {
         data.presentObjects = presentObjects;
 
         try {
-            Files.createDirectories(SAVE_DIR);
+            Files.createDirectories(saveDir);
             mapper.writeValue(slotFile(slot).toFile(), data);
             return true;
         } catch (IOException e) {
@@ -141,7 +147,6 @@ public class SaveManager {
         gp.player.isDead        = false;
 
         gp.loadMap(parseMap(data.currentMap));
-        gp.clearObjects();
         applyObjectStates(gp, data.presentObjects);
 
         return true;
