@@ -12,7 +12,7 @@ import java.io.IOException;
 import static com.gvi.project.ui.UITheme.*;
 import static com.gvi.project.ui.UIUtils.*;
 
-public class WinScreen {
+public class WinScreen extends GameScreen {
 
     private final int screenWidth;
     private final int screenHeight;
