@@ -1,11 +1,14 @@
 package com.gvi.project.ui;
 
+import com.gvi.project.GeneralSettings;
 import com.gvi.project.models.questions.Answer;
 import com.gvi.project.models.questions.FillInBlankQuestion;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.QuestionType;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.gvi.project.ui.UITheme.*;
@@ -21,6 +24,7 @@ public class QuizDialog extends GameScreen {
     public boolean answerCorrect = false;
     public int feedbackCounter = 0;
     private int fillBlankIndex = 0;
+    private List<Answer> selectableAnswers = List.of();
 
     public static final int FEEDBACK_DURATION = 15; 
 
@@ -34,6 +38,7 @@ public class QuizDialog extends GameScreen {
         this.answerCorrect = false;
         this.feedbackCounter = 0;
         this.fillBlankIndex = 0;
+        this.selectableAnswers = shuffleAnswers(resolveAnswersForCurrentStep());
         this.quizOpen = true;
     }
 
@@ -44,16 +49,11 @@ public class QuizDialog extends GameScreen {
         this.answerFeedback = false;
         this.feedbackCounter = 0;
         this.fillBlankIndex = 0;
+        this.selectableAnswers = List.of();
     }
 
     public List<Answer> getSelectableAnswers() {
-        if (currentQuestion == null) return List.of();
-        if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
-            FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
-            if (fillBlankIndex < 0 || fillBlankIndex >= fib.getBlanks().size()) return List.of();
-            return fib.getBlanks().get(fillBlankIndex).options();
-        }
-        return currentQuestion.getAnswers();
+        return selectableAnswers;
     }
 
     public boolean advanceFillBlankIfNeeded() {
@@ -67,6 +67,7 @@ public class QuizDialog extends GameScreen {
             answerFeedback = false;
             answerCorrect = false;
             feedbackCounter = 0;
+            selectableAnswers = shuffleAnswers(resolveAnswersForCurrentStep());
             return true;
         }
         return false;
@@ -205,6 +206,14 @@ public class QuizDialog extends GameScreen {
                 ansText += "..";
             }
             gc.fillText(ansText, ax + 26, ay + 20);
+
+            if (GeneralSettings.isDevMode() && answers.get(i).points() > 0) {
+                gc.setFont(FONT_XS);
+                gc.setFill(TEXT_GOLD);
+                String marker = "[C]";
+                double markerW = getTextWidth(marker, FONT_XS);
+                gc.fillText(marker, ax + answerW - markerW - 6, ay + 12);
+            }
         }
 
         // Feedback
@@ -218,5 +227,28 @@ public class QuizDialog extends GameScreen {
         if (blankIndex < 0 || blankIndex >= fib.getBlanks().size()) blankIndex = 0;
         FillInBlankQuestion.Blank blank = fib.getBlanks().get(blankIndex);
         return blank.textBefore() + " ____ " + blank.textAfter();
+    }
+
+    private List<Answer> resolveAnswersForCurrentStep() {
+        if (currentQuestion == null) {
+            return List.of();
+        }
+        if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
+            FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
+            if (fillBlankIndex < 0 || fillBlankIndex >= fib.getBlanks().size()) {
+                return List.of();
+            }
+            return fib.getBlanks().get(fillBlankIndex).options();
+        }
+        return currentQuestion.getAnswers();
+    }
+
+    private List<Answer> shuffleAnswers(List<Answer> answers) {
+        if (answers.isEmpty()) {
+            return List.of();
+        }
+        List<Answer> shuffled = new ArrayList<>(answers);
+        Collections.shuffle(shuffled);
+        return List.copyOf(shuffled);
     }
 }
