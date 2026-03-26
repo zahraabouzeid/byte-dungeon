@@ -7,7 +7,6 @@ import com.gvi.project.models.questions.MultipleChoiceQuestion;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.QuestionType;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,10 +23,6 @@ public class QuizDialog extends GameScreen {
     private static final double ANSWER_GAP = 8;
     private static final double ANSWER_MIN_HEIGHT = 32;
     private static final double ANSWER_TEXT_LINE_HEIGHT = 14;
-    private static final double DIALOG_SIDE_MARGIN = 40;
-    private static final double DIALOG_BOTTOM_MARGIN = 20;
-    private static final double DIALOG_TOP_MIN_MARGIN = 20;
-    private static final double MIN_QUESTION_FONT_SIZE = 10;
 
     public boolean quizOpen = false;
     public Question currentQuestion = null;
@@ -179,17 +174,12 @@ public class QuizDialog extends GameScreen {
     public void draw(GraphicsContext gc) {
         if (currentQuestion == null) return;
 
-        double boxW = screenWidth - (DIALOG_SIDE_MARGIN * 2);
-        LayoutConfig layout = calculateLayout(boxW);
-        Font questionFont = layout.questionFont();
-        double questionLineHeight = layout.questionLineHeight();
-        double boxH = layout.dialogHeight();
-        double boxX = DIALOG_SIDE_MARGIN;
-        double boxY = screenHeight - boxH - DIALOG_BOTTOM_MARGIN;
-        if (boxY < DIALOG_TOP_MIN_MARGIN) {
-            boxY = DIALOG_TOP_MIN_MARGIN;
-            boxH = screenHeight - DIALOG_TOP_MIN_MARGIN - DIALOG_BOTTOM_MARGIN;
-        }
+        double boxW = screenWidth - 80;
+        double boxH = 200;
+        double boxX = 40;
+        double boxY = screenHeight - boxH - 20;
+
+        double questionLineHeight = 18;
 
         drawPixelBox(gc, boxX, boxY, boxW, boxH);
 
@@ -215,10 +205,11 @@ public class QuizDialog extends GameScreen {
 
         double maxTextW = boxW - 36;
 
-        if (currentQuestion.getIntroText() != null && !currentQuestion.getIntroText().isEmpty()) {
+        String introText = normalizeQuestionWhitespace(currentQuestion.getIntroText());
+        if (!introText.isEmpty()) {
             gc.setFont(FONT_XS);
             gc.setFill(TEXT_GRAY);
-            for (String line : wrapText(currentQuestion.getIntroText(), FONT_XS, maxTextW)) {
+            for (String line : wrapMultilineText(introText, FONT_XS, maxTextW)) {
                 contentY += 14;
                 gc.fillText(line, contentX, contentY);
             }
@@ -228,6 +219,8 @@ public class QuizDialog extends GameScreen {
         gc.setFont(FONT_SM);
         gc.setFill(TEXT_WHITE);
 
+        List<String> questionLines = wrapMultilineText(currentQuestion.getQuestionText(), FONT_SM, maxTextW);
+
         if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
             FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
             String blankInfo = "Luecke " + (fillBlankIndex + 1) + "/" + fib.getBlanks().size();
@@ -236,22 +229,22 @@ public class QuizDialog extends GameScreen {
             gc.fillText(blankInfo, contentX, contentY + 14);
             contentY += 20;
 
-            gc.setFont(questionFont);
+            gc.setFont(FONT_SM);
             gc.setFill(TEXT_WHITE);
-            for (String line : wrapText(currentQuestion.getQuestionText(), questionFont, maxTextW)) {
+            for (String line : questionLines) {
                 contentY += questionLineHeight;
                 gc.fillText(line, contentX, contentY);
             }
 
             contentY += 10;
             String blankLine = buildFillBlankLine(fib, fillBlankIndex);
-            for (String line : wrapText(blankLine, questionFont, maxTextW)) {
+            for (String line : wrapText(blankLine, FONT_SM, maxTextW)) {
                 contentY += questionLineHeight;
                 gc.fillText(line, contentX, contentY);
             }
         } else {
-            gc.setFont(questionFont);
-            for (String line : wrapText(currentQuestion.getQuestionText(), questionFont, maxTextW)) {
+            gc.setFont(FONT_SM);
+            for (String line : questionLines) {
                 contentY += questionLineHeight;
                 gc.fillText(line, contentX, contentY);
             }
@@ -260,7 +253,7 @@ public class QuizDialog extends GameScreen {
         contentY += 16;
 
         // 2x2 answer grid
-        drawAnswerGrid(gc, contentX, contentY, boxW, boxX, boxY, boxH);
+        drawAnswerGrid(gc, contentX, contentY, boxW, boxX, boxY, boxH, Integer.MAX_VALUE);
 
         if (isMultiSelectQuestion() && !answerFeedback) {
             gc.setFont(FONT_XS);
@@ -271,13 +264,13 @@ public class QuizDialog extends GameScreen {
     }
 
     private void drawAnswerGrid(GraphicsContext gc, double contentX, double contentY,
-                                 double boxW, double boxX, double boxY, double boxH) {
+                                 double boxW, double boxX, double boxY, double boxH, int answerMaxLines) {
         List<Answer> answers = getSelectableAnswers();
         if (answers.isEmpty()) return;
 
         double totalAnswerW = boxW - 36;
         double answerW = (totalAnswerW - ANSWER_GAP) / ANSWER_COLS;
-        List<Double> rowHeights = calculateAnswerRowHeights(answerW, answers);
+        List<Double> rowHeights = calculateAnswerRowHeights(answerW, answers, answerMaxLines);
 
         double rowStartY = contentY;
         for (int row = 0; row < rowHeights.size(); row++) {
@@ -314,7 +307,7 @@ public class QuizDialog extends GameScreen {
                 gc.fillText(numberLabel, labelX, labelY);
 
                 double maxAnsW = getMaxAnswerTextWidth(answerW, numberLabel);
-                List<String> wrappedAnswerLines = wrapAnswerText(answers.get(index).text(), maxAnsW);
+                List<String> wrappedAnswerLines = wrapAnswerText(answers.get(index).text(), maxAnsW, answerMaxLines);
 
                 gc.setFont(FONT_XS);
                 gc.setFill(TEXT_WHITE);
@@ -347,7 +340,7 @@ public class QuizDialog extends GameScreen {
         if (fib.getBlanks().isEmpty()) return "";
         if (blankIndex < 0 || blankIndex >= fib.getBlanks().size()) blankIndex = 0;
         FillInBlankQuestion.Blank blank = fib.getBlanks().get(blankIndex);
-        return blank.textBefore() + " ____ " + blank.textAfter();
+        return normalizeInlineSpacing(blank.textBefore()) + " ____ " + normalizeInlineSpacing(blank.textAfter());
     }
 
     private List<Answer> resolveAnswersForCurrentStep() {
@@ -403,66 +396,6 @@ public class QuizDialog extends GameScreen {
                 .orElse(-10);
     }
 
-    private LayoutConfig calculateLayout(double boxW) {
-        double maxHeight = screenHeight - DIALOG_TOP_MIN_MARGIN - DIALOG_BOTTOM_MARGIN;
-        Font baseFont = FONT_SM;
-        String family = baseFont.getFamily();
-        double size = baseFont.getSize();
-
-        while (size >= MIN_QUESTION_FONT_SIZE) {
-            Font questionFont = Font.font(family, size);
-            double questionLineHeight = Math.ceil(getTextHeight("Ag", questionFont)) + 2;
-            double dialogHeight = calculateDialogHeight(boxW, questionFont, questionLineHeight);
-            if (dialogHeight <= maxHeight) {
-                return new LayoutConfig(questionFont, questionLineHeight, dialogHeight);
-            }
-            size -= 1;
-        }
-
-        Font minQuestionFont = Font.font(family, MIN_QUESTION_FONT_SIZE);
-        double minQuestionLineHeight = Math.ceil(getTextHeight("Ag", minQuestionFont)) + 2;
-        double minDialogHeight = calculateDialogHeight(boxW, minQuestionFont, minQuestionLineHeight);
-        return new LayoutConfig(minQuestionFont, minQuestionLineHeight, Math.min(minDialogHeight, maxHeight));
-    }
-
-    private double calculateDialogHeight(double boxW, Font questionFont, double questionLineHeight) {
-        double maxTextW = boxW - 36;
-        double contentHeight = 0;
-
-        contentHeight += 12;
-
-        if (currentQuestion != null && currentQuestion.getIntroText() != null && !currentQuestion.getIntroText().isEmpty()) {
-            List<String> introLines = wrapText(currentQuestion.getIntroText(), FONT_XS, maxTextW);
-            contentHeight += introLines.size() * 14.0;
-            contentHeight += 6;
-        }
-
-        if (currentQuestion != null) {
-            contentHeight += wrapText(currentQuestion.getQuestionText(), questionFont, maxTextW).size() * questionLineHeight;
-            if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
-                FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
-                contentHeight += 20;
-                contentHeight += 10;
-                contentHeight += wrapText(buildFillBlankLine(fib, fillBlankIndex), questionFont, maxTextW).size() * questionLineHeight;
-            }
-        }
-
-        contentHeight += 16;
-        contentHeight += calculateAnswerGridHeight(boxW, getSelectableAnswers());
-        contentHeight += 36;
-
-        if (isMultiSelectQuestion() && !answerFeedback) {
-            contentHeight += 10;
-        }
-
-        double chromeHeight = 26;
-        double minHeight = 220;
-        double maxHeight = screenHeight - DIALOG_TOP_MIN_MARGIN - DIALOG_BOTTOM_MARGIN;
-        return Math.max(minHeight, Math.min(maxHeight, contentHeight + chromeHeight));
-    }
-
-    private record LayoutConfig(Font questionFont, double questionLineHeight, double dialogHeight) {}
-
     private String getNumberLabel(int answerNumber, boolean isSelected) {
         return isMultiSelectQuestion()
                 ? (isSelected ? "[x] " : "[ ] ") + answerNumber + "."
@@ -475,15 +408,25 @@ public class QuizDialog extends GameScreen {
         return Math.max(20, answerW - prefixWidth - rightPadding);
     }
 
-    private List<String> wrapAnswerText(String text, double maxWidth) {
+    private List<String> wrapAnswerText(String text, double maxWidth, int maxLines) {
         List<String> lines = wrapText(text == null ? "" : text, FONT_XS, maxWidth);
         if (lines.isEmpty()) {
             return List.of("");
         }
+        if (maxLines != Integer.MAX_VALUE && lines.size() > maxLines) {
+            List<String> limited = new ArrayList<>(lines.subList(0, maxLines));
+            int last = limited.size() - 1;
+            String lastLine = limited.get(last);
+            while (lastLine.length() > 2 && getTextWidth(lastLine + "..", FONT_XS) > maxWidth) {
+                lastLine = lastLine.substring(0, lastLine.length() - 1);
+            }
+            limited.set(last, lastLine + "..");
+            return limited;
+        }
         return lines;
     }
 
-    private List<Double> calculateAnswerRowHeights(double answerW, List<Answer> answers) {
+    private List<Double> calculateAnswerRowHeights(double answerW, List<Answer> answers, int answerMaxLines) {
         int rows = (int) Math.ceil(Math.max(1, answers.size()) / (double) ANSWER_COLS);
         List<Double> rowHeights = new ArrayList<>(rows);
 
@@ -497,7 +440,7 @@ public class QuizDialog extends GameScreen {
 
                 String numberLabel = getNumberLabel(index + 1, true);
                 double maxAnsW = getMaxAnswerTextWidth(answerW, numberLabel);
-                List<String> lines = wrapAnswerText(answers.get(index).text(), maxAnsW);
+                List<String> lines = wrapAnswerText(answers.get(index).text(), maxAnsW, answerMaxLines);
                 double answerHeight = 12 + lines.size() * ANSWER_TEXT_LINE_HEIGHT;
                 rowHeight = Math.max(rowHeight, answerHeight);
             }
@@ -507,17 +450,66 @@ public class QuizDialog extends GameScreen {
         return rowHeights;
     }
 
-    private double calculateAnswerGridHeight(double boxW, List<Answer> answers) {
+    private double calculateAnswerGridHeight(double boxW, List<Answer> answers, int answerMaxLines) {
         if (answers.isEmpty()) {
             return ANSWER_MIN_HEIGHT;
         }
 
         double totalAnswerW = boxW - 36;
         double answerW = (totalAnswerW - ANSWER_GAP) / ANSWER_COLS;
-        List<Double> rowHeights = calculateAnswerRowHeights(answerW, answers);
+        List<Double> rowHeights = calculateAnswerRowHeights(answerW, answers, answerMaxLines);
 
         double rowsHeight = rowHeights.stream().mapToDouble(Double::doubleValue).sum();
         double gapsHeight = Math.max(0, rowHeights.size() - 1) * ANSWER_GAP;
         return rowsHeight + gapsHeight;
+    }
+
+    private List<String> wrapMultilineText(String text, Font font, double maxWidth) {
+        String normalizedText = normalizeQuestionWhitespace(text);
+        if (normalizedText.isEmpty()) {
+            return List.of();
+        }
+
+        String normalized = normalizedText.replace("\r\n", "\n").replace('\r', '\n');
+        String[] rawLines = normalized.split("\n", -1);
+        List<String> result = new ArrayList<>();
+
+        for (String rawLine : rawLines) {
+            if (rawLine.isEmpty()) {
+                result.add("");
+                continue;
+            }
+            List<String> wrapped = wrapText(rawLine, font, maxWidth);
+            if (wrapped.isEmpty()) {
+                result.add("");
+            } else {
+                result.addAll(wrapped);
+            }
+        }
+
+        return result;
+    }
+
+    private String normalizeQuestionWhitespace(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        String normalizedNewlines = text.replace("\r\n", "\n").replace('\r', '\n');
+        String[] lines = normalizedNewlines.split("\n", -1);
+        List<String> cleaned = new ArrayList<>(lines.length);
+
+        for (String line : lines) {
+            cleaned.add(normalizeInlineSpacing(line));
+        }
+
+        return String.join("\n", cleaned);
+    }
+
+    private String normalizeInlineSpacing(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+        return text.replaceAll("[ \\t\\f\\x0B]+", " ").trim();
     }
 }
