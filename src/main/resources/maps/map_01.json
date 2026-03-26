@@ -731,7 +731,7 @@
       "conditions": null,
       "data": {
         "topicArea": "JOINS_SUBQUERIES",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_green"
       }
     },
     {
@@ -741,6 +741,9 @@
       "id": "crystal_green_quiz_station_2",
       "conditions": null,
       "data": {
+
+
+        
         "topicArea": "DDL_DML",
         "spriteGroup": "crystal_green"
       }
@@ -753,7 +756,7 @@
       "conditions": null,
       "data": {
         "topicArea": "ER_MODELLIERUNG",
-        "spriteGroup": "crystal_blue"
+        "spriteGroup": "crystal_green"
       }
     },
     {
@@ -764,7 +767,7 @@
       "conditions": null,
       "data": {
         "topicArea": "NORMALISIERUNG",
-        "spriteGroup": "crystal_red"
+        "spriteGroup": "crystal_green"
       }
     },
     {
@@ -786,7 +789,7 @@
       "conditions": null,
       "data": {
         "topicArea": "SQL_GRUNDLAGEN",
-        "spriteGroup": "crystal_blue"
+        "spriteGroup": "crystal_green"
       }
     },
     {
