@@ -119,16 +119,18 @@ public class HUD {
         if (idx < 0 || idx >= gp.obj.size() || gp.obj.get(idx) == null) return;
 
         String hint = gp.obj.get(idx).interactHint;
-        gc.setFont(FONT_XS);
+        gc.setFont(FONT_LG);
 
-        double textW = getTextWidth(hint, FONT_XS);
+        double textW = getTextWidth(hint, FONT_LG);
         double px = GeneralSettings.getScreenWidth() / 2.0 - textW / 2.0;
-        double py = gp.player.screenY - 20;
+        double py = gp.player.screenY - 30;
 
-        // Shadow
-        gc.setFill(Color.rgb(0, 0, 0, 0.6));
+        gc.setFill(Color.rgb(0, 0, 0, 0.5));
         gc.fillText(hint, px + 2, py + 2);
-        // Text
+        gc.fillText(hint, px - 2, py - 2);
+        gc.fillText(hint, px + 2, py - 2);
+        gc.fillText(hint, px - 2, py + 2);
+        
         gc.setFill(TEXT_GOLD);
         gc.fillText(hint, px, py);
     }
