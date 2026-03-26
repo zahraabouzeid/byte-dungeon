@@ -68,7 +68,7 @@ Im Projekt-Root liegt das Skript `build-exe.ps1`, das:
 Ausführen (PowerShell):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\build-exe.ps1 -SkipTests
+powershell -ExecutionPolicy Bypass -File .\build-exe.ps1 -InstallMissing -SkipTests
 ```
 
 Ergebnis liegt unter:
