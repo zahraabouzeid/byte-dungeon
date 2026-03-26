@@ -100,17 +100,27 @@ public class QuizDialog extends GameScreen {
         return mc.isAllowMultipleSelection();
     }
 
+    public boolean isMultipleChoiceQuestion() {
+        return currentQuestion != null && currentQuestion.getType() == QuestionType.MULTIPLE_CHOICE;
+    }
+
     public boolean handleNumberInput(int number) {
         List<Answer> answers = getSelectableAnswers();
         if (number < 1 || number > answers.size() || answerFeedback) {
             return false;
         }
 
-        if (isMultiSelectQuestion()) {
+        if (isMultipleChoiceQuestion()) {
             if (selectedAnswers.contains(number)) {
                 selectedAnswers.remove(number);
             } else {
-                selectedAnswers.add(number);
+                if (isMultiSelectQuestion()) {
+                    selectedAnswers.add(number);
+                } else {
+                    selectedAnswers.clear();
+                    selectedAnswers.add(number);
+                    selectedAnswer = number;
+                }
             }
             return true;
         }
@@ -126,7 +136,7 @@ public class QuizDialog extends GameScreen {
     }
 
     public boolean submitSelectionIfNeeded() {
-        if (!isMultiSelectQuestion() || answerFeedback) {
+        if (!isMultipleChoiceQuestion() || answerFeedback) {
             return false;
         }
         if (selectedAnswers.isEmpty()) {
@@ -198,7 +208,7 @@ public class QuizDialog extends GameScreen {
         // ESC 
         gc.setFont(FONT_XS);
         gc.setFill(TEXT_GRAY);
-        String escHint = isMultiSelectQuestion() ? "[ENTER] bestaetigen  [ESC]" : "[ESC]";
+        String escHint = isMultipleChoiceQuestion() ? "[ENTER] bestaetigen  [ESC]" : "[ESC]";
         double escW = getTextWidth(escHint, FONT_XS);
         gc.fillText(escHint, boxX + boxW - escW - 18, contentY);
 
@@ -256,7 +266,7 @@ public class QuizDialog extends GameScreen {
         // 2x2 answer grid
         drawAnswerGrid(gc, contentX, contentY, boxW, boxX, boxY, boxH, Integer.MAX_VALUE);
 
-        if (isMultiSelectQuestion() && !answerFeedback) {
+        if (isMultipleChoiceQuestion() && !answerFeedback) {
             gc.setFont(FONT_XS);
             gc.setFill(TEXT_GRAY);
             String hint = "Mit [1-4] Antworten markieren";
@@ -289,7 +299,7 @@ public class QuizDialog extends GameScreen {
 
                 if (answerFeedback && isSelected) {
                     gc.setFill(answers.get(index).points() > 0 ? CORRECT_BG : WRONG_BG);
-                } else if (!answerFeedback && isMultiSelectQuestion() && isSelected) {
+                } else if (!answerFeedback && isMultipleChoiceQuestion() && isSelected) {
                     gc.setFill(CORRECT_BG);
                 } else {
                     gc.setFill(ANSWER_BG);
