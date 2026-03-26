@@ -376,7 +376,8 @@ public class GameLoop extends AnimationTimer {
 			gp.ui.applyCharacterCreation();
 			// Reload player sprites based on selected sprite set
 			gp.player.getPlayerSprites();
-			gp.gameState = GameState.PLAY;
+			loadingCounter = 0;
+			gp.gameState = GameState.LOADING;
 		}
 	}
 
