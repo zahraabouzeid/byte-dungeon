@@ -87,6 +87,52 @@ public class GameLoop extends AnimationTimer {
 		if (gp.gameState == GameState.PLAY) {
 			gp.generalSettings.isDevMode = gp.keyHandler.f2Pressed;
 
+			// Cheat keys for testing reward system
+			if (gp.keyHandler.f7Pressed) {
+				gp.keyHandler.f7Pressed = false;
+				// Bronze: 60% (600/1000)
+				gp.player.score = 600;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f8Pressed) {
+				gp.keyHandler.f8Pressed = false;
+				// Silver: 80% (800/1000)
+				gp.player.score = 800;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f9Pressed) {
+				gp.keyHandler.f9Pressed = false;
+				// Gold: 95% (950/1000)
+				gp.player.score = 950;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f10Pressed) {
+				gp.keyHandler.f10Pressed = false;
+				// Gold Perfect: 99% (990/1000)
+				gp.player.score = 990;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();

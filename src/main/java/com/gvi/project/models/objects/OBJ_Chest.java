@@ -22,6 +22,8 @@ public class OBJ_Chest extends SuperObject {
 
 	@Override
 	public void onConfirm(Player player, GamePanel gp, int objIndex) {
+		// Calculate reward before finishing game
+		gp.ui.calculateReward();
 		gp.ui.gameFinished = true;
 		gp.stopMusic();
 		gp.playSE(4);
