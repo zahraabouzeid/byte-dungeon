@@ -1,15 +1,11 @@
 package com.gvi.project;
 
 import com.gvi.project.models.game_maps.GameMaps;
-import com.gvi.project.models.objects.SuperObject;
-import com.gvi.project.models.questions.Answer;
-import com.gvi.project.systems.AnimationSystem;
+import com.gvi.project.models.objects.OBJ_QuizStation;
 import com.gvi.project.ui.LoadingScreen;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
-
-import java.util.List;
 
 public class GameLoop extends AnimationTimer {
 
@@ -100,60 +96,14 @@ public class GameLoop extends AnimationTimer {
 			return;
 		}
 		if (gp.gameState == GameState.PLAY) {
-			GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
-
-			// Cheat keys for testing reward system
-			if (gp.keyHandler.f7Pressed) {
-				gp.keyHandler.f7Pressed = false;
-				// Bronze: 60% (600/1000)
-				gp.player.score = 600;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f8Pressed) {
-				gp.keyHandler.f8Pressed = false;
-				// Silver: 80% (800/1000)
-				gp.player.score = 800;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f9Pressed) {
-				gp.keyHandler.f9Pressed = false;
-				// Gold: 95% (950/1000)
-				gp.player.score = 950;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-			if (gp.keyHandler.f10Pressed) {
-				gp.keyHandler.f10Pressed = false;
-				// Gold Perfect: 99% (990/1000)
-				gp.player.score = 990;
-				gp.ui.setMaxPossiblePoints(1000);
-				gp.ui.calculateReward();
-				gp.ui.gameFinished = true;
-				gp.stopMusic();
-				gp.playSE(4);
-				return;
-			}
-
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();
 				gp.gameState = GameState.PAUSE;
 				return;
 			}
+
+			if (GeneralSettings.isDevMode()) handleDebugInput();
 
 			gp.animationSystem.tick(fixedDelta);
 			gp.player.update();
@@ -433,10 +383,93 @@ public class GameLoop extends AnimationTimer {
 		if (gp.keyHandler.enterPressed) {
 			gp.keyHandler.enterPressed = false;
 			gp.ui.applyCharacterCreation();
-			// Reload player sprites based on selected sprite set
 			gp.player.getPlayerSprites();
 			loadingCounter = 0;
 			gp.gameState = GameState.LOADING;
+		}
+	}
+
+	private void handleDebugInput() {
+		KeyHandler k = gp.keyHandler;
+
+		if (k.f3Pressed) {
+			k.f3Pressed = false;
+			gp.player.addItem("key_iron", 3);
+			gp.ui.openMessage("[DEBUG] +3 Iron Keys");
+		}
+		if (k.f4Pressed) {
+			k.f4Pressed = false;
+			gp.player.addItem("key_gold", 3);
+			gp.ui.openMessage("[DEBUG] +3 Gold Keys");
+		}
+		if (k.f5Pressed) {
+			k.f5Pressed = false;
+			gp.player.addItem("key_copper", 3);
+			gp.ui.openMessage("[DEBUG] +3 Copper Keys");
+		}
+		if (k.f6Pressed) {
+			k.f6Pressed = false;
+			int nextId = gp.currentMap.Id + 1;
+			try {
+				gp.loadMap(GameMaps.fromId(nextId));
+				gp.ui.openMessage("[DEBUG] Map → " + gp.currentMap.name);
+			} catch (IllegalArgumentException ignored) {
+				gp.ui.openMessage("[DEBUG] Letzte Map erreicht");
+			}
+		}
+		if (k.f7Pressed) {
+			k.f7Pressed = false;
+			int prevId = gp.currentMap.Id - 1;
+			try {
+				gp.loadMap(GameMaps.fromId(prevId));
+				gp.ui.openMessage("[DEBUG] Map → " + gp.currentMap.name);
+			} catch (IllegalArgumentException ignored) {
+				gp.ui.openMessage("[DEBUG] Erste Map erreicht");
+			}
+		}
+		if (k.f8Pressed) {
+			k.f8Pressed = false;
+			gp.player.healthHalf = gp.player.maxHealthHalf;
+			gp.ui.openMessage("[DEBUG] Volle Gesundheit");
+		}
+		if (k.f9Pressed) {
+			k.f9Pressed = false;
+			boolean found = false;
+			for (int i = 0; i < gp.obj.size(); i++) {
+				if (gp.obj.get(i) instanceof OBJ_QuizStation qs && !qs.completed) {
+					qs.completeInstantly(gp, i);
+					found = true;
+					break;
+				}
+			}
+			if (!found) gp.ui.openMessage("[DEBUG] Keine offene Quiz-Station");
+		}
+		if (k.f10Pressed) {
+			k.f10Pressed = false;
+			gp.player.score = 600;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
+		}
+		if (k.f11Pressed) {
+			k.f11Pressed = false;
+			gp.player.score = 800;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
+		}
+		if (k.f12Pressed) {
+			k.f12Pressed = false;
+			gp.player.score = 990;
+			gp.ui.setMaxPossiblePoints(1000);
+			gp.ui.calculateReward();
+			gp.ui.gameFinished = true;
+			gp.stopMusic();
+			gp.playSE(4);
 		}
 	}
 
