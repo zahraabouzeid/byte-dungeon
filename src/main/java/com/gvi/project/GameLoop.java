@@ -53,6 +53,8 @@ public class GameLoop extends AnimationTimer {
 	}
 
 	private void update(double fixedDelta) {
+		GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
+
 		if (gp.gameState == GameState.TITLE) {
 			if (gp.keyHandler.enterPressed) {
 				gp.keyHandler.enterPressed = false;
@@ -87,8 +89,6 @@ public class GameLoop extends AnimationTimer {
 			return;
 		}
 		if (gp.gameState == GameState.PLAY) {
-			GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
-
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();
@@ -144,7 +144,7 @@ public class GameLoop extends AnimationTimer {
 						gp.keyHandler.numberPressed = -1;
 					}
 				}
-				if (gp.keyHandler.enterPressed && gp.ui.getCurrentQuestion() != null && gp.ui.isMultipleChoiceQuestion()) {
+				if (gp.keyHandler.enterPressed && gp.ui.getCurrentQuestion() != null) {
 					gp.keyHandler.enterPressed = false;
 					gp.ui.submitQuizSelection();
 				}
