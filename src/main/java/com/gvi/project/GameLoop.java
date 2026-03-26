@@ -78,6 +78,17 @@ public class GameLoop extends AnimationTimer {
 			}
 			return;
 		}
+		if (gp.ui.gameFinished) {
+			if (gp.keyHandler.enterPressed) {
+				gp.keyHandler.enterPressed = false;
+				gp.loadMap(GameMaps.MAP_00);
+				gp.player.setDefaultValues();
+				gp.ui.resetGame();
+				gp.interactingObjectIndex = -1;
+				gp.gameState = GameState.PLAY;
+			}
+			return;
+		}
 		if (gp.player.isDead) {
 			if (gp.keyHandler.enterPressed) {
 				gp.keyHandler.enterPressed = false;
@@ -90,6 +101,54 @@ public class GameLoop extends AnimationTimer {
 			return;
 		}
 		if (gp.gameState == GameState.PLAY) {
+			GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
+
+			// Cheat keys for testing reward system
+			if (gp.keyHandler.f7Pressed) {
+				gp.keyHandler.f7Pressed = false;
+				// Bronze: 60% (600/1000)
+				gp.player.score = 600;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f8Pressed) {
+				gp.keyHandler.f8Pressed = false;
+				// Silver: 80% (800/1000)
+				gp.player.score = 800;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f9Pressed) {
+				gp.keyHandler.f9Pressed = false;
+				// Gold: 95% (950/1000)
+				gp.player.score = 950;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+			if (gp.keyHandler.f10Pressed) {
+				gp.keyHandler.f10Pressed = false;
+				// Gold Perfect: 99% (990/1000)
+				gp.player.score = 990;
+				gp.ui.setMaxPossiblePoints(1000);
+				gp.ui.calculateReward();
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				return;
+			}
+
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();
@@ -378,7 +437,8 @@ public class GameLoop extends AnimationTimer {
 			gp.keyHandler.enterPressed = false;
 			gp.ui.applyCharacterCreation();
 			gp.player.getPlayerSprites();
-			gp.gameState = GameState.PLAY;
+			loadingCounter = 0;
+			gp.gameState = GameState.LOADING;
 		}
 	}
 

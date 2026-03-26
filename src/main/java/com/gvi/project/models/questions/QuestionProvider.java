@@ -7,6 +7,7 @@ import com.gvi.project.repository.GapOptionEntity;
 import com.gvi.project.repository.McAnswerEntity;
 import com.gvi.project.repository.QuestionDataService;
 import com.gvi.project.repository.QuestionEntity;
+import com.gvi.project.repository.ThemeEntity;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,10 @@ import java.io.InputStream;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -73,6 +76,7 @@ public class QuestionProvider implements QuestionService {
 					.filter(Objects::nonNull)
 					.toList();
 			if (!databaseQuestions.isEmpty()) {
+				logQuestionDistribution(databaseQuestions, "database");
 				List<Question> shuffled = new ArrayList<>(databaseQuestions);
 				Collections.shuffle(shuffled);
 				log.info("Loaded {} questions from database.", shuffled.size());
@@ -105,6 +109,7 @@ public class QuestionProvider implements QuestionService {
 				}
 			}
 
+			logQuestionDistribution(loadedQuestions, "mock_questions.json");
 			Collections.shuffle(loadedQuestions);
 			log.info("Loaded {} questions from mock_questions.json.", loadedQuestions.size());
 		} catch (Exception e) {
@@ -158,9 +163,11 @@ public class QuestionProvider implements QuestionService {
 
 	@Override
 	public List<Question> getQuestionsByTopic(TopicArea topicArea) {
-		return loadQuestions().stream()
+		List<Question> questionsByTopic = loadQuestions().stream()
 			.filter(q -> q.getTopicArea() == topicArea)
-			.collect(Collectors.toList());
+			.collect(Collectors.toCollection(ArrayList::new));
+		Collections.shuffle(questionsByTopic);
+		return questionsByTopic;
 	}
 
 	@Override
@@ -283,12 +290,13 @@ public class QuestionProvider implements QuestionService {
 
 
 	private TopicArea resolveTopicArea(QuestionEntity entity) {
-		return entity.getThemes().stream()
-				.map(theme -> theme.getName())
-				.map(this::mapTopicArea)
-				.filter(Objects::nonNull)
-				.findFirst()
-				.orElse(TopicArea.SQL_GRUNDLAGEN);
+		String themeName = resolveThemeName(entity);
+		TopicArea mapped = mapTopicArea(themeName);
+		if (mapped != null) {
+			return mapped;
+		}
+		log.warn("Unknown or missing theme '{}' for question {}. Falling back to {}.", themeName, entity.getId(), TopicArea.SQL_GRUNDLAGEN);
+		return TopicArea.SQL_GRUNDLAGEN;
 	}
 
 	private TopicArea mapTopicArea(String rawValue) {
@@ -304,11 +312,32 @@ public class QuestionProvider implements QuestionService {
 				.replaceAll("_+", "_");
 		normalized = trimUnderscores(normalized);
 
+		normalized = switch (normalized) {
+			case "DATENBANK_SQL" -> "SQL_GRUNDLAGEN";
+			case "DATENBANKEN_MODELLIERUNG", "DATENBANK_MODELLIERUNG" -> "ER_MODELLIERUNG";
+			case "PROGRAMMIERUNG_PSEUDOCODE" -> "DDL_DML";
+			case "WIRTSCHAFT" -> "SELECT_ABFRAGEN";
+			case "RECHT" -> "NORMALISIERUNG";
+			case "MASCHINELLES_LERNEN" -> "JOINS_SUBQUERIES";
+			case "UML" -> "ER_MODELLIERUNG";
+			default -> normalized;
+		};
+
 		try {
 			return TopicArea.valueOf(normalized);
 		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
+	}
+
+	private String resolveThemeName(QuestionEntity entity) {
+		return entity.getThemes().stream()
+				.map(ThemeEntity::getName)
+				.filter(Objects::nonNull)
+				.map(this::normalizeQuestionText)
+				.filter(name -> !name.isBlank())
+				.findFirst()
+				.orElse("");
 	}
 
 	private String trimUnderscores(String value) {
@@ -346,5 +375,29 @@ public class QuestionProvider implements QuestionService {
 		}
 
 		return String.join("\n", normalizedLines);
+	}
+
+	private void logQuestionDistribution(List<Question> loadedQuestions, String source) {
+		if (loadedQuestions == null || loadedQuestions.isEmpty()) {
+			return;
+		}
+
+		Map<TopicArea, Integer> countByTopic = new EnumMap<>(TopicArea.class);
+		for (TopicArea topicArea : TopicArea.values()) {
+			countByTopic.put(topicArea, 0);
+		}
+
+		for (Question question : loadedQuestions) {
+			TopicArea topicArea = question.getTopicArea();
+			if (topicArea != null) {
+				countByTopic.computeIfPresent(topicArea, (key, value) -> value + 1);
+			}
+		}
+
+		String distribution = countByTopic.entrySet().stream()
+				.map(entry -> entry.getKey().name() + "=" + entry.getValue())
+				.collect(Collectors.joining(", "));
+
+		log.info("Question distribution from {} by room topic: {}", source, distribution);
 	}
 }

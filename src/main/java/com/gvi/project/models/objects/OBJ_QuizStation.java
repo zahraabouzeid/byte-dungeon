@@ -7,6 +7,8 @@ import com.gvi.project.models.entities.Player;
 import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.QuestionService;
 import com.gvi.project.models.questions.TopicArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 public class OBJ_QuizStation extends AnimatedObject {
+	private static final Logger log = LoggerFactory.getLogger(OBJ_QuizStation.class);
 
 	private final TopicArea topicArea;
 	private List<Question> remainingQuestions;
@@ -98,12 +101,21 @@ public class OBJ_QuizStation extends AnimatedObject {
 		}
 
 		if (remainingQuestions == null) {
-			remainingQuestions = new ArrayList<>(gp.questionProvider.getQuestionsByTopic(topicArea));
-			Collections.shuffle(remainingQuestions);
+			List<Question> questionsByTopic = gp.questionProvider.getQuestionsByTopic(topicArea);
+			if (questionsByTopic == null || questionsByTopic.isEmpty()) {
+				log.warn("No questions available for topic area {}.", topicArea);
+			}
+			if (questionsByTopic != null && questionsByTopic.size() < gp.maxQuestionsPerQuizStation) {
+				log.warn("Configured max questions ({}) exceeds available questions ({}) for topic area {}. Using all available questions.",
+						gp.maxQuestionsPerQuizStation, questionsByTopic.size(), topicArea);
+			}
+			remainingQuestions = selectQuestionsForStation(questionsByTopic, gp.maxQuestionsPerQuizStation);
 		}
 
 		Question question = getNextQuestion();
 		if (question != null) {
+			// Track max possible points for reward calculation
+			gp.ui.addMaxPossiblePoints(question.getMaxPoints());
 			gp.ui.openQuiz(question, getRemainingCount());
 			gp.interactingObjectIndex = objIndex;
 			gp.gameState = GameState.QUIZ;
@@ -111,6 +123,19 @@ public class OBJ_QuizStation extends AnimatedObject {
 			completed = true;
 			gp.ui.openMessage("Bereich abgeschlossen!");
 		}
+	}
+
+	static List<Question> selectQuestionsForStation(List<Question> shuffledQuestions, int maxQuestionsPerQuizStation) {
+		if (shuffledQuestions == null || shuffledQuestions.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		if (maxQuestionsPerQuizStation <= 0) {
+			return new ArrayList<>(shuffledQuestions);
+		}
+
+		int selectedCount = Math.min(maxQuestionsPerQuizStation, shuffledQuestions.size());
+		return new ArrayList<>(shuffledQuestions.subList(0, selectedCount));
 	}
 
 	@Override
@@ -124,6 +149,8 @@ public class OBJ_QuizStation extends AnimatedObject {
 		} else {
 			Question next = getNextQuestion();
 			if (next != null) {
+				// Track max possible points for reward calculation
+				gp.ui.addMaxPossiblePoints(next.getMaxPoints());
 				gp.ui.openQuiz(next, getRemainingCount());
 				gp.interactingObjectIndex = objIndex;
 				gp.gameState = GameState.QUIZ;
@@ -141,10 +168,14 @@ public class OBJ_QuizStation extends AnimatedObject {
 		animComp.setStartOffset(Math.random() * animComp.cycleLength);
 
 		sprite = animComp.getCurrentSprite();
+
+		animComp.triggerLoop();
 	}
 
     private void spawnKey(GamePanel gp, int objIndex) {
-		OBJ_Key key = switch (this.id) {
+		String crystalColor = id.substring(0, id.indexOf("_quiz"));
+
+		OBJ_Key key = switch (crystalColor) {
 			case "crystal_blue" -> new OBJ_Key(KeyType.IRON);
 			case "crystal_green" -> new OBJ_Key(KeyType.GOLD);
 			default -> new OBJ_Key(KeyType.COPPER);

@@ -9,11 +9,14 @@ import com.gvi.project.models.sprite_sheets.Sprite;
 import com.gvi.project.models.sprite_sheets.SpriteSheet;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Player extends Entity {
+	private static final Logger log = LoggerFactory.getLogger(Player.class);
 	private final GamePanel gp;
 	private final KeyHandler keyH;
 
@@ -64,6 +67,8 @@ public class Player extends Entity {
 		worldX = GeneralSettings.getTileSize() * gridX;
 		worldY = GeneralSettings.getTileSize() * gridY;
 
+		playerItems = new HashMap<>();
+
 		isMoving = false;
 
 		// 4 Pixel pro Frame → 48px / 4 = 12 Frames pro Tile-Übergang
@@ -107,8 +112,7 @@ public class Player extends Entity {
 			spriteMap.put("right_1", sheet.getSprite("walk", "right_1"));
 			spriteMap.put("right_2", sheet.getSprite("walk", "right_2"));
 		} catch (Exception e) {
-			System.err.println("Error loading player sprites for: " + selectedSpriteSet);
-			e.printStackTrace();
+			log.warn("Error loading player sprites for '{}'. Trying fallback sprite set.", selectedSpriteSet, e);
 			// Fallback zu HeroMan1 wenn das Sprite nicht geladen werden kann
 			try {
 				String spriteSetPath = "/sprites/tilemaps/damp-dungeons/Characters/Dungeon_HeroMan1";
@@ -123,10 +127,9 @@ public class Player extends Entity {
 				spriteMap.put("right_1", sheet.getSprite("walk", "right_1"));
 				spriteMap.put("right_2", sheet.getSprite("walk", "right_2"));
 				selectedSpriteSet = "Dungeon_HeroMan1";
-				System.out.println("Fallback zu HeroMan1 Sprite");
+				log.info("Fallback to default sprite set '{}'.", selectedSpriteSet);
 			} catch (Exception e2) {
-				System.err.println("ERROR: Could not load even fallback sprite!");
-				e2.printStackTrace();
+				log.error("Could not load fallback player sprite set.", e2);
 			}
 		}
 	}
@@ -162,36 +165,38 @@ public class Player extends Entity {
 				checkStepObjects();
 			}
 		} else {
-			// Eingabe verarbeiten nur wenn der Spieler stillsteht
-			if ((keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) && canMove) {
-				// Nächste Grid-Position berechnen basierend auf gedrückter Taste
-				int nextGridX = gridX;
-				int nextGridY = gridY;
+			if (!keyH.isMovementLocked()) {
+				// Eingabe verarbeiten nur wenn der Spieler stillsteht
+				if ((keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) && canMove) {
+					// Nächste Grid-Position berechnen basierend auf gedrückter Taste
+					int nextGridX = gridX;
+					int nextGridY = gridY;
 
-				// Multi-Key-Input: Beide Achsen separat prüfen für diagonale Bewegung
-				if (keyH.upPressed)    nextGridY--;
-				if (keyH.downPressed)  nextGridY++;
-				if (keyH.leftPressed)  nextGridX--;
-				if (keyH.rightPressed) nextGridX++;
+					// Multi-Key-Input: Beide Achsen separat prüfen für diagonale Bewegung
+					if (keyH.upPressed) nextGridY--;
+					if (keyH.downPressed) nextGridY++;
+					if (keyH.leftPressed) nextGridX--;
+					if (keyH.rightPressed) nextGridX++;
 
-				// Direction für Sprite-Animation bestimmen
-				// Priorität: horizontale Bewegung bei Diagonalen
-				if (keyH.leftPressed) {
-					direction = "left";
-				} else if (keyH.rightPressed) {
-					direction = "right";
-				} else if (keyH.upPressed) {
-					direction = "up";
-				} else if (keyH.downPressed) {
-					direction = "down";
-				}
+					// Direction für Sprite-Animation bestimmen
+					// Priorität: horizontale Bewegung bei Diagonalen
+					if (keyH.leftPressed) {
+						direction = "left";
+					} else if (keyH.rightPressed) {
+						direction = "right";
+					} else if (keyH.upPressed) {
+						direction = "up";
+					} else if (keyH.downPressed) {
+						direction = "down";
+					}
 
-				// Kollision prüfen: Tile und Objekte am Ziel-Grid-Feld
-				// Nur wenn frei Bewegung starten
-				if (!gp.cChecker.isTileBlocked(nextGridX, nextGridY) && !gp.cChecker.isObjectBlocking(nextGridX, nextGridY)) {
-					targetGridX = nextGridX;
-					targetGridY = nextGridY;
-					isMoving = true;
+					// Kollision prüfen: Tile und Objekte am Ziel-Grid-Feld
+					// Nur wenn frei Bewegung starten
+					if (!gp.cChecker.isTileBlocked(nextGridX, nextGridY) && !gp.cChecker.isObjectBlocking(nextGridX, nextGridY)) {
+						targetGridX = nextGridX;
+						targetGridY = nextGridY;
+						isMoving = true;
+					}
 				}
 			}
 		}
@@ -312,7 +317,7 @@ public class Player extends Entity {
 	}
 
 	public void addItem(String id, int amount) {
-		System.out.println(id);
+		log.debug("Adding item '{}' with amount {}", id, amount);
 
 		// Erhöhe Item Anzahl wenn vorhanden oder lege das Item an wenn es nicht existiert
 		if (playerItems.containsKey(id)){

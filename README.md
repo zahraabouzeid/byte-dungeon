@@ -4,6 +4,8 @@
 
 Teammitglieder: Zahraa, Masuma, Rebecca, Amélie, Dominik, Sascha
 
+https://drive.google.com/drive/folders/14LnamkSIiWLrd7tkbNGR6vc9F_UsY8fM Link zur Jar im Google Drive
+
 <a href="https://gamificationoflearning.atlassian.net/jira/software/projects/SCRUM/boards/1?jql=" target="_blank">Storyboard</a>
 
 ## 1. Meeting
@@ -53,6 +55,27 @@ mvn -q javafx:run
 ```powershell
 mvn -q -DskipTests clean javafx:run
 ```
+
+## 5. Self-contained EXE Build (Windows)
+
+Im Projekt-Root liegt das Skript `build-exe.ps1`, das:
+
+- das Projekt baut,
+- alle Runtime-Abhängigkeiten (inkl. JavaFX) einsammelt,
+- ein self-contained App-Image erstellt,
+- und anschließend einen `.exe` Installer erzeugt.
+
+Ausführen (PowerShell):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build-exe.ps1 -InstallMissing -SkipTests
+```
+
+Ergebnis liegt unter:
+
+- `target\dist\` (Installer und App-Image)
+
+Hinweis: Für `--type exe` kann auf Windows die WiX Toolset Installation nötig sein. Falls diese fehlt, erstellt das Skript trotzdem ein lauffähiges App-Image unter `target\dist\GVIProject\`.
 
 **Alternative Kompilier/Ausführ variante:**    
 Wenn man mit Debugger arbeiten möchte ist man leider hierzu gezwungen, anderweitig läuft die complierte version über eine separate Instance zur IDE.  

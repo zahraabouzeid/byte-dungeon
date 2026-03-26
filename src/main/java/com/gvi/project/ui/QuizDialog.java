@@ -24,6 +24,7 @@ public class QuizDialog extends GameScreen {
     private static final double ANSWER_GAP = 8;
     private static final double ANSWER_MIN_HEIGHT = 32;
     private static final double ANSWER_TEXT_LINE_HEIGHT = 14;
+    private static final int MAX_NUMBER_SHORTCUT = 9;
 
     public boolean quizOpen = false;
     public Question currentQuestion = null;
@@ -106,7 +107,8 @@ public class QuizDialog extends GameScreen {
 
     public boolean handleNumberInput(int number) {
         List<Answer> answers = getSelectableAnswers();
-        if (number < 1 || number > answers.size() || answerFeedback) {
+        int inputLimit = Math.min(MAX_NUMBER_SHORTCUT, answers.size());
+        if (number < 1 || number > inputLimit || answerFeedback) {
             return false;
         }
 
@@ -188,11 +190,48 @@ public class QuizDialog extends GameScreen {
         if (currentQuestion == null) return;
 
         double boxW = screenWidth - 80;
-        double boxH = 240;
         double boxX = 40;
-        double boxY = screenHeight - boxH - 20;
-
         double questionLineHeight = 18;
+        double maxTextW = boxW - 36;
+
+        // Calculate required box height dynamically
+        double contentHeight = 26; // Initial top padding
+        contentHeight += 12; // Topic line + spacing
+
+        String introText = normalizeQuestionWhitespace(currentQuestion.getIntroText());
+        if (introText.equals(resolveTopicLabel())) {
+            introText = "";
+        }
+        if (!introText.isEmpty()) {
+            List<String> introLines = wrapMultilineText(introText, FONT_XS, maxTextW);
+            contentHeight += introLines.size() * 14 + 6;
+        }
+
+        List<String> questionLines = wrapMultilineText(currentQuestion.getQuestionText(), FONT_SM, maxTextW);
+
+        if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
+            FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
+            contentHeight += 20; // Blank info
+            contentHeight += questionLines.size() * questionLineHeight;
+            
+            String blankLine = buildFillBlankLine(fib, fillBlankIndex);
+            List<String> blankLines = wrapText(blankLine, FONT_SM, maxTextW);
+            contentHeight += 10 + blankLines.size() * questionLineHeight;
+        } else {
+            contentHeight += questionLines.size() * questionLineHeight;
+        }
+
+        contentHeight += 16; // Spacing before answers
+
+        // Calculate answer grid height
+        List<Answer> answers = getSelectableAnswers();
+        double answerGridHeight = calculateAnswerGridHeight(boxW, answers, Integer.MAX_VALUE);
+        contentHeight += answerGridHeight;
+
+        contentHeight += 30; // Bottom padding for hint (increased from 20)
+        
+        double boxH = Math.max(240, contentHeight); // Minimum 240, but grow as needed
+        double boxY = screenHeight - boxH - 50; // 50px padding from bottom
 
         drawPixelBox(gc, boxX, boxY, boxW, boxH);
 
@@ -201,7 +240,7 @@ public class QuizDialog extends GameScreen {
 
         gc.setFont(FONT_XS);
         gc.setFill(TEXT_GOLD);
-        String topicText = currentQuestion.getTopicArea().getDisplayName();
+        String topicText = resolveTopicLabel();
         if (remainingQuestions > 0) {
             topicText += "  (" + remainingQuestions + " uebrig)";
         }
@@ -216,9 +255,6 @@ public class QuizDialog extends GameScreen {
 
         contentY += 12;
 
-        double maxTextW = boxW - 36;
-
-        String introText = normalizeQuestionWhitespace(currentQuestion.getIntroText());
         if (!introText.isEmpty()) {
             gc.setFont(FONT_XS);
             gc.setFill(TEXT_GRAY);
@@ -231,8 +267,6 @@ public class QuizDialog extends GameScreen {
 
         gc.setFont(FONT_SM);
         gc.setFill(TEXT_WHITE);
-
-        List<String> questionLines = wrapMultilineText(currentQuestion.getQuestionText(), FONT_SM, maxTextW);
 
         if (currentQuestion.getType() == QuestionType.FILL_IN_BLANK) {
             FillInBlankQuestion fib = (FillInBlankQuestion) currentQuestion;
@@ -271,9 +305,19 @@ public class QuizDialog extends GameScreen {
         if (!answerFeedback) {
             gc.setFont(FONT_XS);
             gc.setFill(TEXT_GRAY);
-            String hint = "Mit [1-4] Antworten markieren";
+            String hint = buildSelectionHint(getSelectableAnswers().size());
             gc.fillText(hint, contentX, boxY + boxH - 10);
         }
+    }
+
+    private String buildSelectionHint(int answerCount) {
+        int maxSelectable = Math.min(MAX_NUMBER_SHORTCUT, answerCount);
+        String rangeHint = maxSelectable <= 1 ? "[1]" : "[1-" + maxSelectable + "]";
+        String hint = "Mit " + rangeHint + " auswaehlen";
+        if (answerCount > MAX_NUMBER_SHORTCUT) {
+            hint += " (max " + MAX_NUMBER_SHORTCUT + ")";
+        }
+        return hint;
     }
 
     private void drawAnswerGrid(GraphicsContext gc, double contentX, double contentY,
@@ -524,5 +568,9 @@ public class QuizDialog extends GameScreen {
             return "";
         }
         return text.replaceAll("[ \\t\\f\\x0B]+", " ").trim();
+    }
+
+    private String resolveTopicLabel() {
+        return currentQuestion == null ? "" : currentQuestion.getTopicArea().getDisplayName();
     }
 }
