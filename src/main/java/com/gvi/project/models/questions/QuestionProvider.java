@@ -283,12 +283,18 @@ public class QuestionProvider implements QuestionService {
 
 
 	private TopicArea resolveTopicArea(QuestionEntity entity) {
-		return entity.getThemes().stream()
+		TopicArea mappedFromTheme = entity.getThemes().stream()
 				.map(theme -> theme.getName())
 				.map(this::mapTopicArea)
 				.filter(Objects::nonNull)
 				.findFirst()
-				.orElse(TopicArea.SQL_GRUNDLAGEN);
+				.orElse(null);
+
+		if (mappedFromTheme != null) {
+			return mappedFromTheme;
+		}
+
+		return fallbackTopicAreaForRoomDistribution(entity);
 	}
 
 	private TopicArea mapTopicArea(String rawValue) {
@@ -304,11 +310,30 @@ public class QuestionProvider implements QuestionService {
 				.replaceAll("_+", "_");
 		normalized = trimUnderscores(normalized);
 
+		normalized = switch (normalized) {
+			case "DATENBANK_SQL" -> "SQL_GRUNDLAGEN";
+			case "DATENBANKEN_MODELLIERUNG", "DATENBANK_MODELLIERUNG" -> "ER_MODELLIERUNG";
+			default -> normalized;
+		};
+
 		try {
 			return TopicArea.valueOf(normalized);
 		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
+	}
+
+	private TopicArea fallbackTopicAreaForRoomDistribution(QuestionEntity entity) {
+		TopicArea[] topicAreas = TopicArea.values();
+		if (topicAreas.length == 0) {
+			return TopicArea.SQL_GRUNDLAGEN;
+		}
+
+		Integer questionId = entity.getId();
+		Integer questionSetId = entity.getQuestionSetId();
+		int key = questionId != null ? questionId - 1 : valueOrDefault(questionSetId, 1) - 1;
+		int index = Math.floorMod(key, topicAreas.length);
+		return topicAreas[index];
 	}
 
 	private String trimUnderscores(String value) {
