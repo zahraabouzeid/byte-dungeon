@@ -140,9 +140,11 @@ public class RewardPersistenceManager {
         return savePath;
     }
     
-    /**
-     * Setzt alle Rewards zurück (für Testzwecke).
-     */
+    public void resetSession() {
+        achievedRewards.clear();
+        log.info("Medaillen-Session zurückgesetzt");
+    }
+
     public void resetAllRewards() {
         achievedRewards.clear();
         saveRewards();
