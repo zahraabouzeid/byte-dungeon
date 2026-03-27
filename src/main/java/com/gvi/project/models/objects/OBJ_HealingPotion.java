@@ -3,6 +3,8 @@ package com.gvi.project.models.objects;
 import com.gvi.project.components.AnimationComponent;
 import com.gvi.project.GamePanel;
 
+import java.util.List;
+
 
 public class OBJ_HealingPotion extends AnimatedObject {
 	public OBJ_HealingPotion(){
@@ -27,10 +29,10 @@ public class OBJ_HealingPotion extends AnimatedObject {
 	@Override
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
-		animComp.setLooping(true);
+		animComp.setCycleOrder(List.of(0,1,2,3,0));
 		animComp.cycleLength = 0.4;
 		animComp.delayBetweenCycles = 2;
 
-		sprite = animComp.getCurrentSprite();
+		animComp.triggerLoop();
 	}
 }

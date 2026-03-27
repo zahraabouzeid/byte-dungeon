@@ -111,14 +111,16 @@ public class OBJ_Chest extends AnimatedObject {
 	}
 
 	private void spawnItem(GamePanel gp, int objIndex) {
-		SuperObject obj = switch (this.id) {
+		String chestType = id.substring(0, id.lastIndexOf("_"));
+
+		SuperObject obj = switch (chestType) {
 			case "chest_brown" -> new OBJ_Boots();
 			case "chest_red" -> new OBJ_HealingPotion();
 			default -> null;
 		};
 
+		if (obj == null) throw new NullPointerException("Item with id " + this.id + " not found");
 		gp.obj.remove(objIndex);
-		if (obj == null) return;
 		obj.worldX = this.worldX;
 		obj.worldY = this.worldY;
 		gp.obj.add(objIndex, obj);

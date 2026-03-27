@@ -3,6 +3,8 @@ package com.gvi.project.models.objects;
 import com.gvi.project.components.AnimationComponent;
 import com.gvi.project.GamePanel;
 
+import java.util.List;
+
 
 public class OBJ_Key extends AnimatedObject {
 	public OBJ_Key(KeyType typ) {
@@ -29,7 +31,9 @@ public class OBJ_Key extends AnimatedObject {
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
 		animComp.setLooping(true);
-		animComp.cycleLength = 0.5;
-		animComp.delayBetweenCycles = 0.8;
+		animComp.setCycleOrder(List.of(0,1,2,3,0));
+		animComp.cycleLength = 0.6;
+		animComp.delayBetweenCycles = 1;
+		animComp.triggerLoop();
 	}
 }

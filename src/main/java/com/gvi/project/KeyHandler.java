@@ -20,10 +20,32 @@ public class KeyHandler {
 	public boolean f11Pressed = false; // Dev: Reset all rewards
 	public int numberPressed = -1;
 	public String typedCharacter = "";
+	private boolean movementLocked = false;
+
+	private KeyCode lastKeyCode;
+
+	public void lockMovement() {
+		movementLocked = true;
+	}
+
+	public void unlockMovement() {
+		movementLocked = false;
+	}
+
+	public boolean isMovementLocked() {
+		return movementLocked;
+	}
 
 	public void setupKeyListeners(Node node) {
 		node.setOnKeyPressed(e -> {
 			KeyCode code = e.getCode();
+
+			if (movementLocked && code != lastKeyCode) {
+				unlockMovement();
+			}
+
+			lastKeyCode = code;
+
 			if (code == KeyCode.W || code == KeyCode.UP) upPressed = true;
 			if (code == KeyCode.A || code == KeyCode.LEFT) leftPressed = true;
 			if (code == KeyCode.S || code == KeyCode.DOWN) downPressed = true;
@@ -40,11 +62,10 @@ public class KeyHandler {
 			if (code == KeyCode.DIGIT4 || code == KeyCode.NUMPAD4) numberPressed = 4;
 			
 			// Cheat keys for testing reward system
-			if (code == KeyCode.F7) f7Pressed = true;
-			if (code == KeyCode.F8) f8Pressed = true;
-			if (code == KeyCode.F9) f9Pressed = true;
-			if (code == KeyCode.F10) f10Pressed = true;
-			if (code == KeyCode.F11) f11Pressed = true;
+			// if (code == KeyCode.F7) f7Pressed = true;
+			// if (code == KeyCode.F8) f8Pressed = true;
+			// if (code == KeyCode.F9) f9Pressed = true;
+			// if (code == KeyCode.F10) f10Pressed = true;
 		});
 
 		// Handle text input (including uppercase) with onKeyTyped event
@@ -52,7 +73,6 @@ public class KeyHandler {
 			String text = e.getCharacter();
 			if (text != null && !text.isEmpty()) {
 				char c = text.charAt(0);
-				// Allow letters (upper and lowercase), digits, space, dash, underscore
 				if (Character.isLetterOrDigit(c) || c == ' ' || c == '-' || c == '_') {
 					typedCharacter = text;
 				}
@@ -61,6 +81,7 @@ public class KeyHandler {
 
 		node.setOnKeyReleased(e -> {
 			KeyCode code = e.getCode();
+
 			if (code == KeyCode.W || code == KeyCode.UP) upPressed = false;
 			if (code == KeyCode.A || code == KeyCode.LEFT) leftPressed = false;
 			if (code == KeyCode.S || code == KeyCode.DOWN) downPressed = false;
@@ -72,11 +93,10 @@ public class KeyHandler {
 			if (code == KeyCode.DELETE) delPressed = false;
 			if (code == KeyCode.TAB) tabPressed = false;
 			if (code == KeyCode.F2) f2Pressed = !f2Pressed;
-			if (code == KeyCode.F7) f7Pressed = false;
-			if (code == KeyCode.F8) f8Pressed = false;
-			if (code == KeyCode.F9) f9Pressed = false;
-			if (code == KeyCode.F10) f10Pressed = false;
-			if (code == KeyCode.F11) f11Pressed = false;
+			// if (code == KeyCode.F7) f7Pressed = false;
+			// if (code == KeyCode.F8) f8Pressed = false;
+			// if (code == KeyCode.F9) f9Pressed = false;
+			// if (code == KeyCode.F10) f10Pressed = false;
 		});
 
 		node.setFocusTraversable(true);

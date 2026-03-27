@@ -4,6 +4,8 @@ import com.gvi.project.components.AnimationComponent;
 import com.gvi.project.GamePanel;
 import com.gvi.project.helper.TimeoutHelper;
 
+import java.util.List;
+
 
 public class OBJ_Boots extends AnimatedObject {
 	public OBJ_Boots() {
@@ -31,10 +33,12 @@ public class OBJ_Boots extends AnimatedObject {
 	public void setUpAnimationComponent(){
 		AnimationComponent animComp = (AnimationComponent) this.components.get("Animation");
 		animComp.setLooping(true);
-		animComp.cycleLength = 0.4;
-		animComp.delayBetweenCycles = 2;
-		animComp.delay = 0.8;
 
-		sprite = animComp.getCurrentSprite();
+		animComp.setCycleOrder(List.of(0,1,2,3,0));
+		animComp.cycleLength = 0.5;
+		animComp.delayBetweenCycles = 2;
+		animComp.delay = 1;
+
+		animComp.triggerLoop();
 	}
 }

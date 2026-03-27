@@ -46,7 +46,7 @@ public class WinScreen extends GameScreen {
             medalGoldPerfect = ImageHelper.getImage("/sprites/medals/medal_gold_perfect.png");
                 
         } catch (IOException e) {
-            log.warn("Medaillen-Sprites konnten nicht geladen werden", e);
+            System.err.println("Failed to load medal sprites: " + e.getMessage());
         }
     }
 
@@ -99,7 +99,10 @@ public class WinScreen extends GameScreen {
                 double medalX = (screenWidth - medalWidth) / 2.0;
                 double medalY = cby + 165;
                 
-                // Zeichne die Medaille (pixelart-style)
+                    gc.setFill(Color.MAGENTA);
+                    gc.fillRect(medalX, medalY, medalWidth, medalHeight);
+    
+                // Draw pixelated background for medal
                 gc.drawImage(medalSprite, medalX, medalY, medalWidth, medalHeight);
             }
 

@@ -1,6 +1,7 @@
 package com.gvi.project;
 
 import com.gvi.project.helper.SaveManager;
+import com.gvi.project.manager.GameProgressManager;
 import com.gvi.project.models.core.Entity;
 import com.gvi.project.models.game_maps.GameMap;
 import com.gvi.project.models.game_maps.GameMapLoader;
@@ -13,6 +14,7 @@ import com.gvi.project.systems.AnimationSystem;
 import com.gvi.project.systems.RenderSystem;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,11 @@ public class GamePanel {
 	public final UI ui = new UI(this);
 	public final CollisionChecker cChecker = new CollisionChecker(this);
 	public final SaveManager saveManager = new SaveManager();
+	public final GameProgressManager progressManager = new GameProgressManager();
 	public int interactingObjectIndex = -1;
 	public final QuestionService questionProvider = MainApp.getBean(QuestionService.class);
+	public final int maxQuestionsPerQuizStation = Math.max(1,
+			MainApp.getBean(Environment.class).getProperty("app.quiz.max-questions", Integer.class, 10));
 	public final RenderSystem renderSystem = new RenderSystem(this);
 	public final AnimationSystem animationSystem = new AnimationSystem(this);
 
@@ -84,9 +89,13 @@ public class GamePanel {
 	}
 
 	public void loadMap(GameMaps map){
+		if (currentMap != null) {
+			progressManager.snapshotCurrentMap(this);
+		}
 		clearObjects();
 		GameMapLoader mapLoader = new GameMapLoader(this);
 		this.currentMap = mapLoader.loadMap(map.getConfigFileName());
+		progressManager.applySnapshotIfPresent(this);
 //		cChecker.printCollisionMap();
 	}
 
