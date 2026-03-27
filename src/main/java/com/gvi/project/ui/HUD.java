@@ -305,7 +305,8 @@ public class HUD {
     }
     
     /**
-     * Zeigt die erreichten Medaillen im HUD an (unten links, ohne Hintergrund).
+     * Draws unlocked reward medals in the lower-left HUD area.
+     * Rewards are sorted by threshold so the visual progression stays stable.
      */
     private void drawRewards(GraphicsContext gc) {
         Set<Reward> achievedRewards = gp.ui.getAchievedRewards();
@@ -318,22 +319,28 @@ public class HUD {
         double startX = hudX;
         double startY = GeneralSettings.getScreenHeight() - MEDAL_SIZE - 16;
         double currentX = startX;
+        double medalGap = MEDAL_SPACING - MEDAL_SIZE;
 
         for (Reward reward : sortedRewards) {
             if (reward == Reward.NONE) continue;
+
             Image medalImage = getMedalImage(reward);
             if (medalImage != null) {
-                // Special Medal ist 10px breiter und 4px höher
-                double width = (reward == Reward.GOLD_PERFECT) ? medalSize + 10 : medalSize;
-                double height = (reward == Reward.GOLD_PERFECT) ? medalSize + 4 : medalSize;
+                // The perfect-gold medal sprite is slightly larger, so width and spacing
+                // must be adjusted together to avoid overlap with the next medal.
+                double width = (reward == Reward.GOLD_PERFECT) ? MEDAL_SIZE + 10 : MEDAL_SIZE;
+                double height = (reward == Reward.GOLD_PERFECT) ? MEDAL_SIZE + 4 : MEDAL_SIZE;
                 gc.drawImage(medalImage, currentX, startY, width, height);
+                currentX += width + medalGap;
+                continue;
             }
-            currentX += MEDAL_SPACING;
+
+            currentX += MEDAL_SIZE + medalGap;
         }
     }
     
     /**
-     * Gibt das passende Medaillen-Sprite für eine Belohnung zurück.
+     * Returns the medal sprite that matches the unlocked reward tier.
      */
     private Image getMedalImage(Reward reward) {
         switch (reward) {

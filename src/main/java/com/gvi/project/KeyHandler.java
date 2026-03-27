@@ -2,8 +2,11 @@ package com.gvi.project;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KeyHandler {
+	private static final Logger log = LoggerFactory.getLogger(KeyHandler.class);
 
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	public boolean fPressed;
@@ -46,7 +49,8 @@ public class KeyHandler {
 			handleKeyPressed(e.getCode());
 		});
 
-		// Handle text input (including uppercase) with onKeyTyped event
+		// Text input is separated from key presses so JavaFX can deliver composed
+		// characters consistently for the name-entry screen.
 		node.setOnKeyTyped(e -> {
 			String text = e.getCharacter();
 			if (text != null && !text.isEmpty()) {
@@ -67,6 +71,8 @@ public class KeyHandler {
 
 	private void handleKeyPressed(KeyCode code) {
 		if (movementLocked && code != lastKeyCode) {
+			// Requiring a fresh key press prevents held movement keys from leaking into
+			// menus immediately after a modal interaction closes.
 			unlockMovement();
 		}
 
@@ -124,6 +130,7 @@ public class KeyHandler {
 			case F2 -> {
 				if (!pressed) {
 					f2Pressed = !f2Pressed;
+					log.info("Developer mode {}.", f2Pressed ? "enabled" : "disabled");
 				}
 			}
 			case F3 -> f3Pressed = pressed;

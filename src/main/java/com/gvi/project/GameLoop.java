@@ -6,8 +6,11 @@ import com.gvi.project.ui.LoadingScreen;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameLoop extends AnimationTimer {
+	private static final Logger log = LoggerFactory.getLogger(GameLoop.class);
 
 	private final GamePanel gp;
 
@@ -51,9 +54,13 @@ public class GameLoop extends AnimationTimer {
 	private void update(double fixedDelta) {
 		GeneralSettings.setDevMode(gp.keyHandler.f2Pressed);
 
+		// Each branch handles exactly one active state and returns early so a frame
+		// cannot process multiple incompatible inputs in sequence.
+
 		if (gp.gameState == GameState.TITLE) {
 			if (gp.keyHandler.enterPressed) {
 				gp.keyHandler.enterPressed = false;
+				log.debug("Title confirmed. Opening character naming screen.");
 				gp.gameState = GameState.CHARACTER_NAME;
 			}
 			return;
@@ -69,6 +76,7 @@ public class GameLoop extends AnimationTimer {
 		if (gp.gameState == GameState.LOADING) {
 			loadingCounter++;
 			if (loadingCounter >= LoadingScreen.DURATION) {
+				log.debug("Loading screen finished after {} ticks. Entering play state.", loadingCounter);
 				gp.gameState = GameState.PLAY;
 			}
 			return;
@@ -78,6 +86,7 @@ public class GameLoop extends AnimationTimer {
 			if (gp.keyHandler.enterPressed) {
 				gp.keyHandler.enterPressed = false;
 				if (gp.ui.isGameComplete()) {
+					log.info("End screen confirmed. Resetting run and returning to title.");
 					// End-Screen: zurück zum Hauptmenü
 					gp.loadMap(GameMaps.MAP_00);
 					gp.player.setDefaultValues();
@@ -85,6 +94,7 @@ public class GameLoop extends AnimationTimer {
 					gp.interactingObjectIndex = -1;
 					gp.gameState = GameState.TITLE;
 				} else {
+					log.debug("Reward popup dismissed. Returning to active play session.");
 					gp.ui.closeWinScreen(); // Medaillen-Popup: Spiel läuft weiter
 				}
 			}
@@ -93,6 +103,7 @@ public class GameLoop extends AnimationTimer {
 		if (gp.player.isDead) {
 			if (gp.keyHandler.enterPressed) {
 				gp.keyHandler.enterPressed = false;
+				log.info("Game over acknowledged. Restarting from the first map.");
 				gp.loadMap(GameMaps.MAP_00);
 				gp.player.setDefaultValues();
 				gp.ui.resetGame();
@@ -173,6 +184,7 @@ public class GameLoop extends AnimationTimer {
 			if (gp.keyHandler.escPressed) {
 				gp.keyHandler.escPressed = false;
 				gp.ui.resetPauseScreen();
+				log.debug("Pause requested from play state.");
 				gp.gameState = GameState.PAUSE;
 				return;
 			}
@@ -188,9 +200,11 @@ public class GameLoop extends AnimationTimer {
 
 					if (correct) {
 						if (gp.ui.advanceFillBlankIfNeeded()) {
+							log.debug("Question {} advanced to the next fill-in-the-blank step.", gp.ui.getCurrentQuestion().getId());
 							return;
 						}
 						int earnedPoints = gp.ui.getResolvedQuizPoints();
+						log.debug("Question {} answered correctly for {} points.", gp.ui.getCurrentQuestion().getId(), earnedPoints);
 						
 						// Punkte hinzufügen
 						gp.player.score += earnedPoints;
@@ -211,6 +225,7 @@ public class GameLoop extends AnimationTimer {
 						}
 					} else {
 						int lostPoints = gp.ui.getResolvedQuizPoints();
+						log.debug("Question {} answered incorrectly for {} points.", gp.ui.getCurrentQuestion().getId(), lostPoints);
 						
 						gp.player.score = Math.max(0, gp.player.score + lostPoints); // lostPoints is already negative
 						gp.ui.showFloatingScore(lostPoints);
@@ -272,19 +287,27 @@ public class GameLoop extends AnimationTimer {
 		if (gp.keyHandler.enterPressed) {
 			gp.keyHandler.enterPressed = false;
 			switch (gp.ui.getPauseSelectedOption()) {
-				case 0 -> gp.gameState = GameState.PLAY;
+				case 0 -> {
+					log.debug("Pause menu resume selected.");
+					gp.gameState = GameState.PLAY;
+				}
 				case 1 -> {
+					log.debug("Pause menu save selected.");
 					gp.ui.openSaveSlot();
 					slotNavCooldown = 12;
 					gp.gameState = GameState.SAVE_SLOT;
 				}
 				case 2 -> {
+					log.debug("Pause menu load selected.");
 					gp.ui.openLoadSlot();
 					slotNavCooldown = 12;
 					loadSlotOrigin = GameState.PAUSE;
 					gp.gameState = GameState.LOAD_SLOT;
 				}
-				case 3 -> Platform.exit();
+				case 3 -> {
+					log.info("Pause menu exit selected. Closing application.");
+					Platform.exit();
+				}
 			}
 		}
 	}
@@ -332,6 +355,7 @@ public class GameLoop extends AnimationTimer {
 			gp.keyHandler.enterPressed = false;
 			int slot = gp.ui.getSelectedSlot();
 			boolean ok = gp.saveManager.save(gp, slot);
+			log.info("Save slot {} {}.", slot, ok ? "completed" : "failed");
 			gp.ui.openMessage(ok ? "Saved to Slot " + slot + "!" : "Save failed!");
 			gp.gameState = GameState.PLAY;
 		}
@@ -384,8 +408,10 @@ public class GameLoop extends AnimationTimer {
 			gp.keyHandler.enterPressed = false;
 			int slot = gp.ui.getSelectedSlot();
 			if (gp.saveManager.hasSave(slot)) {
+				log.info("Loading save slot {} from {}.", slot, loadSlotOrigin);
 				gp.saveManager.load(gp, slot);
 				double savedPlaytime = gp.ui.playtime;
+				// Reset transient UI/session flags while keeping accumulated playtime from the save.
 				gp.ui.resetGame();
 				gp.ui.playtime = savedPlaytime;
 				loadingCounter = 0;
@@ -397,6 +423,7 @@ public class GameLoop extends AnimationTimer {
 	private void handleCharacterNameInput() {
 		if (gp.keyHandler.tabPressed) {
 			gp.keyHandler.tabPressed = false;
+			log.debug("Opening load slots from character naming screen.");
 			gp.ui.openLoadSlot();
 			slotNavCooldown = 12;
 			loadSlotOrigin = GameState.CHARACTER_NAME;
@@ -425,6 +452,7 @@ public class GameLoop extends AnimationTimer {
 			if (gp.player.playerName.trim().isEmpty()) {
 				gp.player.playerName = "Player";
 			}
+			log.info("Character name confirmed as '{}'.", gp.player.playerName);
 			gp.ui.resetCharacterCreationScreen();
 			gp.gameState = GameState.CHARACTER_CREATION;
 		}
@@ -469,6 +497,7 @@ public class GameLoop extends AnimationTimer {
 			gp.player.setDefaultValues();
 			gp.ui.resetGame();
 			loadingCounter = 0;
+			log.info("Character creation confirmed for player '{}'. Starting game.", gp.player.playerName);
 			gp.gameState = GameState.LOADING;
 		}
 	}
@@ -496,8 +525,10 @@ public class GameLoop extends AnimationTimer {
 			int nextId = gp.currentMap.Id + 1;
 			try {
 				gp.loadMap(GameMaps.fromId(nextId));
+				log.debug("Debug map jump to {}.", gp.currentMap.name);
 				gp.ui.openMessage("[DEBUG] Map → " + gp.currentMap.name);
 			} catch (IllegalArgumentException ignored) {
+				log.debug("Debug map jump ignored because the current map is already the last one.");
 				gp.ui.openMessage("[DEBUG] Letzte Map erreicht");
 			}
 		}
@@ -506,8 +537,10 @@ public class GameLoop extends AnimationTimer {
 			int prevId = gp.currentMap.Id - 1;
 			try {
 				gp.loadMap(GameMaps.fromId(prevId));
+				log.debug("Debug map jump to {}.", gp.currentMap.name);
 				gp.ui.openMessage("[DEBUG] Map → " + gp.currentMap.name);
 			} catch (IllegalArgumentException ignored) {
+				log.debug("Debug map jump ignored because the current map is already the first one.");
 				gp.ui.openMessage("[DEBUG] Erste Map erreicht");
 			}
 		}

@@ -8,6 +8,8 @@ import com.gvi.project.models.questions.Question;
 import com.gvi.project.models.questions.QuestionType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import static com.gvi.project.ui.UITheme.*;
 import static com.gvi.project.ui.UIUtils.*;
 
 public class QuizDialog extends GameScreen {
+	private static final Logger log = LoggerFactory.getLogger(QuizDialog.class);
 
     private static final int ANSWER_COLS = 2;
     private static final double ANSWER_GAP = 8;
@@ -43,6 +46,7 @@ public class QuizDialog extends GameScreen {
     public QuizDialog() {}
 
     public void open(Question question, int remaining) {
+		log.debug("Opening quiz for question {} ({}) with {} remaining questions.", question.getId(), question.getType(), remaining);
         this.currentQuestion = question;
         this.remainingQuestions = remaining;
         this.selectedAnswer = -1;
@@ -57,6 +61,9 @@ public class QuizDialog extends GameScreen {
     }
 
     public void close() {
+		if (currentQuestion != null) {
+			log.debug("Closing quiz for question {}.", currentQuestion.getId());
+		}
         this.quizOpen = false;
         this.currentQuestion = null;
         this.selectedAnswer = -1;
@@ -86,6 +93,7 @@ public class QuizDialog extends GameScreen {
             selectableAnswers = shuffleAnswers(resolveAnswersForCurrentStep());
             selectedAnswers.clear();
             resolvedPoints = 0;
+			log.debug("Advancing fill-in-the-blank question {} to blank {}.", currentQuestion.getId(), fillBlankIndex + 1);
             return true;
         }
         return false;
@@ -113,6 +121,8 @@ public class QuizDialog extends GameScreen {
         }
 
         if (isMultiSelectQuestion()) {
+			// Multi-select questions keep a stable set of chosen answers until the
+			// player confirms, so number keys toggle individual entries on and off.
             if (selectedAnswers.contains(number)) {
                 selectedAnswers.remove(number);
             } else {
@@ -145,6 +155,8 @@ public class QuizDialog extends GameScreen {
                 }
             }
 
+			// A multi-select answer is only correct when the selected set matches the
+			// full positive-point set exactly; partial matches still count as wrong.
             answerCorrect = selectedAnswers.equals(correctIndices);
             resolvedPoints = answerCorrect ? sumPoints(correctIndices, answers) : calculateWrongPointsForMulti(answers);
             selectedAnswer = -1;
@@ -160,6 +172,8 @@ public class QuizDialog extends GameScreen {
 
         answerFeedback = true;
         feedbackCounter = 0;
+        log.debug("Submitted question {}. correct={}, points={}, selections={}",
+                currentQuestion.getId(), answerCorrect, resolvedPoints, selectedAnswers);
         return true;
     }
 
@@ -194,7 +208,8 @@ public class QuizDialog extends GameScreen {
         double questionLineHeight = 18;
         double maxTextW = boxW - 36;
 
-        // Calculate required box height dynamically
+		// The dialog grows with wrapped intro/question/answer content so long text
+		// remains readable instead of clipping into the lower HUD area.
         double contentHeight = 26; // Initial top padding
         contentHeight += 12; // Topic line + spacing
 

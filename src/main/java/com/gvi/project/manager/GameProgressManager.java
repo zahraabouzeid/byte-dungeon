@@ -10,6 +10,8 @@ import com.gvi.project.models.objects.OBJ_HealingPotion;
 import com.gvi.project.models.objects.OBJ_Key;
 import com.gvi.project.models.objects.OBJ_QuizStation;
 import com.gvi.project.models.objects.SuperObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameProgressManager {
+	private static final Logger log = LoggerFactory.getLogger(GameProgressManager.class);
 
     private final Map<String, List<SaveData.SavedObject>> mapSnapshots = new HashMap<>();
 
@@ -43,19 +46,25 @@ public class GameProgressManager {
             ));
         }
         mapSnapshots.put(key, snapshot);
+		log.debug("Captured snapshot for map {} with {} objects.", key, snapshot.size());
     }
 
     public void applySnapshotIfPresent(GamePanel gp) {
         if (gp.currentMap == null) return;
         String key = mapKey(gp.currentMap.name);
         List<SaveData.SavedObject> snapshot = mapSnapshots.get(key);
-        if (snapshot == null) return;
+        if (snapshot == null) {
+			log.debug("No snapshot available for map {}.", key);
+			return;
+		}
+		log.debug("Applying snapshot for map {} with {} objects.", key, snapshot.size());
         applySnapshot(gp, snapshot);
     }
 
     public void restoreFrom(Map<String, List<SaveData.SavedObject>> snapshots) {
         mapSnapshots.clear();
         if (snapshots != null) mapSnapshots.putAll(snapshots);
+		log.debug("Restored {} map snapshots from save data.", mapSnapshots.size());
     }
 
     public Map<String, List<SaveData.SavedObject>> getSnapshots() {
@@ -72,6 +81,9 @@ public class GameProgressManager {
             lookup.put(objectKey(so.className, so.worldX, so.worldY), so);
         }
 
+		// Synchronize the live object list with the saved snapshot in three passes:
+		// remove missing objects, restore matching ones, then respawn items that only
+		// exist in the snapshot.
         Set<String> matched = new HashSet<>();
         for (int i = gp.obj.size() - 1; i >= 0; i--) {
             SuperObject obj = gp.obj.get(i);
@@ -79,6 +91,7 @@ public class GameProgressManager {
             String k = objectKey(obj.getClass().getSimpleName(), obj.worldX, obj.worldY);
             SaveData.SavedObject saved = lookup.get(k);
             if (saved == null) {
+				log.debug("Removing object {} because it is missing from the snapshot.", k);
                 gp.obj.remove(i);
             } else {
                 matched.add(k);
@@ -94,6 +107,7 @@ public class GameProgressManager {
                 spawned.worldX = so.worldX;
                 spawned.worldY = so.worldY;
                 gp.obj.add(spawned);
+				log.debug("Respawned object {} from snapshot.", k);
             }
         }
     }
@@ -110,7 +124,10 @@ public class GameProgressManager {
             }
             case "OBJ_Boots"         -> new OBJ_Boots();
             case "OBJ_HealingPotion" -> new OBJ_HealingPotion();
-            default -> null;
+			default -> {
+				log.warn("Cannot recreate unsupported saved object type {}.", so.className);
+				yield null;
+			}
         };
     }
 
