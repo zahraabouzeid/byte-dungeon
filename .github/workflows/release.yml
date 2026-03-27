@@ -41,11 +41,13 @@ jobs:
       - name: Build single-file EXE
         run: .\build-exe.ps1 -SkipTests
         shell: powershell
-      - name: Upload EXE artifact
+      - name: Upload dist artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: exe
-          path: dist/*.exe
+          name: dist
+          path: |
+            dist/*.exe
+            dist/*.zip
           if-no-files-found: error
 
   deploy:
@@ -65,10 +67,10 @@ jobs:
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             echo "value=$VERSION" >> $GITHUB_OUTPUT
           fi
-      - name: Download EXE artifact
+      - name: Download dist artifacts
         uses: actions/download-artifact@v4
         with:
-          name: exe
+          name: dist
           path: dist
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -76,4 +78,6 @@ jobs:
           tag_name: v${{ steps.version.outputs.value }}
           name: Release v${{ steps.version.outputs.value }}
           generate_release_notes: true
-          files: dist/*.exe
+          files: |
+            dist/*.exe
+            dist/*.zip
