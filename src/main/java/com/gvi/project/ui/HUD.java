@@ -122,12 +122,24 @@ public class HUD {
         gc.setFill(TEXT_WHITE);
         gc.fillText(scoreStr, scoreX, scoreY);
 
-        // High score below score box
+        // High score below score box with styled box
         String hsStr = "Best: " + gp.highScoreManager.getHighScore();
-        gc.setFont(FONT_XS);
-        double hsW = getTextWidth(hsStr, FONT_XS);
-        gc.setFill(TEXT_GRAY);
-        gc.fillText(hsStr, GeneralSettings.getScreenWidth() / 2.0 - hsW / 2.0, boxY + bgHeight + 14);
+        gc.setFont(FONT_SM);
+        double hsW = getTextWidth(hsStr, FONT_SM);
+        double hsPadding = 12;
+        double hsBoxWidth = hsW + hsPadding * 2;
+        double hsBoxHeight = 28;
+        double hsBoxX = GeneralSettings.getScreenWidth() / 2.0 - hsBoxWidth / 2.0;
+        double hsBoxY = boxY + bgHeight + 8;
+        
+        // Draw best score box
+        drawPixelBox(gc, hsBoxX, hsBoxY, hsBoxWidth, hsBoxHeight);
+        
+        // Draw best score text with gold color
+        double hsTextX = GeneralSettings.getScreenWidth() / 2.0 - hsW / 2.0;
+        double hsTextY = hsBoxY + hsBoxHeight / 2.0 + 4;
+        gc.setFill(Color.rgb(255, 200, 80)); // Golden color for best score
+        gc.fillText(hsStr, hsTextX, hsTextY);
 
         if (floatingCounter > 0 && floatingText != null) {
             double alpha = floatingCounter / (double) FLOATING_DURATION;
@@ -311,7 +323,10 @@ public class HUD {
             if (reward == Reward.NONE) continue;
             Image medalImage = getMedalImage(reward);
             if (medalImage != null) {
-                gc.drawImage(medalImage, currentX, startY, MEDAL_SIZE, MEDAL_SIZE);
+                // Special Medal ist 10px breiter und 4px höher
+                double width = (reward == Reward.GOLD_PERFECT) ? medalSize + 10 : medalSize;
+                double height = (reward == Reward.GOLD_PERFECT) ? medalSize + 4 : medalSize;
+                gc.drawImage(medalImage, currentX, startY, width, height);
             }
             currentX += MEDAL_SPACING;
         }
