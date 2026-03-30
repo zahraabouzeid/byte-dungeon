@@ -18,6 +18,8 @@ import java.util.Set;
 public class UI {
 
     private static final Logger log = LoggerFactory.getLogger(UI.class);
+    // Fixed maximum score budget across the full campaign.
+    private static final int TOTAL_GAME_MAX_POINTS = 1636;
     
     private final GamePanel gp;
 
@@ -26,6 +28,7 @@ public class UI {
     private final CharacterCreationScreen characterCreationScreen;
     private final GameOverScreen gameOverScreen;
     private final WinScreen winScreen;
+    private final EndScreen endScreen;
     private final PauseScreen pauseScreen;
     private final SaveSlotScreen saveSlotScreen;
     private final LoadingScreen loadingScreen;
@@ -39,8 +42,10 @@ public class UI {
     public String message = "";
     private int messageCounter = 0;
     public boolean gameFinished = false;
-    double playtime;
-    
+    private boolean gameComplete = false; // true = Win-Tür betreten, ENTER → Hauptmenü
+    private boolean isNewHighScore = false;
+    public double playtime;
+
     // Reward system tracking - Belohnungssystem für Medaillen
     private int maxPossiblePoints = 0;
     private Reward earnedReward = Reward.NONE;
@@ -65,6 +70,7 @@ public class UI {
         characterCreationScreen = new CharacterCreationScreen();
         gameOverScreen = new GameOverScreen();
         winScreen = new WinScreen(GeneralSettings.getScreenWidth(), GeneralSettings.getScreenHeight());
+        endScreen = new EndScreen(GeneralSettings.getScreenWidth(), GeneralSettings.getScreenHeight());
         pauseScreen = new PauseScreen();
         saveSlotScreen = new SaveSlotScreen();
         loadingScreen = new LoadingScreen();
@@ -85,12 +91,12 @@ public class UI {
     private void initializeTotalQuestionCount() {
         try {
             int totalQuestions = gp.questionProvider.getTotalQuestionCount();
-            // Fester Wert für das GESAMTE Spiel - Belohnung wird nur beim Truhe-Öffnen berechnet
-            maxPossiblePoints = 1636;
+            // The reward system is calculated against the whole game, not the active room.
+            maxPossiblePoints = TOTAL_GAME_MAX_POINTS;
             log.info("Belohnungssystem initialisiert mit {} Fragen und {} maximalen Punkten (gesamtes Spiel)", totalQuestions, maxPossiblePoints);
         } catch (Exception e) {
             log.error("Fehler beim Laden der Gesamtanzahl der Fragen", e);
-            maxPossiblePoints = 1636; // Fallback auf festen Wert
+            maxPossiblePoints = TOTAL_GAME_MAX_POINTS;
         }
     }
 
@@ -140,24 +146,27 @@ public class UI {
     public void resetGame() {
         closeQuiz();
         gameFinished = false;
+        gameComplete = false;
+        isNewHighScore = false;
         shouldShowWinScreen = false;
+        rewardPersistence.resetSession();
         messageOn = false;
         playtime = 0;
         gameOverScreen.reset();
         hud.reset();
-        maxPossiblePoints = 1636; // Fester Wert für das gesamte Spiel
+        maxPossiblePoints = TOTAL_GAME_MAX_POINTS;
         earnedReward = Reward.NONE;
         performancePercentage = 0.0;
     }
 
     /**
      * Adds max possible points for a question (DEPRECATED - not used anymore).
-     * maxPossiblePoints is now a fixed value of 1636 for the entire game.
+     * maxPossiblePoints is now a fixed value for the entire game.
      * This method is kept for backward compatibility and testing purposes only.
      * @param points the maximum points achievable for this question
      */
     public void addMaxPossiblePoints(int points) {
-        // Not used anymore - maxPossiblePoints is fixed at 1636
+        // Not used anymore - maxPossiblePoints is fixed for the full campaign.
         // Kept for backward compatibility
     }
 
@@ -206,6 +215,10 @@ public class UI {
         return shouldShowWinScreen;
     }
     
+    public boolean isGameComplete() {
+        return gameComplete;
+    }
+
     /**
      * Schließt den Winscreen und setzt das entsprechende Flag zurück.
      * Das Spiel läuft nahtlos weiter (kein Reset).
@@ -213,6 +226,20 @@ public class UI {
     public void closeWinScreen() {
         shouldShowWinScreen = false;
         gameFinished = false;
+    }
+
+    /**
+     * Wird beim Durchschreiten der Win-Tür aufgerufen.
+     * Berechnet die finale Belohnung, aktualisiert den High Score und
+     * zeigt den End-Screen. ENTER führt danach zum Hauptmenü.
+     */
+    public void triggerGameComplete(GamePanel gp) {
+        calculateReward();
+        isNewHighScore = gp.highScoreManager.updateHighScore(gp.player.score);
+        gameFinished = true;
+        gameComplete = true;
+        gp.stopMusic();
+        gp.playSE(4);
     }
     
     /**
@@ -356,9 +383,15 @@ public class UI {
             return;
         }
 
+        if (gameComplete) {
+            endScreen.draw(gc, gp.player.playerName, gp.player.score, maxPossiblePoints,
+                          performancePercentage, df.format(playtime),
+                          gp.highScoreManager.getHighScore(), isNewHighScore, earnedReward);
+            return;
+        }
+
         if (gameFinished) {
-            winScreen.draw(gc, df.format(playtime), earnedReward, performancePercentage, 
-                          gp.player.score, maxPossiblePoints);
+            winScreen.draw(gc, earnedReward);
             return;
         }
 

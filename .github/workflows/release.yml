@@ -12,6 +12,8 @@ on:
         description: 'Version (z.B. 1.2.0)'
         required: true
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -44,6 +46,11 @@ jobs:
   build:
     runs-on: windows-latest
     needs: test
+    if: >
+      needs.test.result == 'success' && (
+      github.event_name == 'workflow_dispatch' ||
+      github.ref_type == 'tag' ||
+      contains(github.event.head_commit.message, '[ci deploy]'))
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -56,13 +63,17 @@ jobs:
       - name: Build single-file EXE
         run: .\build-exe.ps1 -SkipTests
         shell: powershell
-      - name: Upload dist artifacts
+      - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: |
-            dist/*.exe
-            dist/*.zip
+          name: exe
+          path: dist/*.exe
+          if-no-files-found: error
+      - name: Upload app ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-zip
+          path: dist/*.zip
           if-no-files-found: error
 
   pages:
@@ -81,6 +92,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [build, pages]
+    if: needs.build.result == 'success' && needs.pages.result == 'success'
     permissions:
       contents: write
     steps:
@@ -91,20 +103,30 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "value=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          else
+          elif [ "${{ github.ref_type }}" = "tag" ]; then
             VERSION="${GITHUB_REF_NAME#v}"
             echo "value=$VERSION" >> $GITHUB_OUTPUT
+          else
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            echo "value=$VERSION" >> $GITHUB_OUTPUT
           fi
-      - name: Download dist artifacts
+      - name: Prepare release assets directory
+        run: mkdir -p release-assets
+      - name: Download EXE artifact
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: dist
+          name: exe
+          path: release-assets/exe
+      - name: Download app ZIP artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-zip
+          path: release-assets/app-zip
       - name: Download JaCoCo artifact
         uses: actions/download-artifact@v4
         with:
           name: jacoco-report
-          path: dist
+          path: release-assets/jacoco
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -114,7 +136,8 @@ jobs:
           body: |
             JaCoCo report: ${{ needs.pages.outputs.page_url }}
           generate_release_notes: true
+          fail_on_unmatched_files: true
           files: |
-            dist/*.exe
-            dist/jacoco-report.zip
-            dist/*.zip
+            release-assets/exe/*.exe
+            release-assets/app-zip/*.zip
+            release-assets/jacoco/jacoco-report.zip

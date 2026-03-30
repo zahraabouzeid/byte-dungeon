@@ -14,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 import static com.gvi.project.ui.UITheme.*;
 import static com.gvi.project.ui.UIUtils.*;
@@ -22,6 +25,8 @@ import static com.gvi.project.ui.UIUtils.*;
 public class HUD {
 
     private static final Logger log = LoggerFactory.getLogger(HUD.class);
+    private static final double MEDAL_SIZE = 40;
+    private static final double MEDAL_SPACING = 44;
 
     private final GamePanel gp;
 
@@ -116,6 +121,25 @@ public class HUD {
         double scoreY = boxY + bgHeight / 2.0 + 6;
         gc.setFill(TEXT_WHITE);
         gc.fillText(scoreStr, scoreX, scoreY);
+
+        // High score below score box with styled box
+        String hsStr = "Best: " + gp.highScoreManager.getHighScore();
+        gc.setFont(FONT_SM);
+        double hsW = getTextWidth(hsStr, FONT_SM);
+        double hsPadding = 12;
+        double hsBoxWidth = hsW + hsPadding * 2;
+        double hsBoxHeight = 28;
+        double hsBoxX = GeneralSettings.getScreenWidth() / 2.0 - hsBoxWidth / 2.0;
+        double hsBoxY = boxY + bgHeight + 8;
+        
+        // Draw best score box
+        drawPixelBox(gc, hsBoxX, hsBoxY, hsBoxWidth, hsBoxHeight);
+        
+        // Draw best score text with gold color
+        double hsTextX = GeneralSettings.getScreenWidth() / 2.0 - hsW / 2.0;
+        double hsTextY = hsBoxY + hsBoxHeight / 2.0 + 4;
+        gc.setFill(Color.rgb(255, 200, 80)); // Golden color for best score
+        gc.fillText(hsStr, hsTextX, hsTextY);
 
         if (floatingCounter > 0 && floatingText != null) {
             double alpha = floatingCounter / (double) FLOATING_DURATION;
@@ -244,7 +268,7 @@ public class HUD {
         gc.fillText(devText, dx, dy);
 
         // Reward test hints
-        String hintText = "F7:Bronze | F8:Silver | F9:Gold | F10:Perfect | F11:Reset";
+        String hintText = "F9:Quiz | F10:Score600 | F11:Score800 | F12:+500 Score";
         gc.setFont(FONT_XS);
         double htw = getTextWidth(hintText, FONT_XS);
         double hx = GeneralSettings.getScreenWidth() - htw - 20;
@@ -281,90 +305,42 @@ public class HUD {
     }
     
     /**
-     * Zeigt die erreichten Belohnungen (Medaillen) im HUD an.
-     * Position: Unten links, unter den Schlüsseln
-     * Größe: 55% der Winscreen-Höhe, 50% der Winscreen-Breite
+     * Draws unlocked reward medals in the lower-left HUD area.
+     * Rewards are sorted by threshold so the visual progression stays stable.
      */
     private void drawRewards(GraphicsContext gc) {
         Set<Reward> achievedRewards = gp.ui.getAchievedRewards();
-        if (achievedRewards.isEmpty()) {
-            return; // Keine Medaillen erreicht
-        }
-        
-        // Berechne Box-Größe (55% Höhe, etwas breiter für bessere Darstellung)
-        // Winscreen: 380px Höhe, 600px Breite
-        double boxWidth = 340;  // Etwas breiter als 50%
-        double boxHeight = 209; // 55% von 380px
-        double boxX = hudX;
-        double boxY = GeneralSettings.getScreenHeight() - boxHeight - 20;
-        
-        // Zeichne Hintergrund-Box
-        drawPixelBox(gc, boxX, boxY, boxWidth, boxHeight);
-        
-        // Titel
-        gc.setFont(FONT_MD);
-        gc.setFill(TEXT_GOLD);
-        String title = "Erreichte Belohnungen";
-        double titleW = getTextWidth(title, FONT_MD);
-        gc.fillText(title, boxX + (boxWidth - titleW) / 2, boxY + 25);
-        
-        // Medaillen anzeigen (horizontal angeordnet)
-        double medalSize = 64;
-        double medalSpacing = 75;
-        double specialMedalSize = 85; // Special-Medaille deutlich größer
-        double specialMedalSpacing = 95; // Mehr Platz für Special-Medaille
-        
-        // Berechne Gesamtbreite dynamisch basierend auf erreichten Medaillen
-        double totalWidth = 0;
+        if (achievedRewards.isEmpty()) return;
+
         List<Reward> sortedRewards = new ArrayList<>(achievedRewards);
+        // Keep medal progression stable from left to right as the player unlocks better rewards.
         sortedRewards.sort(Comparator.comparingInt(Reward::getMinPercentage));
-        
-        for (Reward reward : sortedRewards) {
-            if (reward == Reward.NONE) continue;
-            if (reward == Reward.GOLD_PERFECT) {
-                totalWidth += specialMedalSpacing;
-            } else {
-                totalWidth += medalSpacing;
-            }
-        }
-        totalWidth -= (medalSpacing - medalSize); // Letzte Medaille braucht nur ihre Größe
-        
-        double startX = boxX + (boxWidth - totalWidth) / 2;
-        double medalY = boxY + 60;
-        
-        int index = 0;
+
+        double startX = hudX;
+        double startY = GeneralSettings.getScreenHeight() - MEDAL_SIZE - 16;
         double currentX = startX;
-        
+        double medalGap = MEDAL_SPACING - MEDAL_SIZE;
+
         for (Reward reward : sortedRewards) {
             if (reward == Reward.NONE) continue;
-            
-            // Special-Medaille ist BREITER und 2px HÖHER
-            double currentMedalWidth = reward == Reward.GOLD_PERFECT ? specialMedalSize : medalSize;
-            double currentMedalHeight = reward == Reward.GOLD_PERFECT ? medalSize + 2 : medalSize; // Special ist 2px höher
-            double yOffset = reward == Reward.GOLD_PERFECT ? -1 : 0; // Leicht nach oben verschieben für bessere Ausrichtung
-            
-            // Hole Medaillen-Sprite
+
             Image medalImage = getMedalImage(reward);
             if (medalImage != null) {
-                gc.drawImage(medalImage, currentX, medalY + yOffset, currentMedalWidth, currentMedalHeight);
+                // The perfect-gold medal sprite is slightly larger, so width and spacing
+                // must be adjusted together to avoid overlap with the next medal.
+                double width = (reward == Reward.GOLD_PERFECT) ? MEDAL_SIZE + 10 : MEDAL_SIZE;
+                double height = (reward == Reward.GOLD_PERFECT) ? MEDAL_SIZE + 4 : MEDAL_SIZE;
+                gc.drawImage(medalImage, currentX, startY, width, height);
+                currentX += width + medalGap;
+                continue;
             }
-            
-            // Medaillen-Name darunter
-            gc.setFont(FONT_XS);
-            Color medalColor = getMedalColor(reward);
-            gc.setFill(medalColor);
-            String medalName = reward.getDisplayName();
-            double nameW = getTextWidth(medalName, FONT_XS);
-            gc.fillText(medalName, currentX + (currentMedalWidth - nameW) / 2, medalY + medalSize + 18);
-            
-            // Nächste Position berechnen
-            currentX += (reward == Reward.GOLD_PERFECT ? specialMedalSpacing : medalSpacing);
-            index++;
+
+            currentX += MEDAL_SIZE + medalGap;
         }
     }
     
     /**
-     * Gibt das passende Medaillen-Sprite für eine Belohnung zurück.
+     * Returns the medal sprite that matches the unlocked reward tier.
      */
     private Image getMedalImage(Reward reward) {
         switch (reward) {
@@ -373,19 +349,6 @@ public class HUD {
             case GOLD: return medalGold;
             case GOLD_PERFECT: return medalGoldPerfect;
             default: return null;
-        }
-    }
-    
-    /**
-     * Gibt die passende Farbe für eine Medaille zurück.
-     */
-    private Color getMedalColor(Reward reward) {
-        switch (reward) {
-            case BRONZE: return Color.rgb(205, 127, 50);
-            case SILVER: return Color.rgb(192, 192, 192);
-            case GOLD: return Color.rgb(255, 215, 0);
-            case GOLD_PERFECT: return Color.rgb(255, 220, 0);
-            default: return TEXT_WHITE;
         }
     }
 }
