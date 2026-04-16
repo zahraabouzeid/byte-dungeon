@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Byte Dungeon – Benutzerdokumentation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Variables ──────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:          #080710;
+      --surface:     #0f0d1a;
+      --surface2:    #171524;
+      --border:      #251f3a;
+      --accent:      #d4a843;
+      --accent-dim:  #7a5f25;
+      --accent-glow: rgba(212,168,67,0.12);
+      --copper:      #d4804a;
+      --iron:        #72b8da;
+      --gold:        #f0c84a;
+      --danger:      #cc3a2e;
+      --success:     #2eaa6c;
+      --text:        #d0c8e8;
+      --text-dim:    #68618a;
+      --heading:     #eee6cc;
+      --sidebar-w:   264px;
+      --header-h:    56px;
+    }
+
+    /* ─── Light Mode ─────────────────────────────── */
+    [data-theme="light"] {
+      --bg:          #f5f1e8;
+      --surface:     #ffffff;
+      --surface2:    #ede9df;
+      --border:      #ccc4a8;
+      --accent:      #9a6f18;
+      --accent-dim:  #b89030;
+      --accent-glow: rgba(154,111,24,0.08);
+      --copper:      #a84e1e;
+      --iron:        #1e608a;
+      --gold:        #8a5e08;
+      --danger:      #aa241a;
+      --success:     #186040;
+      --text:        #1e1a10;
+      --text-dim:    #7a6830;
+      --heading:     #120a00;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 19.5px; line-height: 1.85;
+      color: var(--text); background: var(--bg);
+    }
+
+    /* ─── Scrollbar ──────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ─── Header ─────────────────────────────────── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--header-h);
+      background: rgba(8,7,16,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 2rem; gap: 1rem;
+    }
+    .header-sword {
+      width: 18px; height: 18px; flex-shrink: 0;
+      fill: var(--accent);
+      filter: drop-shadow(0 0 6px rgba(212,168,67,0.5));
+    }
+    .header-logo {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 900; font-size: 1.1rem;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-shadow: 0 0 20px rgba(212,168,67,0.35);
+    }
+    .header-pipe { color: var(--border); margin: 0 0.2rem; }
+    .header-sub {
+      font-family: 'Lora', serif; font-weight: 300;
+      font-size: 0.9rem; color: var(--text-dim); letter-spacing: 0.04em;
+    }
+    .header-badge {
+      margin-left: auto; font-family: 'Fira Code', monospace;
+      font-size: 0.65rem; color: var(--text-dim);
+      border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px;
+    }
+    .theme-toggle {
+      flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 8px; cursor: pointer;
+      color: var(--text-dim); display: flex; align-items: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent-dim); color: var(--accent); }
+    [data-theme="light"] .theme-icon-dark { display: none; }
+    [data-theme="dark"]  .theme-icon-light { display: none; }
+    :not([data-theme="light"]) .theme-icon-light { display: none; }
+
+    /* ─── Layout ─────────────────────────────────── */
+    .layout { display: flex; margin-top: var(--header-h); }
+
+    /* ─── Sidebar ────────────────────────────────── */
+    nav.sidebar {
+      position: fixed; top: var(--header-h); left: 0;
+      width: var(--sidebar-w); height: calc(100vh - var(--header-h));
+      overflow-y: auto; background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.4rem 0 4rem;
+    }
+    nav.sidebar::-webkit-scrollbar { width: 3px; }
+    nav.sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .nav-label {
+      font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--heading);
+      padding: 1.1rem 1.4rem 0.3rem; display: block;
+    }
+    nav.sidebar a {
+      display: block; padding: 0.28rem 1.4rem;
+      font-family: 'Lora', serif; font-size: 0.82rem;
+      color: var(--text-dim); text-decoration: none;
+      border-left: 2px solid transparent; transition: all 0.12s;
+    }
+    nav.sidebar a:hover, nav.sidebar a.active {
+      color: var(--accent); border-left-color: var(--accent);
+      background: var(--accent-glow);
+      font-style: normal; font-weight: 600;
+    }
+    nav.sidebar a.sub { padding-left: 2.4rem; font-size: 0.76rem; }
+
+    /* ─── Main ───────────────────────────────────── */
+    main {
+      margin-left: var(--sidebar-w);
+      padding: 3rem 4rem 6rem;
+      max-width: 900px; flex: 1;
+    }
+    section { margin-bottom: 3.5rem; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+    /* ─── Typography ─────────────────────────────── */
+    h1 {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 900; font-size: 3.4rem;
+      color: var(--heading); letter-spacing: 0.02em; line-height: 1.1;
+      text-shadow: 0 2px 32px rgba(212,168,67,0.22); margin-bottom: 0.4rem;
+    }
+    h2 {
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 2rem;
+      color: var(--accent); letter-spacing: 0.03em;
+      margin: 2.8rem 0 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.35rem;
+      color: var(--heading); margin: 1.7rem 0 0.6rem; letter-spacing: 0;
+    }
+    p { margin-bottom: 0.85rem; }
+    strong { color: var(--heading); font-weight: 600; }
+    em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+    /* ─── Pixel Canvas ───────────────────────────── */
+    canvas.pixel {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* ─── Hero ───────────────────────────────────── */
+    .hero {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 2.5rem 2.5rem 2rem; margin-bottom: 3rem;
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(212,168,67,0.09) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(114,184,218,0.05) 0%, transparent 50%),
+        linear-gradient(160deg, #110e1e 0%, #0c0b16 100%);
+    }
+    /* subtle grid overlay */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.2;
+    }
+    .hero-inner { position: relative; z-index: 1; display: flex; gap: 2rem; align-items: flex-start; }
+    .hero-chars { display: flex; gap: 4px; align-items: flex-end; flex-shrink: 0; }
+    .hero-text { flex: 1; }
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.24em;
+      color: var(--accent-dim); text-transform: uppercase; margin-bottom: 0.6rem; display: block;
+    }
+    .hero-desc { font-size: 1.04rem; max-width: 550px; color: var(--text); line-height: 1.75; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.3rem; }
+    .tag {
+      font-family: 'Fira Code', monospace; font-size: 0.66rem;
+      padding: 2px 9px; border-radius: 3px; border: 1px solid var(--border);
+      color: var(--text-dim); letter-spacing: 0.04em;
+    }
+    .tag.gold   { border-color: #8a6c20; color: var(--gold); }
+    .tag.copper { border-color: #7a4020; color: var(--copper); }
+    .tag.iron   { border-color: #2a5870; color: var(--iron); }
+    .tag.teal   { border-color: #215a40; color: #4dbb82; }
+
+    /* ─── Flow Steps ─────────────────────────────── */
+    .flow { display: flex; flex-direction: column; margin: 1.3rem 0; }
+    .flow-step { display: flex; align-items: flex-start; gap: 0.85rem; position: relative; }
+    .flow-step:not(:last-child) .vline {
+      position: absolute; left: 16px; top: 36px;
+      width: 2px; height: calc(100% - 4px);
+      background: linear-gradient(to bottom, var(--border), transparent);
+    }
+    .flow-num {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--accent-dim); background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.78rem;
+      color: var(--accent); z-index: 1;
+    }
+    .flow-body { padding: 0.25rem 0 1.4rem; }
+    .flow-body strong {
+      display: block; font-family: 'Cinzel', serif; font-size: 1rem;
+      color: var(--heading); margin-bottom: 0.12rem; font-weight: 700;
+    }
+    .flow-body span { font-size: 0.97rem; color: var(--text-dim); }
+
+    /* ─── Cards ──────────────────────────────────── */
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 0.75rem; margin: 1rem 0;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .card:hover { border-color: var(--accent-dim); transform: translateY(-1px); }
+    .card-icon {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.6rem;
+      font-family: 'Cinzel', serif; font-size: 0.68rem;
+      font-weight: 700; color: var(--accent); letter-spacing: 0;
+    }
+    .card h4 {
+      font-family: 'Cinzel', serif; font-size: 1rem; color: var(--accent);
+      margin-bottom: 0.3rem; font-weight: 700;
+    }
+    .card p { font-size: 0.95rem; color: var(--text-dim); margin: 0; line-height: 1.6; }
+
+    /* ─── Character Grid ─────────────────────────── */
+    .char-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem; margin: 1.1rem 0;
+    }
+    .char-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.1rem 0.8rem;
+      text-align: center; transition: border-color 0.15s;
+    }
+    .char-card:hover { border-color: var(--accent-dim); }
+    .char-card canvas { display: block; margin: 0 auto 0.7rem; }
+    .char-card h4 {
+      font-family: 'Cinzel', serif; font-size: 0.82rem; color: var(--heading);
+      letter-spacing: 0.04em; margin-bottom: 0.18rem;
+    }
+    .char-card span { font-size: 0.8rem; color: var(--text-dim); line-height: 1.4; display: block; }
+
+    /* ─── Crystal Row ────────────────────────────── */
+    .crystal-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.1rem 0; }
+    .crystal-card {
+      flex: 1; min-width: 150px; border-radius: 8px;
+      padding: 1.3rem 1.1rem; border: 1px solid; text-align: center;
+    }
+    .crystal-card.red   { border-color: #8a3030; background: rgba(138,48,48,0.08); }
+    .crystal-card.blue  { border-color: #2a5870; background: rgba(114,184,218,0.06); }
+    .crystal-card.green { border-color: #215a40; background: rgba(77,187,130,0.06); }
+    .crystal-card canvas { display: block; margin: 0 auto 0.65rem; }
+    .crystal-card h4 { font-family: 'Cinzel', serif; font-size: 0.86rem; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .crystal-card.red   h4 { color: #d06060; }
+    .crystal-card.blue  h4 { color: var(--iron); }
+    .crystal-card.green h4 { color: #4dbb82; }
+    .crystal-card p { font-size: 0.92rem; color: var(--text-dim); margin: 0; line-height: 1.55; }
+
+    /* ─── Key Row ────────────────────────────────── */
+    .key-row { display: flex; gap: 0.9rem; flex-wrap: wrap; margin: 1.1rem 0; }
+    .key-card {
+      flex: 1; min-width: 148px; border-radius: 8px;
+      padding: 1.2rem 1rem; border: 1px solid; text-align: center;
+    }
+    .key-card.copper { border-color: #7a4020; background: rgba(212,128,74,0.07); }
+    .key-card.iron   { border-color: #2a5870; background: rgba(114,184,218,0.06); }
+    .key-card.gold   { border-color: #8a6c20; background: rgba(240,200,74,0.07); }
+    .key-card canvas { display: block; margin: 0 auto 0.65rem; }
+    .key-card h4 { font-family: 'Cinzel', serif; font-size: 0.86rem; letter-spacing: 0.05em; margin-bottom: 0.28rem; }
+    .key-card.copper h4 { color: var(--copper); }
+    .key-card.iron   h4 { color: var(--iron); }
+    .key-card.gold   h4 { color: var(--gold); }
+    .key-card p { font-size: 0.92rem; color: var(--text-dim); margin: 0; line-height: 1.55; }
+
+    /* ─── Medal Row ──────────────────────────────── */
+    .medal-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.1rem 0; }
+    .medal-card {
+      border-radius: 8px; padding: 1rem 1.2rem;
+      border: 1px solid; text-align: center; min-width: 120px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .medal-card img {
+      width: 48px; height: 48px;
+      image-rendering: pixelated; display: block; margin-bottom: 0.45rem;
+    }
+    .medal-pct {
+      font-family: 'Fira Code', monospace; font-size: 0.66rem;
+      color: var(--text-dim); letter-spacing: 0.06em; margin-bottom: 0.15rem;
+    }
+    .medal-card h4 { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.04em; }
+    .medal-placeholder {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.45rem;
+      font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-dim);
+    }
+    .medal-none   { border-color: var(--border); }
+    .medal-none h4  { color: var(--text-dim); }
+    .medal-bronze { border-color: #7a4020; background: rgba(212,128,74,0.07); }
+    .medal-bronze h4 { color: var(--copper); }
+    .medal-silver { border-color: #3a5060; background: rgba(154,175,192,0.06); }
+    .medal-silver h4 { color: #9ab8cc; }
+    .medal-gold   { border-color: #8a6c20; background: rgba(240,200,74,0.07); }
+    .medal-gold h4  { color: var(--gold); }
+    .medal-perfect {
+      border-color: var(--accent);
+      background: rgba(212,168,67,0.09);
+      box-shadow: 0 0 22px rgba(212,168,67,0.12);
+    }
+    .medal-perfect h4 { color: var(--accent); }
+
+    /* ─── Map Grid ───────────────────────────────── */
+    .map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+    .map-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+    }
+    .map-id { font-family: 'Fira Code', monospace; font-size: 0.62rem; color: var(--text-dim); margin-bottom: 0.12rem; }
+    .map-card h4 { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--accent); margin-bottom: 0.45rem; }
+    .map-card ul { list-style: none; padding: 0; font-size: 0.92rem; color: var(--text-dim); }
+    .map-card ul li { padding: 0.1rem 0; }
+    .map-card ul li::before { content: '— '; color: var(--border); }
+
+    /* ─── Callout ────────────────────────────────── */
+    .callout {
+      border-left: 3px solid var(--accent); background: rgba(212,168,67,0.05);
+      border-radius: 0 6px 6px 0; padding: 0.85rem 1.2rem; margin: 1rem 0;
+      font-size: 0.98rem;
+    }
+    .callout.tip    { border-color: var(--success); background: rgba(46,170,108,0.05); }
+    .callout.danger { border-color: var(--danger);  background: rgba(204,58,46,0.05); }
+    .callout.info   { border-color: var(--iron);    background: rgba(114,184,218,0.05); }
+    .callout-label {
+      font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.18em;
+      text-transform: uppercase; margin-bottom: 0.22rem; display: block;
+    }
+    .cl-gold   { color: var(--accent); }
+    .cl-tip    { color: var(--success); }
+    .cl-danger { color: var(--danger); }
+    .cl-info   { color: var(--iron); }
+
+    /* ─── Q-Type ─────────────────────────────────── */
+    .qtype {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem; margin: 0.7rem 0;
+    }
+    .qtype h4 { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--accent); margin-bottom: 0.35rem; }
+    .qtype p  { font-size: 0.97rem; margin-bottom: 0.28rem; }
+    .qtype .qmeta { font-size: 0.86rem; color: var(--text-dim); margin: 0; }
+
+    /* ─── Keyboard Table ─────────────────────────── */
+    .kbd-table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.97rem; }
+    .kbd-table th {
+      font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent-dim);
+      text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border);
+    }
+    .kbd-table td {
+      padding: 0.48rem 0.75rem; border-bottom: 1px solid rgba(37,31,58,0.5);
+      color: var(--text); vertical-align: top;
+    }
+    .kbd-table tr:hover td { background: rgba(212,168,67,0.03); }
+    kbd {
+      font-family: 'Fira Code', monospace; font-size: 0.74rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-bottom: 2px solid var(--border); border-radius: 4px;
+      padding: 1px 7px; color: var(--heading); white-space: nowrap;
+    }
+
+    /* ─── Topic List ─────────────────────────────── */
+    .topic-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; margin: 0.9rem 0; }
+    .topic-list li {
+      display: flex; align-items: baseline; gap: 0.7rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.65rem 1.1rem; font-size: 0.98rem;
+    }
+    .topic-num { font-family: 'Fira Code', monospace; font-size: 0.68rem; color: var(--accent-dim); width: 20px; flex-shrink: 0; }
+    .topic-list li strong { color: var(--heading); }
+    .topic-list li span  { color: var(--text-dim); font-size: 0.9rem; }
+
+    /* ─── HUD Mock ───────────────────────────────── */
+    .hud-mock {
+      background: #050410; border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.2rem 1.4rem; font-family: 'Fira Code', monospace;
+      font-size: 0.78rem; color: var(--text-dim); margin: 1rem 0;
+    }
+    .hud-top { display: flex; justify-content: space-between; margin-bottom: 0.7rem; gap: 1rem; flex-wrap: wrap; }
+    .hud-lbl { font-size: 0.58rem; color: var(--accent-dim); letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .hud-score { color: var(--gold); }
+    .hud-time  { color: #8898cc; }
+    .hud-hearts { color: #cc3a3a; letter-spacing: 4px; font-size: 0.9rem; }
+    .hud-copper { color: var(--copper); }
+    .hud-iron   { color: var(--iron); }
+    .hud-gold   { color: var(--gold); }
+
+    /* ─── Heart display ──────────────────────────── */
+    .hearts-display { display: flex; gap: 3px; margin: 0.7rem 0; }
+    .heart-full, .heart-half, .heart-empty {
+      width: 22px; height: 22px; flex-shrink: 0;
+    }
+
+    /* ─── Light Mode: element overrides ─────────── */
+    [data-theme="light"] .hero {
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(154,111,24,0.08) 0%, transparent 50%),
+        linear-gradient(160deg, #ede8da 0%, #f5f1e8 100%);
+    }
+    [data-theme="light"] .hero::after { opacity: 0.12; }
+    [data-theme="light"] .hud-mock { background: #ede8da; }
+    [data-theme="light"] .hud-score { color: #8a5e08; }
+    [data-theme="light"] .hud-time  { color: #44568a; }
+    [data-theme="light"] .hud-hearts { color: #aa241a; }
+    [data-theme="light"] .hud-copper { color: #a84e1e; }
+    [data-theme="light"] .hud-iron   { color: #1e608a; }
+    [data-theme="light"] .hud-gold   { color: #8a5e08; }
+    [data-theme="light"] nav.sidebar { background: #faf8f2; }
+    [data-theme="light"] header { background: rgba(250,248,242,0.96); }
+
+    /* ─── Scroll top ─────────────────────────────── */
+    .scroll-top {
+      display: inline-block; margin-top: 1.5rem;
+      font-family: 'Cinzel', serif; font-size: 0.75rem;
+      color: var(--accent-dim); text-decoration: none; letter-spacing: 0.12em;
+    }
+    .scroll-top:hover { color: var(--accent); }
+
+    /* ─── Responsive ─────────────────────────────── */
+    @media (max-width: 860px) {
+      nav.sidebar { display: none; }
+      main { margin-left: 0; padding: 2rem 1.5rem 4rem; }
+      .map-grid { grid-template-columns: 1fr 1fr; }
+      .char-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-inner { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .map-grid, .char-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <svg class="header-sword" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14.5 2.5l7 7-11 11-2-2 1-1-6-6 1-1-2-2 11-11zm0 2.83L5.83 13l4.17 4.17L18.67 8.5 14.5 5.33zM2 17l2 2-2 2-2-2 2-2z"/>
+  </svg>
+  <div class="header-logo">BYTE DUNGEON</div>
+  <span class="header-pipe">|</span>
+  <div class="header-sub">Benutzerdokumentation</div>
+  <div class="header-badge">v1.0 · 2026</div>
+  <button class="theme-toggle" id="themeToggle" title="Light/Dark Mode">
+    <span class="theme-icon-dark">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </span>
+    <span class="theme-icon-light">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </span>
+  </button>
+</header>
+
+<div class="layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav class="sidebar">
+    <span class="nav-label">Einleitung</span>
+    <a href="#uebersicht">Was ist Byte Dungeon?</a>
+
+    <span class="nav-label">Spielstart</span>
+    <a href="#start">Titelbildschirm</a>
+    <a href="#charakter" class="sub">Charaktererstellung</a>
+    <a href="#speichern" class="sub">Speichern &amp; Laden</a>
+
+    <span class="nav-label">Spielmechanik</span>
+    <a href="#ablauf">Spielablauf</a>
+    <a href="#karten">Die Dungeons</a>
+    <a href="#bewegung">Bewegung</a>
+    <a href="#quiz">Quizsystem</a>
+    <a href="#fragtypen" class="sub">Fragetypen</a>
+    <a href="#kristalle">Kristalle &amp; Schlüssel</a>
+    <a href="#tueren">Türen</a>
+    <a href="#leben">Leben &amp; Heilung</a>
+
+    <span class="nav-label">Interface</span>
+    <a href="#hud">HUD-Anzeige</a>
+    <a href="#pause">Pausemenü</a>
+
+    <span class="nav-label">Fortschritt</span>
+    <a href="#themen">Lernthemen</a>
+    <a href="#medaillen">Medaillen</a>
+    <a href="#ende">Spielende</a>
+
+    <span class="nav-label">Referenz</span>
+    <a href="#steuerung">Steuerung</a>
+  </nav>
+
+  <!-- ══ MAIN ══ -->
+  <main>
+
+    <!-- ── HERO ── -->
+    <section id="uebersicht">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-chars" id="hero-chars"></div>
+          <div class="hero-text">
+            <span class="hero-eyebrow">Gamification · Lernplattform · 2025</span>
+            <h1>Byte Dungeon</h1>
+            <p class="hero-desc">
+              Ein bildungsbasiertes Dungeon-Erkundungsspiel, das Lernen mit Spielspaß verbindet.
+              Erkunde mittelalterliche Kerker, meistere Quizfragen zu IT- und Wirtschaftsthemen
+              und sammle Kristall-Schlüssel, um neue Bereiche freizuschalten.
+            </p>
+            <div class="hero-tags">
+              <span class="tag gold">Datenbank &amp; SQL</span>
+              <span class="tag gold">DB-Modellierung</span>
+              <span class="tag copper">Pseudocode</span>
+              <span class="tag copper">Maschinelles Lernen</span>
+              <span class="tag iron">Wirtschaft</span>
+              <span class="tag iron">Recht</span>
+              <span class="tag teal">UML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SPIELSTART ══ -->
+    <section id="start">
+      <h2>Titelbildschirm &amp; Spielstart</h2>
+      <p>
+        Nach dem Starten der Anwendung erscheint der <strong>Titelbildschirm</strong>.
+        Zwei Optionen stehen zur Verfügung:
+      </p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">N</div>
+          <h4>Neues Spiel</h4>
+          <p>Startet die Charaktererstellung. Du vergibst einen Namen und wählst deinen Helden.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">L</div>
+          <h4>Spiel laden</h4>
+          <p>Öffnet die Speicherslot-Übersicht. Wähle einen vorhandenen Stand und setze das Abenteuer fort.</p>
+        </div>
+      </div>
+
+      <h3 id="charakter">Charaktererstellung</h3>
+      <p>Die Erstellung deines Helden läuft in zwei Schritten ab:</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="vline"></div>
+          <div class="flow-num">1</div>
+          <div class="flow-body">
+            <strong>Name eingeben</strong>
+            <span>Gib deinem Helden einen Namen (max. 20 Zeichen). Erlaubt: Buchstaben, Zahlen, Leerzeichen, Bindestrich, Unterstrich.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="vline"></div>
+          <div class="flow-num">2</div>
+          <div class="flow-body">
+            <strong>Charakter wählen</strong>
+            <span>Wähle mit <kbd>←</kbd> / <kbd>→</kbd> aus vier einzigartigen Charaktermodellen.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-body">
+            <strong>Spiel beginnt</strong>
+            <span>Drücke <kbd>Enter</kbd> zur Bestätigung. Das Spiel lädt und du startest im Eingangsbereich.</span>
+          </div>
+        </div>
+      </div>
+
+      <p>Verfügbare Charaktere:</p>
+      <div class="char-grid" id="char-grid"></div>
+
+      <h3 id="speichern">Speichern &amp; Laden</h3>
+      <p>
+        Das Spiel bietet <strong>3 Speicherslots</strong>. Jeder Slot zeigt:
+        Spielername, aktuellen Punktestand, Spielzeit und Dungeon-Fortschritt.
+      </p>
+      <div class="callout tip">
+        <span class="callout-label cl-tip">Tipp</span>
+        Speichere regelmäßig über das Pausemenü (<kbd>Esc</kbd> &rarr; Spiel speichern).
+        Bereits richtig beantwortete Fragen werden mitgespeichert und
+        tauchen in Folgesitzungen nicht erneut auf.
+      </div>
+      <div class="callout danger">
+        <span class="callout-label cl-danger">Achtung</span>
+        Mit <kbd>Entf</kbd> kannst du im Speicher-/Ladebildschirm einen Slot
+        <strong>unwiderruflich löschen</strong>.
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ══ ABLAUF ══ -->
+    <section id="ablauf">
+      <h2>Spielablauf – Übersicht</h2>
+      <p>
+        Byte Dungeon ist in <strong>vier Bereiche</strong> unterteilt, die nacheinander durchquert werden.
+        Das Ziel: In jedem Dungeon alle Quizstationen meistern, Schlüssel sammeln,
+        Türen öffnen und den Ausgang erreichen.
+      </p>
+      <div class="flow">
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">1</div>
+          <div class="flow-body"><strong>Eingangsbereich erkunden</strong>
+          <span>Hub-Zone (MAP 00) ohne Quizfragen – lerne hier die Steuerung und das Spielprinzip kennen.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">2</div>
+          <div class="flow-body"><strong>Dungeon betreten</strong>
+          <span>Betritt einen der drei Themen-Dungeons. Ein Banner zeigt kurz den Themenbereich an.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">3</div>
+          <div class="flow-body"><strong>Quizstationen besuchen</strong>
+          <span>Nähere dich einem leuchtenden Kristall und drücke <kbd>F</kbd>. Beantworte alle Fragen korrekt, um einen Schlüssel zu erhalten.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">4</div>
+          <div class="flow-body"><strong>Türen öffnen</strong>
+          <span>Nutze die gesammelten Schlüssel, um verriegelte Türen zu öffnen und neue Bereiche freizuschalten.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">5</div>
+          <div class="flow-body"><strong>Nächsten Dungeon betreten</strong>
+          <span>Laufe an den Kartenrand, um automatisch den nächsten Dungeon zu betreten.</span></div></div>
+        <div class="flow-step"><div class="flow-num">6</div>
+          <div class="flow-body"><strong>Endbildschirm</strong>
+          <span>Erreiche den Ausgang im Business-Dungeon – dein Ergebnis, die Spielzeit und deine Medaille werden ausgewertet.</span></div></div>
+      </div>
+    </section>
+
+    <!-- ══ KARTEN ══ -->
+    <section id="karten">
+      <h2>Die Dungeons</h2>
+      <p>
+        Das Spiel besteht aus vier Karten (je 20 × 11 Felder, Kachelgröße 48 × 48 Pixel).
+        Der Spieler startet stets in der Mitte des Eingangsbereichs der jeweiligen Karte.
+      </p>
+      <div class="map-grid">
+        <div class="map-card">
+          <div class="map-id">MAP 00</div>
+          <h4>Eingangsbereich</h4>
+          <ul>
+            <li>Hub / Tutorial-Zone</li>
+            <li>Keine Quizstationen</li>
+            <li>Zugänge zu allen Dungeons</li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <div class="map-id">MAP 01</div>
+          <h4>Datenbank-Dungeon</h4>
+          <ul>
+            <li>Datenbank &amp; SQL</li>
+            <li>DB-Modellierung</li>
+            <li>Rote und blaue Kristalle</li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <div class="map-id">MAP 02</div>
+          <h4>Programmier-Dungeon</h4>
+          <ul>
+            <li>Pseudocode &amp; Algorithmen</li>
+            <li>Maschinelles Lernen</li>
+            <li>Blaue und grüne Kristalle</li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <div class="map-id">MAP 03</div>
+          <h4>Business-Dungeon</h4>
+          <ul>
+            <li>Wirtschaft &amp; Recht</li>
+            <li>UML</li>
+            <li>Grüne Kristalle &middot; Ausgang</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-label cl-info">Hinweis</span>
+        Beim Betreten eines nummerierten Dungeons erscheint kurz ein
+        <strong>Dungeon-Banner</strong> mit dem Themennamen.
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ══ BEWEGUNG ══ -->
+    <section id="bewegung">
+      <h2>Bewegung &amp; Erkundung</h2>
+      <p>
+        Der Charakter bewegt sich auf einem <strong>kachelbasierten Raster</strong>.
+        Bewegungen werden flüssig animiert – jede Kachel wird in ca. 12 Frames durchquert.
+      </p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">+</div>
+          <h4>Richtungsbewegung</h4>
+          <p>Bewege dich mit <kbd>W A S D</kbd> oder den Pfeiltasten in alle vier Richtungen.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">X</div>
+          <h4>Kollisionserkennung</h4>
+          <p>Wände, Säulen und verschlossene Türen blockieren den Weg. Suche alternative Routen.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&rarr;</div>
+          <h4>Kartenübergänge</h4>
+          <p>Laufe an den Dungeon-Rand, um den nächsten Bereich zu betreten. Ein Soundeffekt begleitet den Übergang.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">F</div>
+          <h4>Interaktionshinweis</h4>
+          <p>Nähert sich der Spieler einem interaktiven Objekt, erscheint ein Hinweis <em>[F]&nbsp;…</em> oberhalb.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ QUIZ ══ -->
+    <section id="quiz">
+      <h2>Das Quizsystem</h2>
+      <p>
+        Quizstationen sind die zentralen Spielelemente und erscheinen als
+        <strong>leuchtende Kristallsäulen</strong>. Nähert sich der Spieler,
+        wird der Themenname als Interaktionshinweis eingeblendet.
+      </p>
+
+      <div class="flow">
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">1</div>
+          <div class="flow-body"><strong>Station nähern &amp; starten</strong>
+          <span>Gehe zur Kristallsäule und drücke <kbd>F</kbd>. Das Quiz-Fenster öffnet sich.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">2</div>
+          <div class="flow-body"><strong>Fragen beantworten</strong>
+          <span>Bis zu 10 Fragen pro Station. Wähle die Antwort mit der Zifferntaste und bestätige mit <kbd>Enter</kbd>.</span></div></div>
+        <div class="flow-step"><div class="vline"></div><div class="flow-num">3</div>
+          <div class="flow-body"><strong>Sofortige Rückmeldung</strong>
+          <span>Richtige Antworten bringen Punkte (+). Falsche Antworten kosten Punkte und ein halbes Herz (−).</span></div></div>
+        <div class="flow-step"><div class="flow-num">4</div>
+          <div class="flow-body"><strong>Schlüssel erhalten</strong>
+          <span>Wurden alle Fragen korrekt beantwortet, erscheint an der Stelle des Kristalls ein aufhebbarer Schlüssel.</span></div></div>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label cl-gold">Wichtig</span>
+        Du kannst eine Station jederzeit mit <kbd>Esc</kbd> verlassen. Dein bisheriger Fortschritt
+        bleibt erhalten – bereits richtig beantwortete Fragen werden nicht wiederholt.
+      </div>
+
+      <h3 id="fragtypen">Fragetypen</h3>
+
+      <div class="qtype">
+        <h4>Wahr / Falsch</h4>
+        <p>Eine Aussage wird präsentiert. Wähle <em>Wahr</em> oder <em>Falsch</em>.</p>
+        <p class="qmeta">Antworten: 2 &nbsp;&middot;&nbsp; Auswahl: <kbd>1</kbd> oder <kbd>2</kbd></p>
+      </div>
+      <div class="qtype">
+        <h4>Multiple Choice – Einfachauswahl</h4>
+        <p>Mehrere Optionen werden angezeigt. Wähle genau <strong>eine</strong> richtige Antwort.</p>
+        <p class="qmeta">Antworten: 2–9 &nbsp;&middot;&nbsp; Auswahl: <kbd>1</kbd> – <kbd>9</kbd></p>
+      </div>
+      <div class="qtype">
+        <h4>Multiple Choice – Mehrfachauswahl</h4>
+        <p>Mehrere Antworten können gleichzeitig richtig sein.
+        Wähle <strong>alle</strong> richtigen Optionen, dann bestätige mit <kbd>Enter</kbd>.</p>
+        <p class="qmeta">Höhere Punktzahl, da mehrere Entscheidungen nötig</p>
+      </div>
+      <div class="qtype">
+        <h4>Lückentext</h4>
+        <p>Ein Text mit Lücken wird angezeigt. Jede Lücke wird einzeln ausgefüllt.
+        Für jede Lücke stehen neue Antwortmöglichkeiten bereit.</p>
+        <p class="qmeta">Höhere Punktzahl, abhängig von der Anzahl der Lücken</p>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-label cl-tip">Punktesystem</span>
+        Schwierigkeitsgrade: <strong>Niedrig &middot; Mittel &middot; Hoch</strong>.
+        Je schwieriger die Frage, desto mehr Punkte gewinnst oder verlierst du.
+        Das Gesamtmaximum beträgt <em>1 636 Punkte</em> über alle 563 Fragen.
+      </div>
+    </section>
+
+    <!-- ══ KRISTALLE ══ -->
+    <section id="kristalle">
+      <h2>Kristalle &amp; Schlüssel</h2>
+      <p>
+        Kristalle stehen für Quizstationen und leuchten animiert im Dungeon.
+        Nach erfolgreichem Abschluss spawnt ein Schlüssel an dieser Stelle.
+        Es gibt drei Kristall- und Schlüsselarten:
+      </p>
+
+      <div class="crystal-row" id="crystal-row"></div>
+
+      <h3>Schlüsselarten</h3>
+      <p>
+        Schlüssel landen im <strong>Inventar</strong> (oben rechts im HUD angezeigt).
+        Sie werden beim Öffnen der zugehörigen Tür automatisch verbraucht.
+        Drücke <kbd>F</kbd> neben einem Schlüssel, um ihn aufzuheben.
+      </p>
+
+      <div class="key-row" id="key-row"></div>
+    </section>
+
+    <!-- ══ TÜREN ══ -->
+    <section id="tueren">
+      <h2>Türen</h2>
+      <p>
+        Türen blockieren den Weg und treten als Einzel- oder <strong>Doppeltür</strong> auf.
+        Zum Öffnen muss der passende Schlüssel vorhanden sein.
+      </p>
+      <div class="callout">
+        <span class="callout-label cl-gold">Türen öffnen</span>
+        Nähere dich einer Tür und drücke <kbd>F</kbd>. Wenn du den richtigen Schlüssel besitzt,
+        öffnet sich die Tür mit einer kurzen Animation. Der Schlüssel wird dabei verbraucht.
+        Manche Türen benötigen <em>mehrere</em> Schlüssel desselben Typs.
+      </div>
+      <p>
+        Einige Türen sind an <strong>Bedingungen</strong> geknüpft. Der Hinweistext oberhalb
+        der Tür informiert dich darüber, was zum Öffnen benötigt wird.
+      </p>
+    </section>
+
+    <!-- ══ LEBEN ══ -->
+    <section id="leben">
+      <h2>Leben &amp; Heilung</h2>
+      <p>
+        Der Charakter hat <strong>5 Herzen</strong> (= 10 halbe Herzen).
+        Jede falsche Antwort im Quiz kostet ein halbes Herz.
+      </p>
+      <!-- SVG hearts -->
+      <div class="hearts-display">
+        <svg class="heart-full" viewBox="0 0 20 20"><path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="#cc3a3a"/></svg>
+        <svg class="heart-full" viewBox="0 0 20 20"><path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="#cc3a3a"/></svg>
+        <svg class="heart-full" viewBox="0 0 20 20"><path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="#cc3a3a"/></svg>
+        <svg class="heart-full" viewBox="0 0 20 20"><path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="#cc3a3a"/></svg>
+        <svg class="heart-half" viewBox="0 0 20 20">
+          <defs><clipPath id="h"><rect x="0" y="0" width="10" height="20"/></clipPath></defs>
+          <path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="none" stroke="#4a3050" stroke-width="1.5"/>
+          <path d="M10 17s-7-4.9-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 4.1-7 9-7 9z" fill="#cc3a3a" clip-path="url(#h)"/>
+        </svg>
+      </div>
+      <p style="font-size:0.88rem;color:var(--text-dim);margin-top:0.2rem;">
+        Darstellung: 4&nbsp;&frac12; von 5 Herzen (Beispiel)
+      </p>
+
+      <p style="margin-top:1rem;">
+        <strong>Heilkristalle (rote Tränke)</strong> stellen 2 halbe Herzen wieder her
+        und können mit <kbd>F</kbd> aufgehoben werden. Sie sind an strategischen Stellen
+        im Dungeon platziert.
+      </p>
+      <div class="callout danger">
+        <span class="callout-label cl-danger">Game Over</span>
+        Fällt die Lebensleiste auf null, endet das Spiel sofort. Ein gespeicherter
+        Spielstand vor dem Tod bleibt erhalten – lade ihn, um neu zu versuchen.
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ══ HUD ══ -->
+    <section id="hud">
+      <h2>HUD – Anzeige im Spiel</h2>
+      <p>Das <em>Heads-Up-Display</em> zeigt alle wichtigen Informationen auf einen Blick:</p>
+
+      <div class="cards">
+        <div class="card"><div class="card-icon">Pt</div><h4>Punktestand</h4><p>Aktueller Score und Gesamtmaximum. Schwebende Zahlen zeigen Gewinne und Verluste oberhalb des Charakters.</p></div>
+        <div class="card"><div class="card-icon">t</div><h4>Spielzeit</h4><p>Verstrichene Zeit im Format MM:SS. Wird im Endbildschirm ausgewertet.</p></div>
+        <div class="card"><div class="card-icon">HP</div><h4>Lebensanzeige</h4><p>Herzgrafiken zeigen den aktuellen Lebenspunktestand inklusive halber Herzen.</p></div>
+        <div class="card"><div class="card-icon">Inv</div><h4>Inventar</h4><p>Anzahl der gehaltenen Kupfer-, Eisen- und Goldschlüssel.</p></div>
+        <div class="card"><div class="card-icon">Map</div><h4>Minimap</h4><p>Zeigt den Grundriss der aktuellen Karte mit der aktuellen Spielerposition.</p></div>
+        <div class="card"><div class="card-icon">Med</div><h4>Medaillenfortschritt</h4><p>Bisher verdiente Medaillen werden als kleine Icons eingeblendet.</p></div>
+      </div>
+    </section>
+
+    <!-- ══ PAUSE ══ -->
+    <section id="pause">
+      <h2>Pausemenü</h2>
+      <p>Drücke <kbd>Esc</kbd> während des Spiels, um zu pausieren:</p>
+      <div class="cards">
+        <div class="card"><div class="card-icon">&#9654;</div><h4>Fortsetzen</h4><p>Schließt das Menü und setzt das Spiel fort.</p></div>
+        <div class="card"><div class="card-icon">S</div><h4>Spiel speichern</h4><p>Öffnet die Slot-Auswahl. Wähle einen freien oder bestehenden Slot.</p></div>
+        <div class="card"><div class="card-icon">L</div><h4>Spiel laden</h4><p>Lade einen gespeicherten Stand. Nicht gespeicherter Fortschritt geht verloren.</p></div>
+        <div class="card"><div class="card-icon">&#9632;</div><h4>Hauptmenü</h4><p>Zurück zum Titelbildschirm. Nicht gespeicherter Fortschritt geht verloren.</p></div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ══ THEMEN ══ -->
+    <section id="themen">
+      <h2>Lernthemen</h2>
+      <p>Das Spiel deckt <strong>7 Themengebiete</strong> ab, verteilt auf drei Dungeons:</p>
+      <ul class="topic-list">
+        <li><span class="topic-num">01</span><div><strong>Datenbank &amp; SQL</strong> <span>&nbsp;&middot;&nbsp; Abfragen, JOINs, Aggregatfunktionen, DDL/DML</span></div></li>
+        <li><span class="topic-num">02</span><div><strong>DB-Modellierung</strong> <span>&nbsp;&middot;&nbsp; Entity-Relationship-Diagramme, Normalisierung</span></div></li>
+        <li><span class="topic-num">03</span><div><strong>Pseudocode &amp; Algorithmen</strong> <span>&nbsp;&middot;&nbsp; Kontrollstrukturen, Schleifen, Rekursion</span></div></li>
+        <li><span class="topic-num">04</span><div><strong>Maschinelles Lernen</strong> <span>&nbsp;&middot;&nbsp; Supervised/Unsupervised Learning, Modelle, Metriken</span></div></li>
+        <li><span class="topic-num">05</span><div><strong>Wirtschaft</strong> <span>&nbsp;&middot;&nbsp; BWL-Grundlagen, Kostenrechnung, Finanzierung</span></div></li>
+        <li><span class="topic-num">06</span><div><strong>Recht</strong> <span>&nbsp;&middot;&nbsp; Vertragsrecht, Datenschutz (DSGVO), Urheberrecht</span></div></li>
+        <li><span class="topic-num">07</span><div><strong>UML</strong> <span>&nbsp;&middot;&nbsp; Klassendiagramme, Sequenzdiagramme, Anwendungsfalldiagramme</span></div></li>
+      </ul>
+      <p>
+        Die Fragendatenbank umfasst insgesamt <em>563 Fragen</em>, die gleichmäßig auf alle
+        Themengebiete verteilt sind. Pro Station werden bis zu 10 Fragen zufällig ausgewählt.
+      </p>
+    </section>
+
+    <!-- ══ MEDAILLEN ══ -->
+    <section id="medaillen">
+      <h2>Medaillen &amp; Wertung</h2>
+      <p>
+        Am Spielende entscheidet die erzielte Prozentzahl der Maximalpunktzahl
+        über die vergebene Medaille:
+      </p>
+
+      <div class="medal-row">
+        <div class="medal-card medal-none">
+          <div class="medal-placeholder">–</div>
+          <div class="medal-pct">0 – 58 %</div>
+          <h4>Keine Medaille</h4>
+        </div>
+        <div class="medal-card medal-bronze">
+          <img src="../src/main/resources/sprites/medals/medal_bronze.png" alt="Bronze-Medaille" />
+          <div class="medal-pct">59 – 73 %</div>
+          <h4>Bronze</h4>
+        </div>
+        <div class="medal-card medal-silver">
+          <img src="../src/main/resources/sprites/medals/medal_silver.png" alt="Silber-Medaille" />
+          <div class="medal-pct">74 – 88 %</div>
+          <h4>Silber</h4>
+        </div>
+        <div class="medal-card medal-gold">
+          <img src="../src/main/resources/sprites/medals/medal_gold.png" alt="Gold-Medaille" />
+          <div class="medal-pct">89 – 97 %</div>
+          <h4>Gold</h4>
+        </div>
+        <div class="medal-card medal-perfect">
+          <img src="../src/main/resources/sprites/medals/medal_gold_perfect.png" alt="Gold Perfekt" />
+          <div class="medal-pct">98 – 100 %</div>
+          <h4>Gold Perfekt</h4>
+        </div>
+      </div>
+
+      <p>
+        Medaillen werden dauerhaft gespeichert und im HUD als kleine Icons angezeigt.
+        Ein globaler <strong>Highscore</strong> wird über alle Spieldurchläufe hinweg getrackt.
+      </p>
+      <div class="callout tip">
+        <span class="callout-label cl-tip">Tipp für hohe Wertungen</span>
+        Vermeide falsche Antworten konsequent – negative Punkte summieren sich.
+        Lies alle Antwortmöglichkeiten vollständig, bevor du antwortest.
+        Bei Mehrfachauswahl: Wähle <em>alle</em> richtigen Optionen.
+      </div>
+    </section>
+
+    <!-- ══ ENDE ══ -->
+    <section id="ende">
+      <h2>Spielende</h2>
+      <p>
+        Erreichst du den <strong>Ausgang</strong> im Business-Dungeon (MAP 03),
+        erscheint der Endbildschirm mit folgenden Informationen:
+      </p>
+      <div class="cards">
+        <div class="card"><div class="card-icon">ID</div><h4>Spielername</h4><p>Dein gewählter Charaktername.</p></div>
+        <div class="card"><div class="card-icon">Pt</div><h4>Punkte / Maximum</h4><p>Erreichter Score vs. 1 636 mögliche Punkte.</p></div>
+        <div class="card"><div class="card-icon">%</div><h4>Prozentuale Leistung</h4><p>Basis für die Medaillenvergabe.</p></div>
+        <div class="card"><div class="card-icon">t</div><h4>Spielzeit</h4><p>Gesamtzeit seit dem ersten Start der Sitzung.</p></div>
+        <div class="card"><div class="card-icon">Hi</div><h4>Highscore</h4><p>Bisher bester Score über alle Durchläufe.</p></div>
+        <div class="card"><div class="card-icon">Med</div><h4>Verdiente Medaille</h4><p>Die Medaille dieses Spieldurchlaufs.</p></div>
+      </div>
+      <p>Mit <kbd>Enter</kbd> kehrst du zum Titelbildschirm zurück.</p>
+    </section>
+
+    <hr />
+
+    <!-- ══ STEUERUNG ══ -->
+    <section id="steuerung">
+      <h2>Steuerung – Vollständige Übersicht</h2>
+
+      <h3>Bewegung</h3>
+      <table class="kbd-table">
+        <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>W</kbd> / <kbd>Pfeil hoch</kbd></td><td>Nach oben bewegen</td></tr>
+          <tr><td><kbd>A</kbd> / <kbd>Pfeil links</kbd></td><td>Nach links bewegen</td></tr>
+          <tr><td><kbd>S</kbd> / <kbd>Pfeil runter</kbd></td><td>Nach unten bewegen</td></tr>
+          <tr><td><kbd>D</kbd> / <kbd>Pfeil rechts</kbd></td><td>Nach rechts bewegen</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Interaktion</h3>
+      <table class="kbd-table">
+        <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>F</kbd></td><td>Interagieren: Gegenstand aufheben &nbsp;·&nbsp; Quiz starten &nbsp;·&nbsp; Tür öffnen</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Pausemenü öffnen &nbsp;·&nbsp; Quiz verlassen &nbsp;·&nbsp; Zurück</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Auswahl bestätigen &nbsp;·&nbsp; Antwort einreichen</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Quizantworten</h3>
+      <table class="kbd-table">
+        <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>1</kbd> – <kbd>9</kbd></td><td>Antwortoption auswählen (Ziffer entspricht der Position in der Liste)</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Auswahl bestätigen &nbsp;·&nbsp; Nächste Lücke (bei Lückentext)</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Quiz abbrechen und zur Karte zurückkehren</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Menünavigation</h3>
+      <table class="kbd-table">
+        <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Pfeil hoch</kbd> / <kbd>Pfeil runter</kbd></td><td>Menüpunkte navigieren</td></tr>
+          <tr><td><kbd>Pfeil links</kbd> / <kbd>Pfeil rechts</kbd></td><td>Charakter wechseln (Charaktererstellung)</td></tr>
+          <tr><td><kbd>Backspace</kbd></td><td>Letztes Zeichen löschen (Namenseingabe)</td></tr>
+          <tr><td><kbd>Entf</kbd></td><td>Speicherslot löschen (Speicher-/Ladebildschirm)</td></tr>
+          <tr><td><kbd>Tab</kbd></td><td>Spielstand laden (vom Namenseingabebildschirm)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <a href="#uebersicht" class="scroll-top">&#8593; Nach oben</a>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SPRITE ENGINE
+══════════════════════════════════════════════════ -->
+<script>
+  const BASE = '../src/main/resources/sprites/tilemaps/damp-dungeons/';
+  const TILE = 16;
+
+  const SPRITES = {
+    crystal_red:   { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:0,y:12},{x:1,y:12},{x:2,y:12}], w:1, h:2 },
+    crystal_blue:  { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:0,y:14},{x:1,y:14},{x:2,y:14}], w:1, h:2 },
+    crystal_green: { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:3,y:12},{x:4,y:12},{x:5,y:12}], w:1, h:2 },
+    key_copper:    { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:6,y:2},{x:7,y:2},{x:8,y:2},{x:9,y:2}], w:1, h:1 },
+    key_iron:      { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:6,y:0},{x:7,y:0},{x:8,y:0},{x:9,y:0}], w:1, h:1 },
+    key_gold:      { src: BASE + 'Animations/Dungeon_ObjectsDungeon.png', frames: [{x:6,y:4},{x:7,y:4},{x:8,y:4},{x:9,y:4}], w:1, h:1 },
+  };
+
+  const CHARS = [
+    { name: 'Held',     desc: 'Standardcharakter',      src: BASE + 'Characters/Dungeon_HeroMan1.png'      },
+    { name: 'Pilzmann', desc: 'Rätselhafte Kreatur',    src: BASE + 'Characters/Dungeon_MushroomMan16.png' },
+    { name: 'Goblin',   desc: 'Listiger Bewohner',      src: BASE + 'Characters/Dungeon_Goblin1.png'       },
+    { name: 'Skelett',  desc: 'Unsterblicher Krieger',  src: BASE + 'Characters/Dungeon_Skeleton.png'      },
+  ];
+
+  /* image cache */
+  const cache = {};
+  function loadImg(src) {
+    if (!cache[src]) {
+      cache[src] = new Promise((ok, err) => {
+        const i = new Image();
+        i.onload  = () => ok(i);
+        i.onerror = () => err();
+        i.src = src;
+      });
+    }
+    return cache[src];
+  }
+
+  /* animated object sprite */
+  class AnimSprite {
+    constructor(canvas, key, scale, fps) {
+      this.canvas = canvas;
+      this.ctx    = canvas.getContext('2d');
+      this.cfg    = SPRITES[key];
+      this.scale  = scale;
+      this.fps    = fps || 4;
+      this.frame  = 0;
+      this.last   = 0;
+      canvas.width  = this.cfg.w * TILE * scale;
+      canvas.height = this.cfg.h * TILE * scale;
+      canvas.classList.add('pixel');
+      loadImg(this.cfg.src).then(img => { this.img = img; this._raf(0); }).catch(() => {});
+    }
+    _raf(ts) {
+      if (ts - this.last > 1000 / this.fps) {
+        this.frame = (this.frame + 1) % this.cfg.frames.length;
+        this.last = ts;
+        const f = this.cfg.frames[this.frame];
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(this.img,
+          f.x * TILE, f.y * TILE, this.cfg.w * TILE, this.cfg.h * TILE,
+          0, 0, this.cfg.w * TILE * this.scale, this.cfg.h * TILE * this.scale);
+      }
+      requestAnimationFrame(t => this._raf(t));
+    }
+  }
+
+  /* animated character walk */
+  function animChar(canvas, src, scale) {
+    const w = 16 * scale, h = 32 * scale;
+    canvas.width = w; canvas.height = h;
+    canvas.classList.add('pixel');
+    const ctx = canvas.getContext('2d');
+    const frames = [{ sx: 0 }, { sx: 2 * 16 }]; // down_1 / down_2
+    let f = 0, last = 0;
+    loadImg(src).then(img => {
+      function draw(ts) {
+        if (ts - last > 380) { f = (f + 1) % 2; last = ts; }
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(img, frames[f].sx, 0, 16, 32, 0, 0, w, h);
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    }).catch(() => {});
+  }
+
+  function buildHero() {
+    const el = document.getElementById('hero-chars');
+    if (!el) return;
+    CHARS.forEach(c => {
+      const cv = document.createElement('canvas');
+      animChar(cv, c.src, 4);
+      el.appendChild(cv);
+    });
+  }
+
+  function buildCharGrid() {
+    const el = document.getElementById('char-grid');
+    if (!el) return;
+    CHARS.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'char-card';
+      const cv = document.createElement('canvas');
+      animChar(cv, c.src, 3);
+      const h4 = document.createElement('h4');
+      h4.textContent = c.name;
+      const sp = document.createElement('span');
+      sp.textContent = c.desc;
+      card.append(cv, h4, sp);
+      el.appendChild(card);
+    });
+  }
+
+  function buildCrystalRow() {
+    const el = document.getElementById('crystal-row');
+    if (!el) return;
+    [
+      { key: 'crystal_red',   cls: 'red',  title: 'Roter Kristall',  desc: 'Gibt beim Abschluss einen Kupferschlüssel.' },
+      { key: 'crystal_blue',  cls: 'blue', title: 'Blauer Kristall', desc: 'Gibt beim Abschluss einen Eisenschlüssel.' },
+      { key: 'crystal_green', cls: 'green',title: 'Grüner Kristall', desc: 'Gibt beim Abschluss einen Goldschlüssel.' },
+    ].forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'crystal-card ' + c.cls;
+      const cv = document.createElement('canvas');
+      new AnimSprite(cv, c.key, 4, 3);
+      const h4 = document.createElement('h4');
+      h4.textContent = c.title;
+      const p = document.createElement('p');
+      p.textContent = c.desc;
+      card.append(cv, h4, p);
+      el.appendChild(card);
+    });
+  }
+
+  function buildKeyRow() {
+    const el = document.getElementById('key-row');
+    if (!el) return;
+    [
+      { key: 'key_copper', cls: 'copper', title: 'Kupferschlüssel', desc: 'Öffnet einfache (rote) Türen. Häufigster Typ im Datenbank-Dungeon.' },
+      { key: 'key_iron',   cls: 'iron',   title: 'Eisenschlüssel',  desc: 'Öffnet mittlere (blaue) Türen. Erhältlich in Dungeon 1 und 2.' },
+      { key: 'key_gold',   cls: 'gold',   title: 'Goldschlüssel',   desc: 'Öffnet schwere (grüne) Türen. Nur im fortgeschrittenen Teil.' },
+    ].forEach(k => {
+      const card = document.createElement('div');
+      card.className = 'key-card ' + k.cls;
+      const cv = document.createElement('canvas');
+      new AnimSprite(cv, k.key, 4, 5);
+      const h4 = document.createElement('h4');
+      h4.textContent = k.title;
+      const p = document.createElement('p');
+      p.textContent = k.desc;
+      card.append(cv, h4, p);
+      el.appendChild(card);
+    });
+  }
+
+  function initNav() {
+    const links = document.querySelectorAll('nav.sidebar a');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting || !e.target.id) return;
+        links.forEach(l => l.classList.remove('active'));
+        const m = document.querySelector(`nav.sidebar a[href="#${e.target.id}"]`);
+        if (m) m.classList.add('active');
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+    document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+  }
+
+  function initTheme() {
+    const btn  = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('bd-theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+
+    btn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bd-theme', next);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    buildHero();
+    buildCharGrid();
+    buildCrystalRow();
+    buildKeyRow();
+    initNav();
+  });
+</script>
+
+</body>
+</html>
