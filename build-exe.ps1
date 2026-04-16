@@ -688,14 +688,23 @@ function Copy-PortablePayload {
 
     foreach ($file in @(
         "AllQuestions_clear_themes.db",
-        "quizdb.db",
+        "quizdb.db"
+    )) {
+        $sourcePath = Join-Path $ProjectRoot $file
+        if (Test-Path -LiteralPath $sourcePath) {
+            Copy-Item -LiteralPath $sourcePath -Destination $PortableRoot -Force
+            Write-Info "Copied database file to app root: $file"
+        }
+    }
+
+    foreach ($file in @(
         "application.yaml",
         "application.yml"
     )) {
         $sourcePath = Join-Path $ProjectRoot $file
         if (Test-Path -LiteralPath $sourcePath) {
             Copy-Item -LiteralPath $sourcePath -Destination $dataDir -Force
-            Write-Info "Copied payload file: $file"
+            Write-Info "Copied config file: $file"
         }
     }
 
