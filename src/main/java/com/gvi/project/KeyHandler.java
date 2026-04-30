@@ -125,8 +125,7 @@ public class KeyHandler {
 			case DIGIT8, NUMPAD8 -> numberPressed = 8;
 			case DIGIT9, NUMPAD9 -> numberPressed = 9;
 			case DIGIT0, NUMPAD0 -> numberPressed = 10;
-			default -> {
-			}
+			default -> {}
 		}
 	}
 
